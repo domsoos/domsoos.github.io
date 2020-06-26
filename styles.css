@@ -41,14 +41,13 @@ a:visited {
   	position:relative;
   	top:50px;
 }
-#project_button:hover{
-  background-color: #8b0000;
-
-
+#project_button:hover, #about_me:hover {
+  	background-color: #8b0000;
+  	
 }
-#project_button:active {
+#project_button:active, #about_me:active {
 	transform: translateY(4px);
-  box-shadow: 0 5px #666;
+  	box-shadow: 0 5px #666;
 }
 
 #hello {
