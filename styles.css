@@ -1,0 +1,24 @@
+html {
+	background: url("https://www.untoldmorsels.com/wp-content/uploads/2019/08/positano-italy.jpg") no-repeat center fixed;
+	background-size: cover;
+}
+h1 {
+  	color: white;
+  	font-family: verdana;
+  	font-size: 20px;
+  	text-align: center;
+}
+p { 
+ 	font-family: verdana;
+  	font-size: 20px;
+}
+a {
+	text-decoration: none;
+	color:white;
+}
+a:hover {
+	color:red;
+}
+a:visited {
+	text-decoration: underline;
+}
