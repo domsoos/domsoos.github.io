@@ -22,3 +22,19 @@ a:hover {
 a:visited {
 	text-decoration: underline;
 }
+.button {
+	padding:5px;
+	cursor:pointer;
+  	height:50px;
+  	width:50px;
+  	position:relative;
+  	top:10px;
+}
+.button:hover{
+  background-color: rgba(253,0,0,.6);
+  border-radius:50%;
+}
+.button:active {
+	transform: translateY(4px);
+  box-shadow: 0 5px rgba(102,102,102,.6);
+}

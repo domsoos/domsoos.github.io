@@ -1,14 +1,14 @@
 body {
-			font-family:sans-serif;
-		}
+	font-family:sans-serif;
+}
 
-		#shape {
-			width:200px;
-			height:200px;
-			background-color: red;
-			display:none;
-			position: relative;
-		}
-		.bold {
-			font-weight: bold;
-		}
+#shape {
+	width:200px;
+	height:200px;
+	background-color: red;
+	display:none;
+	position: relative;
+}
+.bold {
+	font-weight: bold;
+}
