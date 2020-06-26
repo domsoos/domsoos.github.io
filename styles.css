@@ -30,7 +30,7 @@ a:visited {
   	text-align: center;
   	text-decoration: none;
   	outline: none;
-  	color: #fff;
+  	color: red;
   	background-color: red;
   	border: none;
   	border-radius: 15px;
@@ -42,9 +42,9 @@ a:visited {
   	top:10px;
 }
 #project_button:hover{
-  background-color: #3e8e41;
+  	background-color: #3e8e41;
 }
 #project_button:active {
 	transform: translateY(4px);
-  box-shadow: 0 5px #666;
+  	box-shadow: 0 5px #666;
 }

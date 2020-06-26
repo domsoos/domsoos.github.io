@@ -10,10 +10,13 @@
 
 		alert("hello");
 
-		document.getElementById("project_button").onclick = function() {
 
+		document.getElementById("project_button").onclick = function() {projects()};
+
+		function projects() {
 			alert("yellow");
 			window.location.replace("https://domsoos.github.io/projects");
+		
 		}
 
 		document.getElementById("hello").onclick = function() {
@@ -34,7 +37,7 @@
 		</div>
 
 		<div class="table">
-			<button id="project_button">Projects</button> 
+			<button id="project_button" onclick="">Projects</button> 
 		</div>
 
 		<div>
