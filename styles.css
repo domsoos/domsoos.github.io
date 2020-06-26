@@ -22,7 +22,7 @@ a:hover {
 a:visited {
 	text-decoration: underline;
 }
-.button {
+#project_button {
 	display: inline-block;
   	padding: 15px 25px;
   	font-size: 24px;
@@ -41,11 +41,11 @@ a:visited {
   	position:relative;
   	top:10px;
 }
-.button:hover{
+#project_button:hover{
   background-color: rgba(253,0,0,.6);
   border-radius:50%;
 }
-.button:active {
+#project_button:active {
 	transform: translateY(4px);
   box-shadow: 0 5px rgba(102,102,102,.6);
 }
