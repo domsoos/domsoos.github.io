@@ -6,6 +6,7 @@
 
 	function projects() {
 		alert("yellow");
+		
 		location.href = "https://domsoos.github.io/projects";
 
 		var url = "https://domsoos.github.io/projects";

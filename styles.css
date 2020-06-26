@@ -12,7 +12,7 @@ p {
  	font-family: verdana;
   	font-size: 20px;
 }
-a {
+/*a {
 	text-decoration: none;
 	color:white;
 }
@@ -21,8 +21,8 @@ a:hover {
 }
 a:visited {
 	text-decoration: underline;
-}
-#project_button {
+}*/
+#project_button, #about_me,# {
 	display: inline-block;
   	padding: 15px 25px;
   	font-size: 24px;
@@ -30,7 +30,7 @@ a:visited {
   	text-align: center;
   	text-decoration: none;
   	outline: none;
-  	color: #fff;
+  	color: #ffffff;
   	background-color: red;
   	border: none;
   	border-radius: 15px;
@@ -42,7 +42,8 @@ a:visited {
   	top:50px;
 }
 #project_button:hover{
-  background-color: #3e8e41;
+  background-color: #8b0000;
+
 
 }
 #project_button:active {
