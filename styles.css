@@ -31,7 +31,7 @@ a:visited {
   	text-decoration: none;
   	outline: none;
   	color: #fff;
-  	background-color: #4CAF50;
+  	background-color: red;
   	border: none;
   	border-radius: 15px;
   	box-shadow: 0 9px #999;
@@ -43,7 +43,6 @@ a:visited {
 }
 #project_button:hover{
   background-color: #3e8e41;
-  border-radius:50%;
 }
 #project_button:active {
 	transform: translateY(4px);
