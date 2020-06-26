@@ -39,7 +39,7 @@ a:visited {
 	cursor:pointer;
   	
   	position:relative;
-  	top:10px;
+  	top:50px;
 }
 #project_button:hover{
   background-color: #3e8e41;
