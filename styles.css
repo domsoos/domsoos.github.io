@@ -42,10 +42,10 @@ a:visited {
   	top:10px;
 }
 #project_button:hover{
-  background-color: rgba(253,0,0,.6);
+  background-color: #3e8e41;
   border-radius:50%;
 }
 #project_button:active {
 	transform: translateY(4px);
-  box-shadow: 0 5px rgba(102,102,102,.6);
+  box-shadow: 0 5px #666;
 }
