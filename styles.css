@@ -22,7 +22,7 @@ a:hover {
 a:visited {
 	text-decoration: underline;
 }*/
-#project_button, #about_me,# {
+#project_button, #about_me {
 	display: inline-block;
   	padding: 15px 25px;
   	font-size: 24px;
