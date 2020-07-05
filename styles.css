@@ -22,7 +22,7 @@ a:hover {
 a:visited {
 	text-decoration: underline;
 }*/
-#project_button, #about_me {
+#project_button {
 	display: inline-block;
   	padding: 15px 25px;
   	font-size: 24px;
@@ -41,6 +41,27 @@ a:visited {
   	position:relative;
   	top:50px;
 }
+#about_me {
+    display: inline-block;
+    padding: 15px 25px;
+    font-size: 24px;
+
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #ffffff;
+    background-color: red;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+
+  cursor:pointer;
+    
+    position:relative;
+    top:100px;
+    left:100px;
+}
+
 #project_button:hover, #about_me:hover {
   	background-color: #8b0000;
   	
