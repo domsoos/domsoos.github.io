@@ -1,12 +1,10 @@
 	var backNum = 0;
 
-	var change_backgrounds = [["imgs/background.png", "", ]];
-
 	document.getElementById("project_button").addEventListener("click", function() {
 		location.href = "https://domsoos.github.io/projects";
 	});
 
-	document.getElementById("about_me_button").addEventListener("click", function() {
+	document.getElementById("about_me").addEventListener("click", function() {
 		location.href = "https://domsoos.github.io/about_me";
 	});
 
@@ -18,35 +16,54 @@
 		//window.location(url);
 		
 	}
+	document.getElementById("background_changer").addEventListener("click", function() {
+		backgroundChanger();
+	});
+	document.getElementById("time").addEventListener("click",function() {
+		document.getElementById('demo').innerHTML = Date();
+	});
+
 	//Initializing
-var i = 0;
-var images = []; //array
-var time = 3000; // time in millie seconds
+	var i = 0;
+	var images = []; //array
+	//var time = 3000; // time in millie seconds
 
-//images
+	//images
 
-images[0] = "url(./Images/1.jpg)";
-images[1] = "url(./Images/2.jpg)";
-images[2] = "url(./Images/3.jpg)";
-//function
+	images[0] = "url(./imgs/background.png)";
+	images[1] = "url(./imgs/landscape.jpeg)";
+	images[2] = "url(./imgs/landscape2.jpeg)";
+	//function
 
-function changeImage() {
-    var el = document.getElementById('body');
-    el.style.backgroundImage = images[i];
-    if (i < images.length - 1) {
-        i++;
-    } else {
-        i = 0;
-    }
-    setTimeout('changeImage()', time);
-}
-
-window.onload = changeImage;
 	function backgroundChanger() {
-  		var x = Math.floor((Math.random() * 5) + 1);
-  		
 
-  	}
+	    var el = document.getElementById('body');
+	    var x  = Math.floor((Math.random() * images.length) + 1);
+
+	    el.style.backgroundImage = images[x];
+
+	    if (i < images.length - 1) {
+	        i++;
+	    } else {
+	        i = 0;
+	    }
+	    //setTimeout('changeImage()', time);
+	}
+
+	//window.onload = changeImage;
+		/*function backgroundChanger() {
+
+	  		var x = Math.floor((Math.random() * 5) + 1);
+
+	  		window.onload = images[i];
+	  		for(var i=0;i<images.length();i++)
+	  		{
+	  			window.onload = images[i]
+	  		}
+
+	  	}*/
+
+	  	
 
 
 

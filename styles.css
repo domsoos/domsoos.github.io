@@ -1,5 +1,5 @@
 html {
-	background: url("/imgs/positano.jpeg") no-repeat center fixed;
+	background: url("./imgs/positano.jpeg") no-repeat center fixed;
 	background-size: cover;
 }
 h1 {
@@ -12,18 +12,19 @@ p {
  	font-family: verdana;
   	font-size: 20px;
 }
-/*a {
-	text-decoration: none;
-	color:white;
+#body {
+  width:80%;
+  height:70%;
 }
-a:hover {
-	color:red;
+#zeus {
+  font-family: fantasy;
+  font-weight: bold;
+  font-size: 4px;
+  position: relative;
+  top:70px;
 }
-a:visited {
-	text-decoration: underline;
-}*/
 
-#project_button {
+#project_button, #about_me, #background_changer, #time {
 	display: inline-block;
   	padding: 15px 25px;
   	font-size: 24px;
@@ -36,59 +37,26 @@ a:visited {
   	border: none;
   	border-radius: 15px;
   	box-shadow: 0 9px #999;
-
 	 cursor:pointer;
-  	
-  	position:relative;
+   position:relative;
+}
+#project_button {
   	top:50px;
 }
 #about_me {
-    display: inline-block;
-    padding: 15px 25px;
-    font-size: 24px;
-
-    text-align: center;
-    text-decoration: none;
-    outline: none;
-    color: #ffffff;
-    background-color: red;
-    border: none;
-    border-radius: 15px;
-    box-shadow: 0 9px #999;
-
-    cursor:pointer;
-    
-    position:relative;
     top:130px;
     left:-140px;
 }
 #background_changer {
-      display: inline-block;
-    padding: 15px 25px;
-    font-size: 24px;
-
-    text-align: center;
-    text-decoration: none;
-    outline: none;
-    color: #ffffff;
-    background-color: red;
-    border: none;
-    border-radius: 15px;
-    box-shadow: 0 9px #999;
-
-    cursor:pointer;
-    
-    position:relative;
     top:210px;
     left:-300px;
-
 }
 
-#project_button:hover, #about_me:hover, #background_changer:hover {
+#project_button:hover, #about_me:hover, #background_changer:hover, #time:hover {
   	background-color: #8b0000;
   	
 }
-#project_button:active, #about_me:active, #background_changer:active {
+#project_button:active, #about_me:active, #background_changer:active, #time:active {
 	transform: translateY(4px);
   	box-shadow: 0 5px #666;
 }
