@@ -24,7 +24,7 @@ p {
   top:70px;
 }
 
-#time, #project_button, #about_me, #background_changer {
+#project_button, #about_me, #background_changer, #time {
 	display: inline-block;
   	padding: 15px 25px;
   	font-size: 24px;
@@ -51,13 +51,16 @@ p {
     top:210px;
     left:-300px;
 }
+#time {
+  width:30%;
+  height:20%;
+}
 
-#time:hover, #project_button:hover, #about_me:hover, #background_changer:hover {
+#project_button:hover, #about_me:hover, #background_changer:hover, #time:hover {
   	background-color: #8b0000;
   	
 }
-#time:active, #project_button:active, #about_me:active, #background_changer:active {
+#project_button:active, #about_me:active, #background_changer:active, #time:active {
 	transform: translateY(4px);
   	box-shadow: 0 5px #666;
 }
-
