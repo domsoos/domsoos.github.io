@@ -1,0 +1,109 @@
+<!-- scisense/paper.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SciSense - Paper Details</title>
+  
+  <!-- External CSS -->
+  <link rel="stylesheet" href="css/styles.css">
+  
+  <!-- External JavaScript -->
+  <script src="js/paper.js" defer></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo"><a href="index.html">SciSense</a></div>
+    <input type="text" placeholder="Search for a paper" class="search-box" />
+    <button id="sign-in-button">Sign In</button>
+  </header>
+
+  <!-- Paper Details Section -->
+  <section class="paper-details" id="paper-details">
+    <div class="container">
+      <h2 id="paper-title">Loading...</h2>
+      <p class="paper-info" id="paper-info">Loading...</p>
+      <p class="paper-abstract" id="paper-abstract">Loading...</p>
+      <div id="news-summary">
+        <h3>Science News</h3>
+        <p id="news-summary-text">Loading...</p>
+      </div>
+      <div id="author-tweets">
+        <h3>Author Tweets</h3>
+        <ul id="tweets-list">
+          <!-- Tweets will be populated here -->
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feedback Form -->
+  <form id="feedback-form">
+    <h2>Provide Your Feedback</h2>
+
+    <!-- Demographic Section -->
+    <fieldset>
+      <legend>Demographic Information (Optional)</legend>
+      <label for="age">Age:</label>
+      <input type="number" id="age" name="age" min="0" />
+      
+      <label for="academicLevel">Academic Level:</label>
+      <select id="academicLevel" name="academicLevel">
+        <option value="">Select</option>
+        <option value="Undergraduate">Undergraduate</option>
+        <option value="Graduate">Graduate</option>
+        <option value="PhD">PhD</option>
+        <option value="Other">Other</option>
+      </select>
+      
+      <label for="occupation">Occupation:</label>
+      <input type="text" id="occupation" name="occupation" />
+    </fieldset>
+
+    <!-- Stimuli Feedback Section -->
+    <fieldset>
+      <legend>Stimuli Feedback</legend>
+      <p>News vs Abstracts:</p>
+      <label><input type="radio" name="newsVsAbstracts" value="News" required /> News</label>
+      <label><input type="radio" name="newsVsAbstracts" value="Abstracts" /> Abstracts
+      
+      <p>News1 vs News2:</p>
+      <label><input type="radio" name="news1VsNews2" value="News1" required /> News1</label>
+      <label><input type="radio" name="news1VsNews2" value="News2" /> News2</label>
+    </fieldset>
+
+    <!-- KGain Questions Section -->
+    <fieldset>
+      <legend>Knowledge Gain (KGain) Questions</legend>
+      <label for="kgain1">Question 1:</label>
+      <input type="text" id="kgain1" name="kgain1" required />
+      
+      <label for="kgain2">Question 2:</label>
+      <input type="text" id="kgain2" name="kgain2" required />
+    </fieldset>
+
+    <!-- Hidden Input to Store Paper Identifier -->
+    <input type="hidden" id="paper-id" name="paper-id" value="" />
+
+    <button type="submit">Submit Feedback</button>
+  </form>
+
+  <!-- Sign-In Modal -->
+  <div class="sign-in-container" id="sign-in-modal">
+    <div class="sign-in-box">
+      <button id="google-sign-in">Sign in with Google</button>
+      <form id="email-sign-in-form">
+        <input type="email" id="email" placeholder="Email Address" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <button type="submit">Log in</button>
+      </form>
+      <a href="#" id="forgot-password">Forgot password?</a>
+      <a href="#" id="sign-up-link">Sign up</a>
+    </div>
+  </div>
+
+</body>
+</html>

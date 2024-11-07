@@ -225,4 +225,24 @@ body {
   .intro-text {
     margin: 0;
   }
+.paper-details {
+  background: #fff;
+  padding: 40px 20px;
+}
+
+.paper-details .container {
+  max-width: 800px;
+  margin: auto;
+}
+
+.paper-details h2 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.paper-details .paper-info {
+  color: #666;
+  margin-bottom: 20px;
+}
+
 }
