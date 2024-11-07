@@ -254,3 +254,163 @@ body {
     margin-top: 10px;
   }
 }
+
+
+/* Paper Details Section */
+.paper-details {
+  background: #fff;
+  padding: 40px 0;
+}
+
+.paper-details .container {
+  max-width: 800px;
+  margin: auto;
+}
+
+.paper-details h2 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.paper-details .paper-info {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.paper-details .paper-abstract {
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+/* Science News Section */
+#news-summary {
+  margin-top: 30px;
+}
+
+#news-summary h3 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+#news-summary-text {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* Author Tweets Section */
+#author-tweets {
+  margin-top: 30px;
+}
+
+#author-tweets h3 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+#tweets-list {
+  list-style: disc inside;
+}
+
+#tweets-list li {
+  margin-bottom: 10px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* Feedback Form */
+#feedback-form {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 40px auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#feedback-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#feedback-form fieldset {
+  border: 1px solid #ccc;
+  padding: 10px 20px;
+  margin-bottom: 15px;
+}
+
+#feedback-form legend {
+  padding: 0 10px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+#feedback-form label {
+  display: block;
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+#feedback-form input,
+#feedback-form select,
+#feedback-form textarea {
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0 10px 0;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+#feedback-form button {
+  background-color: #8B0000;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+  transition: background 0.3s;
+}
+
+#feedback-form button:hover {
+  background-color: #a30000;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header .container {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .header nav ul {
+    flex-direction: column;
+    margin-top: 10px;
+  }
+  
+  .header nav ul li {
+    margin-left: 0;
+    margin-bottom: 10px;
+  }
+  
+  .introduction {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .profile-pic {
+    margin: 0 0 15px 0;
+  }
+  
+  .intro-text {
+    margin: 0;
+  }
+  
+  .paper-details .container {
+    padding: 0 10px;
+  }
+  
+  #feedback-form {
+    padding: 15px;
+  }
+}

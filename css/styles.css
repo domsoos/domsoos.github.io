@@ -84,14 +84,41 @@ body {
   flex-wrap: wrap;
 }
 
+.introduction .container {
+  display: flex;
+  align-items: flex-start; /* Align items at the top */
+  flex-wrap: wrap; /* Ensure responsiveness on smaller screens */
+}
+
 .profile-pic {
-  width: 200px;
-  height: 200px;
+  /* Existing styles */
+  width: 250px;
+  height: 250px;
   border-radius: 50%;
   object-fit: cover;
   margin-right: 40px;
   transition: transform 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  object-position: 50% 20%; 
+
+
+  /* New styles to adjust vertical position */
+  margin-top: 0; /* Reset any existing top margin */
+  /*top: -120px;
+  /* If further adjustment is needed */
+  /* position: relative;
+  top: -10px; */ /* Uncomment and adjust the value as needed */
 }
+
+/*
+.profile-pic {
+  width: 200px;
+  height: 200px;
+  border-radius: 80%;
+  object-fit: cover;
+  margin-right: 40px;
+  transition: transform 0.3s ease;
+}*/
 
 .profile-pic:hover {
   transform: scale(1.05);
@@ -100,6 +127,7 @@ body {
 .intro-text {
   flex: 1;
 }
+
 
 .intro-text h2 {
   margin-bottom: 20px;
