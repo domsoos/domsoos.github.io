@@ -28,16 +28,16 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', () => {
   // Firebase configuration
   const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyCt4qYFZ2asBo7n8oiq32wDNkT0Q-j_rmc",
+    authDomain: "odu.edu",
+    projectId: "scisense-3046c"
+    //storageBucket: "YOUR_STORAGE_BUCKET",
+    //messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    //appId: "YOUR_APP_ID"
   };
 
   // Initialize Firebase
-  const app = firebase.initializeApp(firebaseConfig);
+  firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
   const db = firebase.firestore();
 
@@ -268,19 +268,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Search Functionality (Optional)
-  const searchBox = document.querySelector('.search-box');
-  if (searchBox) {
-    searchBox.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        const query = searchBox.value.trim().toLowerCase();
-        if (query) {
-          // Redirect to search results page or implement search filtering
-          // For simplicity, we'll just alert the search query
-          alert(`Search functionality is not yet implemented for query: "${query}"`);
+  // Search Functionality
+const searchBox = document.querySelector('.search-box');
+if (searchBox) {
+  searchBox.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const query = searchBox.value.trim().toLowerCase();
+      if (query) {
+        // Filter papers based on the query
+        const paperItems = document.querySelectorAll('.paper-item');
+        let resultsFound = false;
+        paperItems.forEach(item => {
+          const title = item.querySelector('.paper-title a').textContent.toLowerCase();
+          if (title.includes(query)) {
+            item.style.display = 'flex';
+            resultsFound = true;
+          } else {
+            item.style.display = 'none';
+          }
+        });
+        if (!resultsFound) {
+          alert('No papers found matching your search.');
         }
       }
-    });
+    }
+  });
   }
 });
