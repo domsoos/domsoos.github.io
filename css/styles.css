@@ -84,6 +84,10 @@ body {
   flex-wrap: wrap;
 }
 
+.logo a {
+	color: #8B0000;;
+}
+
 .introduction .container {
   display: flex;
   align-items: flex-start; /* Align items at the top */
