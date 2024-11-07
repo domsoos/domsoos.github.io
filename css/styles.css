@@ -1,0 +1,200 @@
+/* landing-page/css/styles.css */
+
+/* Reset some basic elements */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f4f4f4;
+}
+
+/* Container */
+.container {
+  width: 80%;
+  margin: auto;
+  overflow: hidden;
+}
+
+/* Header */
+.header {
+  background: #333;
+  color: #fff;
+  padding: 20px 0;
+}
+
+.header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.header nav ul {
+  list-style: none;
+  display: flex;
+}
+
+.header nav ul li {
+  margin-left: 20px;
+}
+
+.header nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 8px 12px;
+  transition: background 0.3s, color 0.3s;
+}
+
+.header nav ul li a:hover {
+  background: #555;
+  border-radius: 4px;
+}
+
+/* Button Style */
+.button {
+  background-color: #8B0000; /* Deep Red */
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.button:hover {
+  background-color: #a30000;
+}
+
+/* Introduction Section */
+.introduction {
+  background: #fff;
+  padding: 40px 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.profile-pic {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 40px;
+  transition: transform 0.3s ease;
+}
+
+.profile-pic:hover {
+  transform: scale(1.05);
+}
+
+.intro-text {
+  flex: 1;
+}
+
+.intro-text h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.intro-text p {
+  font-size: 18px;
+}
+
+/* Research Interests */
+.research {
+  padding: 40px 0;
+}
+
+.research h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.research ul {
+  list-style: none;
+  max-width: 600px;
+  margin: auto;
+}
+
+.research ul li {
+  background: #fff;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-left: 5px solid #333;
+}
+
+/* Contact Information */
+.contact {
+  background: #fff;
+  padding: 40px 0;
+}
+
+.contact h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.contact p {
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.contact a {
+  color: #333;
+  text-decoration: none;
+}
+
+.contact a:hover {
+  text-decoration: underline;
+}
+
+/* Footer */
+.footer {
+  background: #333;
+  color: #fff;
+  text-align: center;
+  padding: 20px 0;
+  margin-top: 40px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header .container {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .header nav ul {
+    flex-direction: column;
+    margin-top: 10px;
+  }
+  
+  .header nav ul li {
+    margin-left: 0;
+    margin-bottom: 10px;
+  }
+  
+  .introduction {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .profile-pic {
+    margin: 0 0 20px 0;
+  }
+  
+  .intro-text {
+    margin: 0;
+  }
+}

@@ -1,33 +1,73 @@
+<!-- landing-page/index.html -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>Dominik Soós</title>
-	<link rel="stylesheet" type="text/css" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dominik Soós - PhD Student</title>
+  
+  <!-- External CSS -->
+  <link rel="stylesheet" href="css/styles.css">
+  
+  <!-- External JavaScript -->
+  <script src="js/script.js" defer></script>
 </head>
 <body>
-	<div id="header">
-		<font id="myName">Dominik Soós</font>
-
-		<div class="table">
-			<button id="time" type="button">Click me to display Date and Time.</button>
-			<p id="demo"></p>
-			<p id="zeus">W3lcome to Zeus Land <shrug></p>
-		</div>
-	</div>
-
-	<div id="body">
-		<div class="table">
-			<button id="project_button">Projects</button> 
-
-			<button id="about_me">About me</button>
-
-			<button id="background_changer">Change the background</button>
-		</div>
-
-	</div>
-	<div id="contact">
-		
-	</div>
-	<script type="text/javascript" src="script.js"></script>
+  
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <h1>Dominik Soós</h1>
+      <nav>
+        <ul>
+          <li><a href="#about">About Me</a></li>
+          <li><a href="#research">Research</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="scisense/index.html" class="button">Scisense Page</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  
+  <!-- Introduction Section -->
+  <section class="introduction" id="about">
+    <div class="container">
+      <img src="images/profile.jpg" alt="Your Name" class="profile-pic">
+      <div class="intro-text">
+        <h2>Welcome!</h2>
+        <p>I'm Your Name, a PhD student at Old Dominion University. My research focuses on natural language processing and applied machine learning. I am passionate about playing soccer, kayaking and being outside on the beach.</p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Research Interests -->
+  <section class="research" id="research">
+    <div class="container">
+      <h2>Research Interests</h2>
+      <ul>
+        <li>Natural Language Processing</li>
+        <li>Machine Learning</li>
+        <li>Deep Learning</li>
+      </ul>
+    </div>
+  </section>
+  
+  <!-- Contact Information -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <h2>Contact Me</h2>
+      <p>Email: <a href="mailto:dsoos001@odu.edu">dsoos001@odu.edu</a></p>
+      <p>LinkedIn: <a href="https://www.linkedin.com/in/dominik-so%C3%B3s-7525aa1b0/" target="_blank">linkedin.com/in/dominik-soos</a></p>
+      <p>GitHub: <a href="https://github.com/domsoos" target="_blank">github.com/domsoos</a></p>
+    </div>
+  </section>
+  
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2024 Your Name. All rights reserved.</p>
+    </div>
+  </footer>
+  
 </body>
 </html>
