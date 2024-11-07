@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const papersData = {
     "deep-learning-approaches-in-ai": {
       title: "Deep Learning Approaches in AI",
-      authors: "John Doe, Jane Smith",
+      authors: "Foo Bar, John Doe",
       publicationDate: "Jan 1, 2024",
       abstract: "This paper explores various deep learning techniques applied to artificial intelligence, highlighting their strengths and limitations in different contexts.",
       newsSummary: "A groundbreaking study unveils new deep learning methods that significantly enhance AI capabilities in natural language processing and computer vision.",
