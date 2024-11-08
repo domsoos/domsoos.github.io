@@ -301,11 +301,11 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Handle Create Account Button (Open Sign-Up Modal)
-  if (createAccountButton) {
+  /*if (createAccountButton) {
     createAccountButton.addEventListener('click', () => {
       openModal(signUpModal);
     });
-  }
+  }*/
 
   // Submit Feedback Function
   function submitFeedback(userId, paperId, demographic, stimuliFeedback, kGainFeedback) {
