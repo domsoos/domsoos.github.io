@@ -1,6 +1,20 @@
 // scisense/js/paper.js
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyCt4qYFZ2asBo7n8oiq32wDNkT0Q-j_rmc",
+    authDomain: "scisense-3046c.firebaseapp.com",
+    projectId: "scisense-3046c",
+    //storageBucket: "YOUR_STORAGE_BUCKET",
+    //messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    //appId: "YOUR_APP_ID"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
   // Example data for demonstration purposes
   const papersData = {
     "deep-learning-approaches-in-ai": {
@@ -179,8 +193,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Email/Password Sign-In
   emailSignInForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const email = document.getElementById('sign-in-email').value.trim();
-    const password = document.getElementById('sign-in-password').value;
+    const email = document.getElementById('email').value;//.trim();
+    const password = document.getElementById('password').value;
 
     auth.signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
@@ -203,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
   signUpForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const name = document.getElementById('sign-up-name').value.trim();
-    const email = document.getElementById('sign-up-email').value.trim();
+    const email = document.getElementById('sign-up-email').value;//.trim();
     const password = document.getElementById('sign-up-password').value;
     const confirmPassword = document.getElementById('sign-up-confirm-password').value;
 

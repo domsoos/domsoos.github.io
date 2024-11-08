@@ -121,8 +121,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Email/Password Sign-In
   emailSignInForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const email = document.getElementById('sign-in-email').value.trim();
-    const password = document.getElementById('sign-in-password').value;
+    const email = document.getElementById('email').value;//.trim();
+    const password = document.getElementById('password').value;
 
     auth.signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
