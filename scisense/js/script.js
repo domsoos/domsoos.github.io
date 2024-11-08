@@ -1,36 +1,11 @@
-// script.js
-
-/*
-// Initialize Firebase after the Firebase SDKs have loaded
-document.addEventListener('DOMContentLoaded', () => {
-  // Your web app's Firebase configuration
-  const { initializeApp } = require('firebase-admin/app');
-  //var admin = require("firebase-admin");
-
-  var serviceAccount = require("./private_key/scisense.json");
-  //const app = initializeApp();
-  const app = admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
-  });
-
-  
-  /*const firebaseConfig = {
-    apiKey: "",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
-  };*/
-
 // scisense/js/script.js
 
 document.addEventListener('DOMContentLoaded', () => {
   // Firebase configuration
   const firebaseConfig = {
     apiKey: "AIzaSyCt4qYFZ2asBo7n8oiq32wDNkT0Q-j_rmc",
-    authDomain: "odu.edu",
-    projectId: "scisense-3046c"
+    authDomain: "scisense-3046c.firebaseapp.com",
+    projectId: "scisense-3046c",
     //storageBucket: "YOUR_STORAGE_BUCKET",
     //messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
     //appId: "YOUR_APP_ID"
@@ -47,18 +22,85 @@ document.addEventListener('DOMContentLoaded', () => {
   const googleSignInButton = document.getElementById('google-sign-in');
   const emailSignInForm = document.getElementById('email-sign-in-form');
   const signUpLink = document.getElementById('sign-up-link');
+  const signUpModal = document.getElementById('sign-up-modal');
+  const signUpForm = document.getElementById('sign-up-form');
   const createAccountButton = document.getElementById('create-account-button');
-  const feedbackForm = document.getElementById('feedback-form');
+  const passwordResetModal = document.getElementById('password-reset-modal');
+  const passwordResetForm = document.getElementById('password-reset-form');
+  const forgotPasswordLink = document.getElementById('forgot-password');
+  const passwordResetSignInLink = document.getElementById('password-reset-sign-in-link');
+  const signInLinkInSignUp = document.getElementById('sign-in-link');
+
+  // Function to open a modal
+  const openModal = (modal) => {
+    modal.style.display = 'flex';
+  };
+
+  // Function to close a modal
+  const closeModal = (modal) => {
+    modal.style.display = 'none';
+  };
 
   // Show Sign-In Modal
   signInButton.addEventListener('click', () => {
-    signInModal.style.display = 'flex';
+    if (signInButton.textContent === 'Sign In') {
+      openModal(signInModal);
+    } else {
+      // User is signed in; sign out
+      auth.signOut()
+        .then(() => {
+          console.log('User signed out.');
+        })
+        .catch((error) => {
+          console.error('Sign out error:', error);
+        });
+    }
   });
 
-  // Close Modal when clicking outside the box
+  // Show Sign-Up Modal
+  signUpLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    closeModal(signInModal);
+    openModal(signUpModal);
+  });
+
+  // Handle navigation from Sign-Up to Sign-In
+  if (signInLinkInSignUp) {
+    signInLinkInSignUp.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeModal(signUpModal);
+      openModal(signInModal);
+    });
+  }
+
+  // Show Password Reset Modal
+  if (forgotPasswordLink) {
+    forgotPasswordLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeModal(signInModal);
+      openModal(passwordResetModal);
+    });
+  }
+
+  // Handle navigation from Password Reset to Sign-In
+  if (passwordResetSignInLink) {
+    passwordResetSignInLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeModal(passwordResetModal);
+      openModal(signInModal);
+    });
+  }
+
+  // Close Modals when clicking outside the box
   window.addEventListener('click', (e) => {
     if (e.target == signInModal) {
-      signInModal.style.display = 'none';
+      closeModal(signInModal);
+    }
+    if (e.target == signUpModal) {
+      closeModal(signUpModal);
+    }
+    if (e.target == passwordResetModal) {
+      closeModal(passwordResetModal);
     }
   });
 
@@ -68,231 +110,128 @@ document.addEventListener('DOMContentLoaded', () => {
     auth.signInWithPopup(provider)
       .then((result) => {
         console.log('Google sign-in successful:', result.user);
-        signInModal.style.display = 'none';
+        closeModal(signInModal);
       })
       .catch((error) => {
         console.error('Google sign-in error:', error);
+        alert('Google sign-in failed. Please try again.');
       });
   });
 
   // Email/Password Sign-In
   emailSignInForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+    const email = document.getElementById('sign-in-email').value.trim();
+    const password = document.getElementById('sign-in-password').value;
+
     auth.signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
         console.log('Email sign-in successful:', userCredential.user);
-        signInModal.style.display = 'none';
+        closeModal(signInModal);
       })
       .catch((error) => {
         console.error('Email sign-in error:', error);
+        if (error.code === 'auth/user-not-found') {
+          alert('No account found with this email.');
+        } else if (error.code === 'auth/wrong-password') {
+          alert('Incorrect password. Please try again.');
+        } else {
+          alert('Sign-in failed. Please try again.');
+        }
       });
   });
 
-  // Sign-Up Link
-  signUpLink.addEventListener('click', (e) => {
+  // Handle Sign-Up Form Submission
+  signUpForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const email = prompt("Enter your email:");
-    const password = prompt("Enter your password:");
-    if (email && password) {
-      auth.createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          console.log('User sign-up successful:', userCredential.user);
-          signInModal.style.display = 'none';
-        })
-        .catch((error) => {
-          console.error('User sign-up error:', error);
-        });
+    const name = document.getElementById('sign-up-name').value.trim();
+    const email = document.getElementById('sign-up-email').value.trim();
+    const password = document.getElementById('sign-up-password').value;
+    const confirmPassword = document.getElementById('sign-up-confirm-password').value;
+
+    if (password !== confirmPassword) {
+      alert('Passwords do not match.');
+      return;
     }
+
+    auth.createUserWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        // Add user details to Firestore
+        return db.collection('users').doc(userCredential.user.uid).set({
+          name: name,
+          email: email,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      })
+      .then(() => {
+        console.log('User sign-up successful and data stored.');
+        closeModal(signUpModal);
+      })
+      .catch((error) => {
+        console.error('User sign-up error:', error);
+        if (error.code === 'auth/email-already-in-use') {
+          alert('This email is already linked to an account.');
+        } else if (error.code === 'auth/weak-password') {
+          alert('Password is too weak. Please choose a stronger password.');
+        } else {
+          alert('Sign-up failed. Please try again.');
+        }
+      });
   });
 
-  // Create Account Button (similar to sign-up)
-  createAccountButton.addEventListener('click', () => {
-    signInModal.style.display = 'flex';
-  });
+  // Handle Password Reset Form Submission
+  if (passwordResetForm) {
+    passwordResetForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const resetEmail = document.getElementById('reset-email').value.trim();
+
+      auth.sendPasswordResetEmail(resetEmail)
+        .then(() => {
+          console.log('Password reset email sent.');
+          alert('Password reset link has been sent to your email.');
+          closeModal(passwordResetModal);
+        })
+        .catch((error) => {
+          console.error('Error sending password reset email:', error);
+          if (error.code === 'auth/user-not-found') {
+            alert('No account found with this email.');
+          } else if (error.code === 'auth/invalid-email') {
+            alert('Invalid email address.');
+          } else {
+            alert('Error sending password reset email. Please try again.');
+          }
+        });
+    });
+  }
 
   // Handle Authentication State
   auth.onAuthStateChanged((user) => {
     if (user) {
-      console.log('User is signed in:', user);
-      signInButton.textContent = 'Sign Out';
-
-      // Remove existing event listeners to prevent multiple bindings
-      signInButton.replaceWith(signInButton.cloneNode(true));
-
-      const updatedSignInButton = document.getElementById('sign-in-button');
-      updatedSignInButton.addEventListener('click', () => {
-        auth.signOut().then(() => {
-          console.log('User signed out.');
-        }).catch((error) => {
-          console.error('Sign out error:', error);
-        });
-      });
-
-      // Store user information in Firestore
-      db.collection('users').doc(user.uid).set({
-        email: user.email,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        // Add additional user info if needed
-      }, { merge: true });
-    } else {
-      signInButton.textContent = 'Sign In';
-      // Remove existing event listeners to prevent multiple bindings
-      signInButton.replaceWith(signInButton.cloneNode(true));
-
-      const updatedSignInButton = document.getElementById('sign-in-button');
-      updatedSignInButton.addEventListener('click', () => {
-        signInModal.style.display = 'flex';
-      });
-    }
-  });
-
-  // Submit Feedback Function
-  function submitFeedback(userId, paperId, demographic, stimuliFeedback, kGainFeedback) {
-    db.collection('feedback').add({
-      userId: userId,
-      paperId: paperId, // Associate feedback with the specific paper
-      demographic: demographic, // { age, academicLevel, occupation }
-      stimuliFeedback: stimuliFeedback, // { newsVsAbstracts, news1VsNews2 }
-      kGainFeedback: kGainFeedback, // { question1, question2 }
-      submittedAt: firebase.firestore.FieldValue.serverTimestamp(),
-    })
-    .then(() => {
-      console.log("Feedback submitted successfully.");
-    })
-    .catch((error) => {
-      console.error("Error submitting feedback: ", error);
-    });
-  }
-
-  // Handle Feedback Form Submission
-  if (feedbackForm) {
-    feedbackForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-
-      const user = auth.currentUser;
-      if (!user) {
-        alert('Please sign in to submit feedback.');
-        return;
-      }
-
-      // Collect Paper ID from Hidden Input
-      const paperId = document.getElementById('paper-id').value;
-
-      // Collect Demographic Information
-      const demographic = {
-        age: document.getElementById('age').value || null,
-        academicLevel: document.getElementById('academicLevel').value || null,
-        occupation: document.getElementById('occupation').value || null,
-      };
-
-      // Collect Stimuli Feedback
-      const newsVsAbstracts = document.querySelector('input[name="newsVsAbstracts"]:checked');
-      const news1VsNews2 = document.querySelector('input[name="news1VsNews2"]:checked');
-
-      if (!newsVsAbstracts || !news1VsNews2) {
-        alert('Please complete all required fields in Stimuli Feedback.');
-        return;
-      }
-
-      const stimuliFeedback = {
-        newsVsAbstracts: newsVsAbstracts.value,
-        news1VsNews2: news1VsNews2.value,
-      };
-
-      // Collect KGain Feedback
-      const kGain1 = document.getElementById('kgain1').value.trim();
-      const kGain2 = document.getElementById('kgain2').value.trim();
-
-      if (!kGain1 || !kGain2) {
-        alert('Please answer all KGain questions.');
-        return;
-      }
-
-      const kGainFeedback = {
-        question1: kGain1,
-        question2: kGain2,
-      };
-
-      // Submit Feedback to Firestore
-      submitFeedback(user.uid, paperId, demographic, stimuliFeedback, kGainFeedback);
-
-      // Reset Form
-      feedbackForm.reset();
-      alert('Thank you for your feedback!');
-    });
-  }
-
-  // Dynamic Paper Details Loading
-  if (window.location.pathname.endsWith('paper.html')) {
-    const urlParams = new URLSearchParams(window.location.search);
-    const paperId = urlParams.get('id');
-
-    if (paperId) {
-      // Fetch paper details from Firestore
-      db.collection('papers').doc(paperId).get()
+      // User is signed in
+      // Fetch user's name from Firestore
+      db.collection('users').doc(user.uid).get()
         .then((doc) => {
           if (doc.exists) {
-            const paper = doc.data();
-            document.getElementById('paper-title').textContent = paper.title;
-            document.getElementById('paper-info').textContent = `${paper.authors} • ${paper.publicationDate.toDate().toDateString()}`;
-            document.getElementById('paper-abstract').textContent = paper.abstract;
-            document.getElementById('news-summary-text').textContent = paper.newsSummary;
-
-            // Populate Author Tweets
-            const tweetsList = document.getElementById('tweets-list');
-            paper.authorTweets.forEach(tweet => {
-              const li = document.createElement('li');
-              li.textContent = tweet;
-              tweetsList.appendChild(li);
-            });
-
-            // Set the hidden paper-id input
-            document.getElementById('paper-id').value = paperId;
+            const userData = doc.data();
+            signInButton.textContent = `Signed in as ${userData.name}`;
           } else {
-            // Paper not found
-            document.getElementById('paper-details').innerHTML = '<p>Paper not found.</p>';
-            document.getElementById('feedback-form').style.display = 'none';
+            signInButton.textContent = `Signed in as ${user.email}`;
           }
         })
         .catch((error) => {
-          console.error("Error fetching paper details:", error);
-          document.getElementById('paper-details').innerHTML = '<p>Error loading paper details.</p>';
-          document.getElementById('feedback-form').style.display = 'none';
+          console.error('Error fetching user data:', error);
+          signInButton.textContent = `Signed in as ${user.email}`;
         });
     } else {
-      // No paper ID provided
-      document.getElementById('paper-details').innerHTML = '<p>No paper selected.</p>';
-      document.getElementById('feedback-form').style.display = 'none';
-    }
-  }
-
-  // Search Functionality
-const searchBox = document.querySelector('.search-box');
-if (searchBox) {
-  searchBox.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      const query = searchBox.value.trim().toLowerCase();
-      if (query) {
-        // Filter papers based on the query
-        const paperItems = document.querySelectorAll('.paper-item');
-        let resultsFound = false;
-        paperItems.forEach(item => {
-          const title = item.querySelector('.paper-title a').textContent.toLowerCase();
-          if (title.includes(query)) {
-            item.style.display = 'flex';
-            resultsFound = true;
-          } else {
-            item.style.display = 'none';
-          }
-        });
-        if (!resultsFound) {
-          alert('No papers found matching your search.');
-        }
-      }
+      // User is signed out
+      signInButton.textContent = 'Sign In';
     }
   });
+
+  // Handle Create Account Button (Open Sign-Up Modal)
+  if (createAccountButton) {
+    createAccountButton.addEventListener('click', () => {
+      openModal(signUpModal);
+    });
   }
 });
