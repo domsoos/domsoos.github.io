@@ -554,9 +554,15 @@ body {
 
 #email-sign-in-form {
 	/*width: 95%;*/
-	padding:20px;
-	max-width: 400px;
+	/*padding:20px;*/
+	width: 95%;
 	position: relative;
+}
+
+#email-sign-in-form button {
+	width: 85%;
+	text-align: center;
+
 }
 
 /* Close Button Styling */
