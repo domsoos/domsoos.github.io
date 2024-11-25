@@ -274,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
       signInButton.textContent = 'Sign In';
       // Hide Submit New Paper Button
       if (submitNewPaperBtn) {
-        submitNewPaperBtn.style.display = 'inline-block';
+        submitNewPaperBtn.style.display = 'inline-block'; // change this to equal to 'none' to keep it hidden
       }
     }
   });
