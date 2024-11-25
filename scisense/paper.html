@@ -9,13 +9,13 @@
   <!-- External CSS -->
   <link rel="stylesheet" href="css/styles.css">
 
-    <!-- Firebase SDKs (v8) -->
+  <!-- Firebase SDKs (v8) -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
   
-  
   <!-- External JavaScript -->
+  <script src="js/script.js" defer></script>
   <script src="js/paper.js" defer></script>
 </head>
 <body>
@@ -26,6 +26,14 @@
     <input type="text" placeholder="Search for a paper" class="search-box" />
     <button id="sign-in-button">Sign In</button>
   </header>
+
+  <!-- Submit New Paper Button -->
+<section class="submit-new-paper-button">
+  <div class="container">
+    <button id="submit-new-paper-btn">Submit New Paper</button>
+  </div>
+</section>
+
 
   <!-- Paper Details Section -->
   <section class="paper-details" id="paper-details">
@@ -45,6 +53,32 @@
       </div>
     </div>
   </section>
+
+  <!-- KGain Arrow -->
+  <div class="kgain-arrow" id="kgain-arrow">
+     < <!-- &#10068;  Question Mark Icon -->
+  </div>
+
+  <!-- KGain Panel -->
+  <div class="kgain-panel" id="kgain-panel">
+    <button class="close-modal" id="kgain-close">&times;</button>
+    <h2>Knowledge Gain Questions</h2>
+    <form id="kgain-form">
+      <fieldset>
+        <legend>Question 1: What is the primary architecture introduced in the "Sequence to sequence learning with neural networks" paper?</legend>
+        <label><input type="radio" name="kgain1" value="A" required /> A) Convolutional Neural Networks (CNNs)</label><br>
+        <label><input type="radio" name="kgain1" value="B" /> B) Recurrent Neural Networks (RNNs)</label><br>
+        <label><input type="radio" name="kgain1" value="C" /> C) Sequence-to-Sequence (Seq2Seq) model with Encoder and Decoder</label>
+      </fieldset>
+      <fieldset>
+        <legend>Question 2: Which problem does the Sequence-to-Sequence model primarily address?</legend>
+        <label><input type="radio" name="kgain2" value="A" required /> A) Image classification</label><br>
+        <label><input type="radio" name="kgain2" value="B" /> B) Machine translation</label><br>
+        <label><input type="radio" name="kgain2" value="C" /> C) Object detection</label>
+      </fieldset>
+      <button type="submit">Submit Answers</button>
+    </form>
+  </div>
 
   <!-- Feedback Form -->
   <form id="feedback-form">
@@ -100,6 +134,7 @@
   <!-- Sign-In Modal -->
   <div class="sign-in-container" id="sign-in-modal">
     <div class="sign-in-box">
+      <button class="close-modal">&times;</button>
       <button id="google-sign-in">Sign in with Google</button>
       <form id="email-sign-in-form">
         <input type="email" id="email" placeholder="Email Address" required />
@@ -111,9 +146,10 @@
     </div>
   </div>
 
-  <!-- Sign-Up Modal -->
+<!-- Sign-Up Modal in paper.html -->
 <div class="sign-up-container" id="sign-up-modal">
   <div class="sign-up-box">
+    <button class="close-modal">&times;</button>
     <h2>Create Account</h2>
     <form id="sign-up-form">
       <label for="sign-up-name">Full Name:</label>
@@ -128,11 +164,58 @@
       <label for="sign-up-confirm-password">Confirm Password:</label>
       <input type="password" id="sign-up-confirm-password" name="sign-up-confirm-password" required />
 
+      <!-- Demographic Information -->
+      <fieldset>
+        <legend>Demographic Information (Optional)</legend>
+        <label for="age">Age Range:</label>
+        <select id="age" name="age">
+          <option value="Not provided">Not provided</option>
+          <option value="<18"><18</option>
+          <option value="18-25">18-25</option>
+          <option value="26-30">26-30</option>
+          <option value="31-35">31-35</option>
+          <option value="36-40">36-40</option>
+          <option value="41+">41+</option>
+        </select>
+
+        <label for="occupation">Occupation:</label>
+        <input type="text" id="occupation" name="occupation" placeholder="e.g., Student, Researcher, Engineer" />
+      </fieldset>
+
+      <!-- Level of Knowledge -->
+      <fieldset>
+        <legend>Level of Knowledge <span class="tooltip-container"> 
+          <button type="button" class="tooltip-button" aria-label="More information about knowledge levels">?</button>
+          <div class="tooltip-content">
+            <p><strong>Novice:</strong> Non-domain experts who enjoy consuming science news.</p>
+            <p><strong>Intermediate:</strong> Junior researchers with some domain knowledge.</p>
+            <p><strong>Expert:</strong> Gurus or domain experts who have published research.</p>
+          </div>
+        </span></legend>
+        <label><input type="radio" name="knowledgeLevel" value="Novice" required /> Novice</label><br>
+        <label><input type="radio" name="knowledgeLevel" value="Intermediate" /> Intermediate</label><br>
+        <label><input type="radio" name="knowledgeLevel" value="Expert" /> Expert</label>
+      </fieldset>
+
       <button type="submit">Sign Up</button>
     </form>
     <p>Already have an account? <a href="#" id="sign-in-link">Sign In</a></p>
   </div>
 </div>
+
+
+  <!-- Password Reset Modal -->
+  <div class="password-reset-container" id="password-reset-modal">
+    <div class="password-reset-box">
+      <button class="close-modal">&times;</button>
+      <h2>Reset Password</h2>
+      <form id="password-reset-form">
+        <input type="email" id="reset-email" placeholder="Email Address" required />
+        <button type="submit">Send Reset Link</button>
+      </form>
+      <p>Remembered your password? <a href="#" id="password-reset-sign-in-link">Sign In</a></p>
+    </div>
+  </div>
 
 </body>
 </html>

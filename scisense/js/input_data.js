@@ -1,4 +1,4 @@
-// scisense/js/script.js
+// scisense/js/input_data.js
 
 document.addEventListener('DOMContentLoaded', () => {
   // Firebase configuration
@@ -29,13 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const signInLinkInSignUp = document.getElementById('sign-in-link');
   const createAccountButton = document.getElementById('create-account-button');
 
-  // KGain Elements
-  const kgainArrow = document.getElementById('kgain-arrow');
-  const kgainPanel = document.getElementById('kgain-panel');
-  const kgainCloseBtn = document.getElementById('kgain-close');
-
-  const submitNewPaperBtn = document.getElementById('submit-new-paper-btn');
-
   // Function to open a modal
   const openModal = (modal) => {
     modal.classList.add('active');
@@ -52,13 +45,12 @@ document.addEventListener('DOMContentLoaded', () => {
     button.addEventListener('click', () => {
       const modal = button.closest('.sign-in-container') ||
                     button.closest('.sign-up-container') ||
-                    button.closest('.password-reset-container') ||
-                    button.closest('.kgain-panel');
+                    button.closest('.password-reset-container');
       closeModalFn(modal);
     });
   });
 
-  // Show Sign-In Modal
+  // Show Sign-In Modal or Sign Out
   signInButton.addEventListener('click', () => {
     if (signInButton.textContent === 'Sign In') {
       openModal(signInModal);
@@ -119,9 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target.classList.contains('password-reset-container')) {
       closeModalFn(passwordResetModal);
     }
-    if (e.target.classList.contains('kgain-panel')) {
-      closeModalFn(kgainPanel);
-    }
   });
 
   // Google Sign-In
@@ -170,8 +159,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const confirmPassword = document.getElementById('sign-up-confirm-password').value;
 
     // Demographic and Knowledge Level fields
-    const age = document.getElementById('age').value || "Not provided";
-    const occupation = document.getElementById('occupation').value.trim() || "Not provided";
+    const age = document.getElementById('signup-age').value || "Not provided";
+    const occupation = document.getElementById('signup-occupation').value.trim() || "Not provided";
     const knowledgeLevelInput = document.querySelector('input[name="knowledgeLevel"]:checked');
     const knowledgeLevel = knowledgeLevelInput ? knowledgeLevelInput.value : null;
 
@@ -249,36 +238,19 @@ document.addEventListener('DOMContentLoaded', () => {
           if (doc.exists) {
             const userData = doc.data();
             signInButton.textContent = `Signed in as ${userData.name}`;
-            // Show Submit New Paper Button
-            if (submitNewPaperBtn) {
-              submitNewPaperBtn.style.display = 'inline-block';
-            }
           } else {
             signInButton.textContent = `Signed in as ${user.email}`;
-            // Show Submit New Paper Button
-            if (submitNewPaperBtn) {
-              submitNewPaperBtn.style.display = 'inline-block';
-            }
           }
         })
         .catch((error) => {
           console.error('Error fetching user data:', error);
           signInButton.textContent = `Signed in as ${user.email}`;
-          // Show Submit New Paper Button
-          if (submitNewPaperBtn) {
-            submitNewPaperBtn.style.display = 'inline-block';
-          }
         });
     } else {
       // User is signed out
       signInButton.textContent = 'Sign In';
-      // Hide Submit New Paper Button
-      if (submitNewPaperBtn) {
-        submitNewPaperBtn.style.display = 'inline-block';
-      }
     }
   });
-
 
   // Handle Create Account Button (Open Sign-Up Modal)
   if (createAccountButton) {
@@ -286,24 +258,5 @@ document.addEventListener('DOMContentLoaded', () => {
       openModal(signUpModal);
     });
   }
-
-  // KGain Panel Functionality
-  if (kgainArrow && kgainPanel && kgainCloseBtn) {
-    kgainArrow.addEventListener('click', () => {
-      kgainPanel.classList.add('active');
-    });
-
-    kgainCloseBtn.addEventListener('click', () => {
-      kgainPanel.classList.remove('active');
-    });
-  }
-
-    // Handle Submit New Paper Button Click
-  if (submitNewPaperBtn) {
-    submitNewPaperBtn.addEventListener('click', () => {
-      window.location.href = 'input_data.html';
-    });
-  }
-
 
 });
