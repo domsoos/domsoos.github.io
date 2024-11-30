@@ -297,7 +297,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function displayPapers() {
     console.log('Fetching papers from Firestore...');
     db.collection('papers')
-      .orderBy('date', 'desc') // Order papers by 'date' field, latest first
+      .orderBy('submittedAt', 'desc') // Order papers by 'date' field, latest first
+      //.order
       .onSnapshot((snapshot) => {
         if (snapshot.empty) {
           if (loadingMessage) {
