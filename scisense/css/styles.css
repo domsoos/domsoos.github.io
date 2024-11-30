@@ -192,6 +192,106 @@ body {
   font-size: 14px;
 }
 
+
+/* Up Arrow Button Styles */
+#toggle-feedback-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #8B0000;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  z-index: 1000; /* Ensure it stays above other elements */
+}
+
+#toggle-feedback-btn:hover {
+  background-color: #a30000;
+  transform: translateY(-5px); /* Slight upward movement on hover */
+}
+
+/* Feedback Form Styles Using Transform */
+.feedback-form {
+  position: center;
+  /*bottom: 0;
+  right: 20px;*/
+  width: 500px;
+  max-width: 85%;
+  background-color: #fff;
+  border: 2px solid #a30000; /*#007BFF;*/
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(100%); /* Hidden below the viewport */
+  transition: transform 0.5s ease;
+  z-index: 99; /* Below the button */
+}
+
+.feedback-form.active {
+  transform: translateY(0); /* Slides up into view */
+}
+
+.feedback-form form {
+  padding: 20px;
+}
+
+.feedback-form h2 {
+  margin-top: 0;
+  color: #a30000;
+}
+
+.feedback-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.feedback-form textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+.feedback-form button[type="submit"] {
+  background-color: #28a745; /* Bootstrap success color */
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.feedback-form button[type="submit"]:hover {
+  background-color: #218838; /* Darker shade on hover */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+  #toggle-feedback-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  .feedback-form {
+    width: 90%;
+    right: 5%;
+  }
+}
+
+
+
+
+/* working feedback below */
+
 /* Feedback Form */
 #feedback-form {
   background-color: white;

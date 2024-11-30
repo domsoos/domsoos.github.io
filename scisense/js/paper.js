@@ -28,13 +28,112 @@ document.addEventListener('DOMContentLoaded', () => {
   const passwordResetSignInLink = document.getElementById('password-reset-sign-in-link');
   const signInLinkInSignUp = document.getElementById('sign-in-link');
   const createAccountButton = document.getElementById('create-account-button');
+  const toggleFeedbackBtn = document.getElementById('toggle-feedback-btn');
+  const feedbackForm = document.getElementById('feedback-form');
 
   // KGain Elements
   const kgainArrow = document.getElementById('kgain-arrow');
   const kgainPanel = document.getElementById('kgain-panel');
   const kgainCloseBtn = document.getElementById('kgain-close');
 
-    const submitNewPaperBtn = document.getElementById('submit-new-paper-btn');
+  const submitNewPaperBtn = document.getElementById('submit-new-paper-btn');
+
+  const paperTitle = document.getElementById('paper-title');
+  const paperInfo = document.getElementById('paper-info');
+  const paperAbstract = document.getElementById('paper-abstract');
+  const newsSummaryText = document.getElementById('news-summary-text');
+  const tweetsList = document.getElementById('tweets-list');
+  const kgainForm = document.getElementById('kgain-form'); // Ensure this exists
+  const paperIdInput = document.getElementById('paper-id'); // Ensure this exists or remove if not needed
+
+
+  // Function to get Paper ID from URL
+  const getPaperIdFromURL = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('id');
+  };
+
+  // Function to load paper details from Firestore
+  function loadPaperDetails() {
+    const paperId = getPaperIdFromURL();
+    if (!paperId) {
+      paperTitle.textContent = 'Invalid Paper ID.';
+      paperInfo.textContent = '';
+      paperAbstract.textContent = '';
+      newsSummaryText.textContent = '';
+      tweetsList.innerHTML = '';
+      if (feedbackForm) feedbackForm.style.display = 'none';
+      return;
+    }
+
+    // Fetch the paper document from Firestore
+    db.collection('papers').doc(paperId).get()
+      .then((doc) => {
+        if (doc.exists) {
+          const paper = doc.data();
+
+          // Populate Paper Details
+          paperTitle.textContent = paper.title ? paper.title : 'Untitled Paper';
+          
+          // Handle the 'date' field as a string
+          let submissionDate = 'N/A';
+          if (paper.date && typeof paper.date === 'string') {
+            // Optional: Format the date string if it's in a recognizable format
+            const dateObj = new Date(paper.date);
+            if (!isNaN(dateObj)) {
+              submissionDate = dateObj.toLocaleDateString();
+            } else {
+              // If the date string is not in a standard format, display it as is
+              submissionDate = paper.date;
+            }
+          }
+          const authors = paper.authors ? paper.authors : 'Unknown Authors';
+          paperInfo.textContent = `${authors} • ${submissionDate}`;
+
+          // Populate Abstract
+          paperAbstract.textContent = paper.abstract ? paper.abstract : 'No abstract available.';
+
+          // Populate News Summary
+          newsSummaryText.textContent = paper.news ? paper.news : 'No news summary available.';
+
+          // Populate Author Tweets
+          tweetsList.innerHTML = ''; // Clear existing tweets
+          if (paper.tweets && Array.isArray(paper.tweets) && paper.tweets.length > 0) {
+            paper.tweets.forEach(tweet => {
+              const li = document.createElement('li');
+              li.textContent = tweet;
+              tweetsList.appendChild(li);
+            });
+          } else {
+            tweetsList.innerHTML = '<li>No tweets available.</li>';
+          }
+
+          // If you have a hidden input for paperId, set its value
+          if (paperIdInput) {
+            paperIdInput.value = paperId;
+          }
+        } else {
+          paperTitle.textContent = 'Paper Not Found.';
+          paperInfo.textContent = '';
+          paperAbstract.textContent = '';
+          newsSummaryText.textContent = '';
+          tweetsList.innerHTML = '';
+          if (feedbackForm) feedbackForm.style.display = 'none';
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching paper:', error);
+        paperTitle.textContent = 'Error Loading Paper.';
+        paperInfo.textContent = '';
+        paperAbstract.textContent = '';
+        newsSummaryText.textContent = '';
+        tweetsList.innerHTML = '';
+        if (feedbackForm) feedbackForm.style.display = 'none';
+      });
+  }
+
+  // Call the function to load paper details
+  loadPaperDetails();
 
     // Function to open a modal
   const openModal = (modal) => {
@@ -271,7 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     } else {
       // User is signed out
-      signInButton.textContent = 'Sign In to submit new data and MORE';
+      signInButton.textContent = 'Sign In';
       // Hide Submit New Paper Button
       if (submitNewPaperBtn) {
         submitNewPaperBtn.style.display = 'none'; // change this to equal to 'none' to keep it hidden
@@ -373,12 +472,82 @@ document.addEventListener('DOMContentLoaded', () => {
     return papersData[paperId][questionName][option] || "";
   };
 
-  // Function to get Paper ID from URL
-  const getPaperIdFromURL = () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('id');
-  };
+  // Toggle Feedback Form Visibility
+  toggleFeedbackBtn.addEventListener('click', () => {
+    feedbackForm.classList.toggle('active');
 
+    // Change button icon and aria-label based on state
+    if (feedbackForm.classList.contains('active')) {
+      toggleFeedbackBtn.innerHTML = '<i class="fas fa-arrow-down"></i>'; // Down arrow
+      toggleFeedbackBtn.setAttribute('aria-label', 'Close Feedback Form');
+      
+      // Prevent background scrolling
+      document.body.style.overflow = 'hidden';
+      
+      // Move focus to the first input field
+      const firstInput = feedbackForm.querySelector('textarea, input, select');
+      if (firstInput) {
+        firstInput.focus();
+      }
+    } else {
+      toggleFeedbackBtn.innerHTML = '<i class="fas fa-arrow-up"></i>'; // Up arrow
+      toggleFeedbackBtn.setAttribute('aria-label', 'Open Feedback Form');
+      
+      // Restore background scrolling
+      document.body.style.overflow = '';
+    }
+  });
+
+  // Handle Feedback Form Submission
+  if (feedbackForm) {
+    const feedbackFormInner = document.getElementById('feedback-form-inner');
+
+    feedbackFormInner.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const user = auth.currentUser;
+      if (!user) {
+        alert('Please sign in to submit feedback.');
+        return;
+      }
+
+      const paperId = getPaperIdFromURL();
+      if (!paperId) {
+        alert('Invalid Paper ID.');
+        return;
+      }
+
+      // Collect Feedback Data
+      const feedbackMessage = document.getElementById('feedback-message').value.trim();
+
+      if (!feedbackMessage) {
+        alert('Please enter your feedback.');
+        return;
+      }
+
+      // Submit Feedback to Firestore
+      db.collection('feedback').add({
+        userId: user.uid,
+        paperId: paperId,
+        message: feedbackMessage,
+        submittedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      })
+      .then(() => {
+        alert('Thank you for your feedback!');
+        feedbackFormInner.reset();
+        feedbackForm.classList.remove('active');
+        toggleFeedbackBtn.innerHTML = '<i class="fas fa-arrow-up"></i>'; // Reset to up arrow
+        toggleFeedbackBtn.setAttribute('aria-label', 'Open Feedback Form');
+        document.body.style.overflow = ''; // Restore background scrolling
+      })
+      .catch((error) => {
+        console.error('Error submitting feedback:', error);
+        alert('There was an error submitting your feedback. Please try again later.');
+      });
+    });
+  }
+
+  /*
   // Function to load paper details
   const loadPaperDetails = () => {
     const paperId = getPaperIdFromURL();
@@ -496,6 +665,7 @@ document.addEventListener('DOMContentLoaded', () => {
           });
       }
     }
+    */
 
     // Handle KGain Form Submission
     if (kgainForm) {
@@ -569,7 +739,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const user = auth.currentUser;
         if (!user) {
           alert('Please sign in to submit feedback.');
-          return;
         }
 
         // Collect Paper ID from Hidden Input
@@ -621,22 +790,5 @@ document.addEventListener('DOMContentLoaded', () => {
         alert('Thank you for your feedback!');
       });
     }
-
-    // Function to get Paper ID from URL
-    function getPaperIdFromURL() {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get('id');
-    }
-  }
-
-  /*
-  // Handle Submit New Paper Button Click
-  if (submitNewPaperBtn) {
-    submitNewPaperBtn.addEventListener('click', () => {
-      window.location.href = 'input_data.html';
-    });
-  }
-  */
-
 
 });

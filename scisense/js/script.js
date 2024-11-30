@@ -29,11 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const signInLinkInSignUp = document.getElementById('sign-in-link');
   const createAccountButton = document.getElementById('create-account-button');
 
-  // KGain Elements
-  const kgainArrow = document.getElementById('kgain-arrow');
-  const kgainPanel = document.getElementById('kgain-panel');
-  const kgainCloseBtn = document.getElementById('kgain-close');
-
   const submitNewPaperBtn = document.getElementById('submit-new-paper-btn');
 
   // Function to open a modal
@@ -287,16 +282,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // KGain Panel Functionality
-  if (kgainArrow && kgainPanel && kgainCloseBtn) {
-    kgainArrow.addEventListener('click', () => {
-      kgainPanel.classList.add('active');
-    });
-
-    kgainCloseBtn.addEventListener('click', () => {
-      kgainPanel.classList.remove('active');
-    });
-  }
 
     // Handle Submit New Paper Button Click
   if (submitNewPaperBtn) {
@@ -304,6 +289,98 @@ document.addEventListener('DOMContentLoaded', () => {
       window.location.href = 'input_data.html';
     });
   }
+
+  const contentList = document.getElementById('content-list');
+  const loadingMessage = document.getElementById('loading-message');
+
+  // Function to fetch and display papers
+  function displayPapers() {
+    console.log('Fetching papers from Firestore...');
+    db.collection('papers')
+      .orderBy('date', 'desc') // Order papers by 'date' field, latest first
+      .onSnapshot((snapshot) => {
+        if (snapshot.empty) {
+          if (loadingMessage) {
+            loadingMessage.textContent = 'No papers available at the moment.';
+          }
+          return;
+        }
+
+        if (loadingMessage) {
+          loadingMessage.style.display = 'none';
+        }
+
+        contentList.innerHTML = ''; // Clear existing list
+
+        // Use snapshot.docs to access the documents array
+        snapshot.docs.forEach((doc, index) => {
+          const paper = doc.data();
+          const paperId = doc.id;
+
+          // Create paper-item div
+          const paperItem = document.createElement('div');
+          paperItem.classList.add('paper-item');
+
+          // Number
+          const numberSpan = document.createElement('span');
+          numberSpan.classList.add('number');
+          numberSpan.textContent = `${index + 1}.`;
+          paperItem.appendChild(numberSpan);
+
+          // Title with link
+          const titleH3 = document.createElement('h3');
+          titleH3.classList.add('paper-title');
+          const titleLink = document.createElement('a');
+          titleLink.href = `paper.html?id=${paperId}`;
+          titleLink.textContent = paper.title ? paper.title : 'Untitled Paper';
+          titleH3.appendChild(titleLink);
+          paperItem.appendChild(titleH3);
+
+          // Paper Info
+          const infoP = document.createElement('p');
+          infoP.classList.add('paper-info');
+          const authors = paper.authors ? paper.authors : 'Unknown Authors';
+
+          // Handling the 'date' field
+          let formattedDate = 'N/A';
+          if (paper.date && paper.date.toDate) {
+            try {
+              formattedDate = paper.date.toDate().toLocaleDateString();
+            } catch (error) {
+              console.error('Error formatting date:', error);
+            }
+          }
+          infoP.textContent = `${authors} • ${formattedDate}`;
+          paperItem.appendChild(infoP);
+
+          // Category Tag
+          const categorySpan = document.createElement('span');
+          categorySpan.classList.add('category-tag');
+          categorySpan.textContent =
+            paper.tags && paper.tags.length > 0
+              ? paper.tags.join(', ')
+              : 'No Category';
+          paperItem.appendChild(categorySpan);
+
+          // Engagement (Comments Count)
+          const engagementSpan = document.createElement('span');
+          engagementSpan.classList.add('engagement');
+          const commentsCount =
+            typeof paper.commentsCount === 'number' ? paper.commentsCount : 0;
+          engagementSpan.textContent = `${commentsCount} Comments`;
+          paperItem.appendChild(engagementSpan);
+
+          // Append the paper-item to content-list
+          contentList.appendChild(paperItem);
+        });
+      }, (error) => {
+        console.error('Error fetching papers:', error);
+        contentList.innerHTML = '<p>Error loading papers.</p>';
+      });
+  }
+
+  // Call the function to display papers
+  displayPapers();
 
 
 });

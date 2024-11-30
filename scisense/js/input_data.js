@@ -29,6 +29,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const signInLinkInSignUp = document.getElementById('sign-in-link');
   const createAccountButton = document.getElementById('create-account-button');
 
+    // Access Control: Redirect unauthenticated users to sign-in
+  auth.onAuthStateChanged((user) => {
+    if (!user) {
+      alert('You must be signed in to submit a new paper.');
+      window.location.href = 'paper.html'; // Redirect to a relevant page
+    }
+  });
+
+
   // Function to open a modal
   const openModal = (modal) => {
     modal.classList.add('active');
@@ -258,5 +267,61 @@ document.addEventListener('DOMContentLoaded', () => {
       openModal(signUpModal);
     });
   }
+
+
+  // Handle Submit Paper Form Submission
+const submitPaperForm = document.getElementById('submit-paper-form');
+
+if (submitPaperForm) {
+  submitPaperForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const user = auth.currentUser;
+    if (!user) {
+      alert('Please sign in to submit a new paper.');
+      return;
+    }
+
+    // Get form values
+    const paperTitle = document.getElementById('paper-title').value.trim();
+    const scienceAbstract = document.getElementById('science-abstract').value.trim();
+    const scienceNews = document.getElementById('science-news').value.trim();
+    const tweetsRaw = document.getElementById('tweets').value.trim();
+    const tagsRaw = document.getElementById('tags').value.trim();
+
+    // Validate required fields
+    if (!paperTitle || !scienceAbstract || !scienceNews || !tweetsRaw || !tagsRaw) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+
+    // Process tweets and tags
+    const tweets = tweetsRaw.split('\n').filter(tweet => tweet.trim() !== '');
+    const tags = tagsRaw.split(',').map(tag => tag.trim().toLowerCase()).filter(tag => tag !== '');
+
+    // Prepare paper data
+    const paperData = {
+      title: paperTitle,
+      abstract: scienceAbstract,
+      news: scienceNews,
+      tweets: tweets,
+      tags: tags,
+      submittedBy: user.uid,
+      submittedAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+    // Save to Firestore
+    db.collection('papers').add(paperData)
+      .then(() => {
+        alert('Paper submitted successfully!');
+        submitPaperForm.reset();
+      })
+      .catch((error) => {
+        console.error('Error submitting paper:', error);
+        alert('There was an error submitting your paper. Please try again.');
+      });
+  });
+  }
+
 
 });

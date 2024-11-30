@@ -79,11 +79,28 @@
     </form>
   </div>
 
-  <!-- Feedback Form -->
+    <button id="toggle-feedback-btn" aria-label="Toggle Feedback Form">
+    &#8679; <!-- Unicode for up arrow -->
+  </button>
+
+
+    <!-- Feedback Form -->
+  <div id="feedback-form" class="feedback-form">
+    <form id="feedback-form-inner">
+      <h2>Feedback</h2>
+      <!-- Your feedback form fields go here 
+      <label for="feedback-message">Your Feedback:</label>
+      <textarea id="feedback-message" name="feedback-message" rows="4" required></textarea>
+      
+      <button type="submit">Submit Feedback</button>
+      -->
+
+
+  <!-- Feedback Form 
   <form id="feedback-form">
     <h2>Provide Your Feedback</h2>
 
-    <!-- Demographic Section -->
+     Demographic Section -->
     <fieldset>
       <legend>Demographic Information (Optional)</legend>
       <label for="age">Age:</label>
@@ -128,7 +145,8 @@
     <input type="hidden" id="paper-id" name="paper-id" value="" />
 
     <button type="submit">Submit Feedback</button>
-  </form>
+    </form>
+  </div>
 
   <!-- Sign-In Modal -->
   <div class="sign-in-container" id="sign-in-modal">
