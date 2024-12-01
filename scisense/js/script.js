@@ -266,7 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     } else {
       // User is signed out
-      signInButton.textContent = 'Sign In to Input New Papers and MORE';
+      signInButton.textContent = 'Sign In';
       // Hide Submit New Paper Button
       if (submitNewPaperBtn) {
         submitNewPaperBtn.style.display = 'inline-block'; // change this to equal to 'none' to keep it hidden

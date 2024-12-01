@@ -259,7 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // User is signed out
       console.log('User is signed out');
       signInButton.textContent = 'Sign In';
-      window.href = 'paper.html';
+      window.location.href = 'index.html';
     }
   });
 
