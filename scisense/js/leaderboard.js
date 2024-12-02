@@ -23,9 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
           <label for="knowledge-level">Select your knowledge level:</label>
           <select id="knowledge-level" name="knowledge-level" required>
             <option value="">--Select--</option>
-            <option value="Beginner">Beginner</option>
-            <option value="Intermediate">Intermediate</option>
-            <option value="Advanced">Advanced</option>
+            <option value="Novice">Novice</option>
+            <option value="Junior">Junior Researcher</option>
             <option value="Expert">Expert</option>
           </select>
           <button type="submit">Submit</button>
@@ -108,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Define the order of knowledge levels
-        const knowledgeLevels = ['Beginner', 'Intermediate', 'Advanced', 'Expert'];
+        const knowledgeLevels = ['Novice', 'Junior Researcher', 'Expert'];
 
         // Sort users based on knowledge level and points
         usersData.sort((a, b) => {
