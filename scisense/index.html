@@ -16,6 +16,8 @@
   
   <!-- External JavaScript -->
   <script src="js/script.js" defer></script>
+  <script src="js/leaderboard.js" defer></script>
+
 </head>
 <body>
 
@@ -40,8 +42,37 @@
 
   <!-- Tabs and Categories -->
   <div class="tabs">
-    <button class="tab active" data-tab="trending">Trending</button>
-    <button class="tab" data-tab="most-discussed">Most Discussed</button>
+  	<!-- Trending Content -->
+	<div class="tab-content active" id="trending">
+	  <!-- Trending papers will be populated here -->
+	  <button class="tab active" data-tab="trending">Trending</button>
+	</div>
+
+	<!-- Most Discussed Content -->
+	<div class="tab-content" id="most-discussed">
+	  <!-- Most Discussed papers will be populated here -->
+	   <button class="tab" data-tab="most-discussed">Most Discussed</button>
+	</div>
+
+	<!-- Leaderboard Content -->
+	<div class="tab-content" id="leaderboard">
+	  <button class="tab" data-tab="leaderboard">Leaderboard</button>
+	  <table id="leaderboard-table">
+	    <thead>
+	      <tr>
+	        <th>Rank</th>
+	        <th>User</th>
+	        <th>Knowledge Level</th>
+	        <th>Points Gained</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	      <!-- Leaderboard entries will be populated here -->
+	    </tbody>
+	  </table>
+	</div>
+    
+   
     <select id="categories-dropdown">
       <option value="hot">Categories • Hot</option>
       <option value="cs.AI">cs.AI</option>
@@ -55,6 +86,9 @@
   <!-- Submit New Paper Button -->
 <section class="submit-new-paper-button">
   <div class="container">
+  	Sign in to submit a new paper
+  	<br>
+  	<br>
     <button id="submit-new-paper-btn">Submit New Paper</button>
   </div>
 </section>

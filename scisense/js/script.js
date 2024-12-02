@@ -11,8 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-  const db = firebase.firestore();
+  window.auth = firebase.auth();
+  window.db = firebase.firestore();
 
   // DOM Elements
   const signInButton = document.getElementById('sign-in-button');
