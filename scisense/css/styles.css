@@ -827,3 +827,69 @@ body {
 	text-align: center;
 }
 
+
+
+/* Leaderboard Table Styles */
+#leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #fff; /* White background */
+  border: 1px solid #8B0000; /* Deep Red border to match header */
+}
+
+#leaderboard-table th, #leaderboard-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: center;
+}
+
+#leaderboard-table th {
+  background-color: #8B0000; /* Deep Red to match header */
+  color: white;
+}
+
+#leaderboard-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#leaderboard-table tr:hover {
+  background-color: #ddd;
+}
+
+/* Tabs Styles */
+.tabs {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #fff; /* White background */
+}
+
+.tab {
+  background-color: #f1f1f1;
+  border: none;
+  outline: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-right: 5px;
+  border-radius: 4px;
+}
+
+.tab.active, .tab:hover {
+  background-color: #8B0000; /* Deep Red */
+  color: white;
+}
+
+#categories-dropdown {
+  margin-left: auto;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+
+
+
+
+

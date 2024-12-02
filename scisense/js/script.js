@@ -31,6 +31,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const submitNewPaperBtn = document.getElementById('submit-new-paper-btn');
 
+  // Tab Switching Functionality
+  const tabs = document.querySelectorAll('.tab');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      // Remove active class from all tabs
+      tabs.forEach(t => t.classList.remove('active'));
+      // Hide all tab contents
+      tabContents.forEach(content => content.style.display = 'none');
+
+      // Add active class to the clicked tab
+      tab.classList.add('active');
+
+      // Show corresponding tab content
+      const target = tab.getAttribute('data-tab');
+      document.getElementById(target).style.display = 'block';
+    });
+  });
+
   // Function to open a modal
   const openModal = (modal) => {
     modal.classList.add('active');

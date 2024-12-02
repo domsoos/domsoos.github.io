@@ -42,37 +42,10 @@
 
   <!-- Tabs and Categories -->
   <div class="tabs">
-  	<!-- Trending Content -->
-	<div class="tab-content active" id="trending">
-	  <!-- Trending papers will be populated here -->
-	  <button class="tab active" data-tab="trending">Trending</button>
-	</div>
-
-	<!-- Most Discussed Content -->
-	<div class="tab-content" id="most-discussed">
-	  <!-- Most Discussed papers will be populated here -->
-	   <button class="tab" data-tab="most-discussed">Most Discussed</button>
-	</div>
-
-	<!-- Leaderboard Content -->
-	<div class="tab-content" id="leaderboard">
-	  <button class="tab" data-tab="leaderboard">Leaderboard</button>
-	  <table id="leaderboard-table">
-	    <thead>
-	      <tr>
-	        <th>Rank</th>
-	        <th>User</th>
-	        <th>Knowledge Level</th>
-	        <th>Points Gained</th>
-	      </tr>
-	    </thead>
-	    <tbody>
-	      <!-- Leaderboard entries will be populated here -->
-	    </tbody>
-	  </table>
-	</div>
+    <button class="tab active" data-tab="trending">Trending</button>
+    <button class="tab" data-tab="most-discussed">Most Discussed</button>
+    <button class="tab" data-tab="leaderboard">Leaderboard</button> <!-- Leaderboard Tab -->
     
-   
     <select id="categories-dropdown">
       <option value="hot">Categories • Hot</option>
       <option value="cs.AI">cs.AI</option>
@@ -81,19 +54,52 @@
       <!-- Add more options as needed -->
     </select>
   </div>
-
   
   <!-- Submit New Paper Button -->
-<section class="submit-new-paper-button">
-  <div class="container">
-  	Sign in to submit a new paper
-  	<br>
-  	<br>
-    <button id="submit-new-paper-btn">Submit New Paper</button>
-  </div>
-</section>
+  <section class="submit-new-paper-button">
+    <div class="container">
+  	  Sign in to submit a new paper
+  	  <br>
+  	  <br>
+      <button id="submit-new-paper-btn">Submit New Paper</button>
+    </div>
+  </section>
 
-  <!-- Content List -->
+  <!-- Trending Content -->
+  <div class="tab-content active" id="trending">
+    <div id="content-list">
+      <p id="loading-message">Loading papers...</p>
+      <!-- Trending papers will be populated here -->
+    </div>
+  </div>
+
+  <!-- Most Discussed Content -->
+  <div class="tab-content" id="most-discussed" style="display: none;">
+    <div id="content-list-discussed">
+      <p id="loading-message-discussed">Loading papers...</p>
+      <!-- Most Discussed papers will be populated here -->
+    </div>
+  </div>
+
+  <!-- Leaderboard Content -->
+  <div class="tab-content" id="leaderboard" style="display: none;">
+    <h2>Leaderboard</h2>
+    <table id="leaderboard-table">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>User</th>
+          <th>Knowledge Level</th>
+          <th>Points Gained</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Leaderboard entries will be populated here -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Content List 
   <section class="content-list" id="content-list">
     <div class="paper-item">
       <span class="number">1.</span>
@@ -117,8 +123,8 @@
       <span class="category-tag">cs.AI</span>
       <span class="engagement">28975 Comments</span>
     </div>
-    <!-- Repeat for other papers -->
-  </section>
+    Repeat for other papers 
+  </section> -->
 
   <!-- Sign-In Modal -->
   <div class="sign-in-container" id="sign-in-modal">
