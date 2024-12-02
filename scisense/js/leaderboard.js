@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <select id="knowledge-level" name="knowledge-level" required>
             <option value="">--Select--</option>
             <option value="Novice">Novice</option>
-            <option value="Junior">Junior Researcher</option>
+            <option value="Junior Researcher">Junior Researcher</option>
             <option value="Expert">Expert</option>
           </select>
           <button type="submit">Submit</button>
