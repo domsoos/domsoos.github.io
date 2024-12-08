@@ -106,42 +106,121 @@ body {
   font-size: 16px;
 }
 
+
+
 /* Content List */
 .content-list {
   background-color: white;
   padding: 20px;
 }
 
+/* Paper Item Container */
 .paper-item {
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "number title"
+    "number metadata";
+  align-items: center; /* Vertically center items */
   padding: 10px 0;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 2px solid #f0f0f0;
 }
 
-.paper-item:last-child {
-  border-bottom: none;
-}
-
+/* Number Styling */
 .number {
-  width: 30px;
+  grid-area: number;
+  justify-self: center; /* Horizontally center the number */
+  align-self: center;   /* Vertically center the number */
   color: #8B0000;
   font-weight: bold;
 }
 
+/* Title Styling */
 .paper-title {
-  flex: 1;
+  grid-area: title;
+  margin: 0;
   color: #8B0000;
-  cursor: pointer;
   font-size: 18px;
-  margin: 0 10px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap; /* Allow wrapping for responsiveness */
 }
 
-.paper-info, .category-tag, .engagement {
-  color: grey;
-  margin-left: 10px;
-  font-size: 14px;
+.paper-title a {
+  text-decoration: none;
+  color: inherit;
 }
+
+/* Metadata Styling */
+.paper-info {
+  grid-area: metadata;
+  color: grey;
+  font-size: 14px;
+  margin: 5px 0 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.category-tag {
+  color: grey;
+  margin-left: 50px;
+  font-size: 14px;
+  white-space: nowrap;  /*Prevent text from wrapping */
+}
+.engagement {
+  color: grey;
+  margin-left: 250px;
+  font-size: 12px;
+  white-space: nowrap; 
+}
+
+/* Responsive Adjustments */
+@media screen and (max-width: 800px) {
+  .paper-title {
+    font-size: 16px;
+  }
+
+  .category-tag {
+  	font-size: 12px;
+  	margin-left: 50px;
+  }
+  .engagement {
+    font-size: 12px;
+    margin-left: 250px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .paper-item {
+    grid-template-columns: 30px 1fr; /* Reduce number column width on small screens */
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "number title"
+      "number metadata";
+  }
+
+  .number {
+    font-size: 16px;
+  }
+
+  .paper-title {
+    font-size: 16px;
+  }
+
+  .paper-info {
+    flex-basis: 100%; /* Take full width */
+  }
+
+  .category-tag,
+  .engagement {
+  	font-size: 14px;
+    margin-left: 0;
+    margin-top: 5px;
+  }
+}
+
 
 /* Sign-In Modal */
 .sign-in-container {
@@ -805,13 +884,13 @@ body {
 }
 
 /* Submit New Paper Button */
-.submit-new-paper-button {
+.submit-new-contribution {
   padding: 20px;
   text-align: center;
   background-color: #fff;
 }
 
-.submit-new-paper-button button {
+.submit-new-contribution button {
   padding: 10px 20px;
   background-color: #8B0000;
   color: white;
@@ -820,7 +899,7 @@ body {
   cursor: pointer;
 }
 
-.submit-new-paper-button button:hover {
+.submit-new-contribution button:hover {
   background-color: #a30000;
 }
 
@@ -959,6 +1038,137 @@ body {
 #knowledge-level-form button:hover {
   background-color: #218838;
 }
+
+
+/* Leaderboard Category Selector */
+.leaderboard-category-selector {
+  margin-bottom: 20px;
+}
+
+.leaderboard-category-selector label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.leaderboard-category-selector select {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+
+
+/* User Actions Section */
+#user-actions {
+  margin: 20px 0; /* Adjust as needed */
+}
+
+/* Submit Paper Button */
+#submit-new-paper-btn {
+  background-color: #8B0000; /* Deep Red */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+#submit-new-paper-btn:hover {
+  background-color: #6A0000;
+}
+
+/* Add Discovery Button */
+#add-discovery-button {
+  background-color: #8B0000; /* Blue */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#add-discovery-button:hover {
+  background-color: #0056b3;
+}
+
+
+/* Modal Styles */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1000; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
+}
+
+.modal-content {
+  background-color: #fefefe; /* White background */
+  margin: 10% auto; /* 10% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px; /* Max width */
+  border-radius: 8px;
+  position: relative;
+}
+
+/* Close Button */
+.close-modal {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-modal:hover,
+.close-modal:focus {
+  color: #000;
+  text-decoration: none;
+}
+
+/* Form Styles */
+#discovery-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+#discovery-form input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#discovery-form button {
+  background-color: #28a745; /* Green */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#discovery-form button:hover {
+  background-color: #218838;
+}
+
+/* Button Hover Effects */
+#submit-paper-btn:hover {
+  background-color: #6A0000; /* Darker Red */
+}
+
+#add-discovery-btn:hover {
+  background-color: #6A0000; /* Darker Blue */
+}
+
 
 
 

@@ -29,7 +29,169 @@ document.addEventListener('DOMContentLoaded', () => {
   const signInLinkInSignUp = document.getElementById('sign-in-link');
   const createAccountButton = document.getElementById('create-account-button');
 
-  const submitNewPaperBtn = document.getElementById('submit-new-paper-btn');
+  const submitNewPaperBtn = document.getElementById('submit-paper-btn'); // Correct ID
+  const addDiscoveryBtn = document.getElementById('add-discovery-btn'); // Correct ID
+
+
+  // References to Modal elements
+  const discoveryModal = document.getElementById('discovery-modal');
+  const closeModalSpan = discoveryModal.querySelector('.close-modal');
+  const discoveryForm = document.getElementById('discovery-form');
+  const discoveryLinkInput = document.getElementById('discovery-link');
+
+  // Handle Authentication State and UI Updates
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      // User is signed in
+      // Fetch user's data from Firestore
+      db.collection('users').doc(user.uid).get()
+        .then((doc) => {
+          if (doc.exists) {
+            const userData = doc.data();
+            signInButton.textContent = `Signed in as ${userData.name}`;
+
+            if (userData.isAdmin) {
+              // Show "Submit New Paper" button for admins
+              if (submitNewPaperBtn) {
+                submitNewPaperBtn.style.display = 'inline-block';
+              }
+              // Show "Add New Scientific Discovery" button for admins
+              if (addDiscoveryBtn) {
+                addDiscoveryBtn.style.display = 'inline-block';
+              }
+            } else {
+              // Show "Add New Scientific Discovery" button for regular users
+              if (addDiscoveryBtn) {
+                addDiscoveryBtn.style.display = 'inline-block';
+              }
+              // Hide "Submit New Paper" button for regular users
+              if (submitNewPaperBtn) {
+                submitNewPaperBtn.style.display = 'none';
+              }
+            }
+          } else {
+            // User document does not exist
+            signInButton.textContent = `Signed in as ${user.email}`;
+            // Hide both buttons
+            if (submitNewPaperBtn) {
+              submitNewPaperBtn.style.display = 'none';
+            }
+            if (addDiscoveryBtn) {
+              addDiscoveryBtn.style.display = 'none';
+            }
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching user data:', error);
+          signInButton.textContent = `Signed in as ${user.email}`;
+          // Hide both buttons in case of error
+          if (submitNewPaperBtn) {
+            submitNewPaperBtn.style.display = 'none';
+          }
+          if (addDiscoveryBtn) {
+            addDiscoveryBtn.style.display = 'none';
+          }
+        });
+    } else {
+      // User is signed out
+      signInButton.textContent = 'Sign In';
+      // Hide both buttons
+      if (submitNewPaperBtn) {
+        submitNewPaperBtn.style.display = 'none';
+      }
+      if (addDiscoveryBtn) {
+        addDiscoveryBtn.style.display = 'none';
+      }
+    }
+  });
+
+  // Event Listener for "Submit New Paper" button (Admin Functionality)
+  if (submitNewPaperBtn) {
+    submitNewPaperBtn.addEventListener('click', () => {
+      // Redirect to the paper submission page
+      window.location.href = 'input_data.html'; // Ensure this page exists
+    });
+  }
+
+  // Event Listener for "Add New Scientific Discovery" button (Regular and Admin Users)
+  if (addDiscoveryBtn) {
+    addDiscoveryBtn.addEventListener('click', () => {
+      // Open the discovery modal
+      discoveryModal.style.display = 'block';
+    });
+  }
+
+  // Close the modal when the user clicks on <span> (x)
+  if (closeModalSpan) {
+    closeModalSpan.addEventListener('click', () => {
+      discoveryModal.style.display = 'none';
+      discoveryForm.reset(); // Reset form fields
+    });
+  }
+
+  // Close the modal when the user clicks outside the modal content
+  window.addEventListener('click', (event) => {
+    if (event.target == discoveryModal) {
+      discoveryModal.style.display = 'none';
+      discoveryForm.reset(); // Reset form fields
+    }
+  });
+
+  // Handle Discovery Form Submission
+  if (discoveryForm) {
+    discoveryForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const discoveryLink = discoveryLinkInput.value.trim();
+
+      if (discoveryLink) {
+        // Validate the URL
+        const urlPattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+          '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+          '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+          '(\\:\\d+)?'+ // port
+          '(\\/[-a-z\\d%@_.~+&:]*)*'+ // path
+          '(\\?[;&a-z\\d%@_.,~+&:=-]*)?'+ // query string
+          '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+
+        if (urlPattern.test(discoveryLink)) {
+          // Open the discovery link in a new tab
+          window.open(discoveryLink, '_blank');
+
+          // Optionally, store the discovery in Firestore
+          // This allows you to track discoveries added by users
+          db.collection('discoveries').add({
+            userId: auth.currentUser.uid,
+            link: discoveryLink,
+            addedAt: firebase.firestore.FieldValue.serverTimestamp()
+          })
+          .then(() => {
+            alert('Scientific discovery added successfully!');
+            discoveryModal.style.display = 'none';
+            discoveryForm.reset(); // Reset form fields
+          })
+          .catch((error) => {
+            console.error('Error adding discovery:', error);
+            alert('Failed to add discovery. Please try again.');
+          });
+        } else {
+          alert('Please enter a valid URL.');
+        }
+      } else {
+        alert('Discovery link cannot be empty.');
+      }
+    });
+  }
+
+
+  // Handle Create Account Button (Open Sign-Up Modal)
+  if (createAccountButton) {
+    createAccountButton.addEventListener('click', () => {
+      openModal(signUpModal);
+    });
+  }
+
+
+
 
   // Tab Switching Functionality
   const tabs = document.querySelectorAll('.tab');
@@ -200,6 +362,18 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    const CATEGORIES = ['nature', 'health', 'tech', 'physics', 'space', 'environment', 'society'];
+    
+    // Initialize knowledgeLevels and points
+    const knowledgeLevels = {};
+    const points = {};
+
+    CATEGORIES.forEach(category => {
+      knowledgeLevels[category] = 'N/A'; // Default knowledge level
+      points[category] = 0; // Initialize points to 0
+    });
+
+
     auth.createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
         // Add user details to Firestore
@@ -208,8 +382,9 @@ document.addEventListener('DOMContentLoaded', () => {
           email: email,
           age: age,
           occupation: occupation,
-          knowledgeLevel: knowledgeLevel,
-          points: 0, // Initialize points
+          isAdmin: false, // Initialize isAdmin to false
+          knowledgeLevels: knowledgeLevels,
+          points: points,
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
       })
@@ -254,61 +429,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Handle Authentication State and UI Updates
-  auth.onAuthStateChanged((user) => {
-    if (user) {
-      // User is signed in
-      // Fetch user's name from Firestore
-      db.collection('users').doc(user.uid).get()
-        .then((doc) => {
-          if (doc.exists) {
-            const userData = doc.data();
-            signInButton.textContent = `Signed in as ${userData.name}`;
-            // Show Submit New Paper Button
-            if (submitNewPaperBtn) {
-              submitNewPaperBtn.style.display = 'inline-block';
-            }
-          } else {
-            signInButton.textContent = `Signed in as ${user.email}`;
-            // Show Submit New Paper Button
-            if (submitNewPaperBtn) {
-              submitNewPaperBtn.style.display = 'inline-block';
-            }
-          }
-        })
-        .catch((error) => {
-          console.error('Error fetching user data:', error);
-          signInButton.textContent = `Signed in as ${user.email}`;
-          // Show Submit New Paper Button
-          if (submitNewPaperBtn) {
-            submitNewPaperBtn.style.display = 'inline-block';
-          }
-        });
-    } else {
-      // User is signed out
-      signInButton.textContent = 'Sign In';
-      // Hide Submit New Paper Button
-      if (submitNewPaperBtn) {
-        submitNewPaperBtn.style.display = 'inline-block'; // change this to equal to 'none' to keep it hidden
-      }
-    }
-  });
-
-
-  // Handle Create Account Button (Open Sign-Up Modal)
-  if (createAccountButton) {
-    createAccountButton.addEventListener('click', () => {
-      openModal(signUpModal);
-    });
-  }
-
-
-    // Handle Submit New Paper Button Click
-  if (submitNewPaperBtn) {
-    submitNewPaperBtn.addEventListener('click', () => {
-      window.location.href = 'input_data.html';
-    });
-  }
 
   const contentList = document.getElementById('content-list');
   const loadingMessage = document.getElementById('loading-message');

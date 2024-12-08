@@ -31,13 +31,34 @@
       <!-- Initialize scripts -->
       <script src="./js/components/SearchBar/init.js"></script>
     </div>
+    <button id="create-account-button">Create Account</button>
     <button id="sign-in-button">Sign In</button>
   </header>
 
   <!-- Banner -->
   <section class="banner">
     <p>Where Science Makes Sense</p>
-    <button id="create-account-button">Create Account</button>
+      <!-- Submit New Paper Button -->
+  
+	<!-- User Actions Section -->
+<!-- User Actions Section -->
+	<div id="user-actions" style="margin: 20px 0;">
+	  <button id="submit-paper-btn" style="display: none; background-color: #8B0000; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin-right: 10px;">
+	    Submit New Paper
+	  </button>
+	  <button id="add-discovery-btn" style="display: none; background-color: #8B0000; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">
+	    Add New Scientific Discovery
+	  </button>
+	</div>
+		<!-- 
+    <div class="container">
+  	  Sign in to submit a new paper
+  	  <br>
+  	  <br>
+      <button id="submit-new-paper-btn">Submit New Paper</button>
+    </div>
+     -->
+
   </section>
 
   <!-- Tabs and Categories -->
@@ -46,24 +67,26 @@
     <button class="tab" data-tab="most-discussed">Most Discussed</button>
     <button class="tab" data-tab="leaderboard">Leaderboard</button> <!-- Leaderboard Tab -->
     
+     
+     <select id="categories-dropdown">
+     	<option value="hot">Categories </option>
+	    <option value="nature">Nature</option>
+	    <option value="health">Health</option>
+	    <option value="tech">Tech</option>
+	    <option value="physics">Physics</option>
+	    <option value="space">Space</option>
+	    <option value="environment">Environment</option>
+	    <option value="society">Society</option>
+    <!-- 
     <select id="categories-dropdown">
       <option value="hot">Categories • Hot</option>
       <option value="cs.AI">cs.AI</option>
       <option value="cs.LG">cs.LG</option>
       <option value="math.AG">math.AG</option>
-      <!-- Add more options as needed -->
+      Add more options as needed -->
     </select>
   </div>
-  
-  <!-- Submit New Paper Button -->
-  <section class="submit-new-paper-button">
-    <div class="container">
-  	  Sign in to submit a new paper
-  	  <br>
-  	  <br>
-      <button id="submit-new-paper-btn">Submit New Paper</button>
-    </div>
-  </section>
+
 
   <!-- Trending Content -->
   <div class="tab-content active" id="trending">
@@ -83,7 +106,22 @@
 
   <!-- Leaderboard Content -->
   <div class="tab-content" id="leaderboard" style="display: none;">
-    <h2>Leaderboard</h2>
+    <!-- <h2>Leaderboard</h2> -->
+    <br>
+      <!-- Category Selection Dropdown -->
+    <div class="leaderboard-category-selector">
+	    <label for="leaderboard-category">Select Category:</label>
+	    <select id="leaderboard-category">
+		      <option value="nature">Nature</option>
+		      <option value="health">Health</option>
+		      <option value="tech">Tech</option>
+		      <option value="physics">Physics</option>
+		      <option value="space">Space</option>
+		      <option value="environment">Environment</option>
+		      <option value="society">Society</option>
+	      <!-- Add more options as needed -->
+	    </select>
+    </div>
     <table id="leaderboard-table">
       <thead>
         <tr>
@@ -99,32 +137,21 @@
     </table>
   </div>
 
-  <!-- Content List 
-  <section class="content-list" id="content-list">
-    <div class="paper-item">
-      <span class="number">1.</span>
-      <h3 class="paper-title"><a href="paper.html?id=deep-learning-approaches-in-ai">Deep Learning in AI</a></h3>
-      <p class="paper-info">Foo Bar, John Doe • Jan 1, 2024</p>
-      <span class="category-tag">cs.AI</span>
-      <span class="engagement">15 Comments</span>
-    </div> 
-    <div class="paper-item">
-      <span class="number">2.</span>
-      <h3 class="paper-title"><a href="paper.html?id=language-models-are-few-shot-learners">Language Models are Few-Shot Learners</a></h3>
-      <p class="paper-info">Tom Brown et. al, • July 22, 2020</p>
-      <span class="category-tag">cs.LG</span>
-      <span class="engagement">19375 Comments</span>
-    </div>
 
-    <div class="paper-item">
-      <span class="number">3.</span>
-      <h3 class="paper-title"><a href="paper.html?id=seq-2-seq">Sequence to sequence learning with neural networks</a></h3>
-      <p class="paper-info">Ilya Sutskever, Oriol Vinyals, Quoc V. Le, • July 22, 2014</p>
-      <span class="category-tag">cs.AI</span>
-      <span class="engagement">28975 Comments</span>
-    </div>
-    Repeat for other papers 
-  </section> -->
+	<!-- Add Discovery Modal -->
+	<div id="discovery-modal" class="modal" style="display: none;">
+	  <div class="modal-content">
+	    <span class="close-modal">&times;</span>
+	    <h2>Add New Scientific Discovery</h2>
+	    <form id="discovery-form">
+	      <label for="discovery-link">Discovery URL:</label>
+	      <input type="url" id="discovery-link" name="discovery-link" required placeholder="https://arxiv.org/abs/..." />
+	      <button type="submit" style="background-color: #8B0000; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer;">
+	        Add Discovery
+	      </button>
+	    </form>
+	  </div>
+	</div>
 
   <!-- Sign-In Modal -->
   <div class="sign-in-container" id="sign-in-modal">
@@ -177,7 +204,7 @@
         <input type="text" id="occupation" name="occupation" placeholder="e.g., Student, Researcher, Engineer" />
       </fieldset>
 
-      <!-- Level of Knowledge -->
+      <!-- Level of Knowledge 
       <fieldset>
         <legend>Level of Knowledge <span class="tooltip-container"> 
           <button type="button" class="tooltip-button" aria-label="More information about knowledge levels">?</button>
@@ -191,6 +218,7 @@
         <label><input type="radio" name="knowledgeLevel" value="Intermediate" /> Intermediate</label><br>
         <label><input type="radio" name="knowledgeLevel" value="Expert" /> Expert</label>
       </fieldset>
+      -->
 
       <button type="submit">Sign Up</button>
     </form>

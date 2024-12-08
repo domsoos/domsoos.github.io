@@ -286,6 +286,7 @@ if (submitPaperForm) {
 
     // Get form values
     const paperTitle = document.getElementById('paper-title').value.trim();
+    const authors = document.getElementById('authors').value.trim();
     const scienceAbstract = document.getElementById('science-abstract').value.trim();
     const scienceNews = document.getElementById('science-news').value.trim();
     const tweetsRaw = document.getElementById('tweets').value.trim();
@@ -304,6 +305,7 @@ if (submitPaperForm) {
     // Prepare paper data
     const paperData = {
       title: paperTitle,
+      authors: authors,
       abstract: scienceAbstract,
       news: scienceNews,
       tweets: tweets,

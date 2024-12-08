@@ -7,26 +7,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // DOM Elements
   const leaderboardTableBody = document.querySelector('#leaderboard-table tbody');
+  const leaderboardCategorySelect = document.getElementById('leaderboard-category');
+  const CATEGORIES = ['nature', 'health', 'tech', 'physics', 'space', 'environment', 'society'];
+  const KNOWLEDGE_LEVELS = ['Novice', 'Junior Researcher', 'Expert'];
 
-  // Function to Prompt for Knowledge Level
-  function promptKnowledgeLevel(userId) {
+  // Function to Prompt for Knowledge Levels
+  function promptKnowledgeLevels(userId) {
     // Create a modal for input
     const modal = document.createElement('div');
     modal.id = 'knowledge-level-modal';
     modal.classList.add('modal');
 
+    // Generate form fields for each category
+    let formFields = '';
+    CATEGORIES.forEach(category => {
+      formFields += `
+        <label for="${category}-knowledge-level">${capitalizeFirstLetter(category)} Knowledge Level:</label>
+        <select id="${category}-knowledge-level" name="${category}-knowledge-level" required>
+          <option value="">--Select--</option>
+      `;
+      KNOWLEDGE_LEVELS.forEach(level => {
+        formFields += `<option value="${level}">${level}</option>`;
+      });
+      formFields += `</select>`;
+    });
+
     modal.innerHTML = `
       <div class="modal-content">
         <span class="close-modal">&times;</span>
-        <h2>Set Your Knowledge Level</h2>
+        <h2>Set Your Knowledge Levels</h2>
         <form id="knowledge-level-form">
-          <label for="knowledge-level">Select your knowledge level:</label>
-          <select id="knowledge-level" name="knowledge-level" required>
-            <option value="">--Select--</option>
-            <option value="Novice">Novice</option>
-            <option value="Junior Researcher">Junior Researcher</option>
-            <option value="Expert">Expert</option>
-          </select>
+          ${formFields}
           <button type="submit">Submit</button>
         </form>
       </div>
@@ -57,25 +68,42 @@ document.addEventListener('DOMContentLoaded', () => {
     const knowledgeLevelForm = document.getElementById('knowledge-level-form');
     knowledgeLevelForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const selectedLevel = document.getElementById('knowledge-level').value;
+      const updatedKnowledgeLevels = {};
 
-      if (selectedLevel) {
-        // Update Firestore with the knowledge level
+      let allValid = true;
+      CATEGORIES.forEach(category => {
+        const selectedLevel = document.getElementById(`${category}-knowledge-level`).value;
+        if (selectedLevel) {
+          updatedKnowledgeLevels[category] = selectedLevel;
+        } else {
+          allValid = false;
+          alert(`Please select a knowledge level for ${capitalizeFirstLetter(category)}.`);
+        }
+      });
+
+      if (allValid) {
+        // Update Firestore with the knowledge levels
         db.collection('users').doc(userId).update({
-          knowledgeLevel: selectedLevel
+          knowledgeLevels: updatedKnowledgeLevels
         })
         .then(() => {
-          alert('Knowledge level updated successfully!');
+          alert('Knowledge levels updated successfully!');
           closeModal();
           // Refresh the leaderboard
-          fetchAndDisplayLeaderboard();
+          const selectedCategory = leaderboardCategorySelect.value;
+          fetchAndDisplayLeaderboard(selectedCategory);
         })
         .catch((error) => {
-          console.error('Error updating knowledge level:', error);
-          alert('Failed to update knowledge level. Please try again.');
+          console.error('Error updating knowledge levels:', error);
+          alert('Failed to update knowledge levels. Please try again.');
         });
       }
     });
+  }
+
+  // Helper Function to Capitalize First Letter
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
   // Function to Display Sign-Out Message
@@ -87,12 +115,12 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
   }
 
-  // Function to Fetch and Display Leaderboard
-  function fetchAndDisplayLeaderboard() {
+  // Function to Fetch and Display Leaderboard based on Category
+  function fetchAndDisplayLeaderboard(category) {
     // Clear existing leaderboard entries
     leaderboardTableBody.innerHTML = '';
 
-    // Fetch all users with their knowledgeLevel and points
+    // Fetch all users
     db.collection('users').get()
       .then((snapshot) => {
         const usersData = [];
@@ -101,22 +129,23 @@ document.addEventListener('DOMContentLoaded', () => {
           // Include all users, even without knowledgeLevel
           usersData.push({
             name: user.name || 'Anonymous',
-            knowledgeLevel: user.knowledgeLevel || 'N/A',
-            points: typeof user.points === 'number' ? user.points : 0
+            knowledgeLevel: (user.knowledgeLevels && user.knowledgeLevels[category]) ? user.knowledgeLevels[category] : 'N/A',
+            points: (user.points && typeof user.points[category] === 'number') ? user.points[category] : 0
           });
         });
 
         // Define the order of knowledge levels
-        const knowledgeLevels = ['Novice', 'Junior Researcher', 'Expert'];
+        const knowledgeLevelsOrder = {
+          'Novice': 1,
+          'Junior Researcher': 2,
+          'Expert': 3,
+          'N/A': 0
+        };
 
         // Sort users based on knowledge level and points
         usersData.sort((a, b) => {
-          const levelA = knowledgeLevels.indexOf(a.knowledgeLevel);
-          const levelB = knowledgeLevels.indexOf(b.knowledgeLevel);
-
-          // Users with 'N/A' knowledge level are ranked lower
-          if (a.knowledgeLevel === 'N/A' && b.knowledgeLevel !== 'N/A') return 1;
-          if (b.knowledgeLevel === 'N/A' && a.knowledgeLevel !== 'N/A') return -1;
+          const levelA = knowledgeLevelsOrder[a.knowledgeLevel] || 0;
+          const levelB = knowledgeLevelsOrder[b.knowledgeLevel] || 0;
 
           if (levelA !== levelB) {
             return levelB - levelA; // Higher knowledge level first
@@ -156,31 +185,43 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   }
 
-  // Function to Check and Prompt Knowledge Level
-  function checkKnowledgeLevel(user) {
+  // Function to Check and Prompt Knowledge Levels
+  function checkKnowledgeLevels(user) {
     if (user) {
       db.collection('users').doc(user.uid).get()
         .then((doc) => {
           if (doc.exists) {
             const userData = doc.data();
-            if (!userData.knowledgeLevel) {
-              // Prompt the user to input knowledge level
-              promptKnowledgeLevel(user.uid);
+            let missingCategories = [];
+
+            CATEGORIES.forEach(category => {
+              if (!userData.knowledgeLevels || !userData.knowledgeLevels[category]) {
+                missingCategories.push(category);
+              }
+            });
+
+            if (missingCategories.length > 0) {
+              // Prompt the user to input missing knowledge levels
+              promptKnowledgeLevels(user.uid);
             }
-            // Proceed to display leaderboard regardless of knowledgeLevel
-            fetchAndDisplayLeaderboard();
+
+            // Proceed to display leaderboard
+            const selectedCategory = leaderboardCategorySelect.value;
+            fetchAndDisplayLeaderboard(selectedCategory);
           } else {
             console.warn('No such user document!');
-            // Optionally, prompt for knowledge level
-            promptKnowledgeLevel(user.uid);
-            fetchAndDisplayLeaderboard();
+            // Optionally, prompt for knowledge levels
+            promptKnowledgeLevels(user.uid);
+            const selectedCategory = leaderboardCategorySelect.value;
+            fetchAndDisplayLeaderboard(selectedCategory);
           }
         })
         .catch((error) => {
           console.error('Error fetching user data:', error);
-          // Optionally, prompt for knowledge level
-          promptKnowledgeLevel(user.uid);
-          fetchAndDisplayLeaderboard();
+          // Optionally, prompt for knowledge levels
+          promptKnowledgeLevels(user.uid);
+          const selectedCategory = leaderboardCategorySelect.value;
+          fetchAndDisplayLeaderboard(selectedCategory);
         });
     } else {
       // User is signed out, display message
@@ -190,15 +231,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Listen for Auth State Changes
   auth.onAuthStateChanged((user) => {
-    checkKnowledgeLevel(user);
+    checkKnowledgeLevels(user);
   });
+
+  // Event Listener for Category Selection in Leaderboard
+  if (leaderboardCategorySelect) {
+    leaderboardCategorySelect.addEventListener('change', (e) => {
+      const selectedCategory = e.target.value;
+      fetchAndDisplayLeaderboard(selectedCategory);
+    });
+  }
 
   // Refresh Leaderboard on Tab Click
   const leaderboardTab = document.querySelector('.tab[data-tab="leaderboard"]');
   if (leaderboardTab) {
     leaderboardTab.addEventListener('click', () => {
       const user = auth.currentUser;
-      checkKnowledgeLevel(user);
+      checkKnowledgeLevels(user);
     });
   }
 });
