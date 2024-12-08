@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // "Submit New Paper" Button (Admin Only)
   if (submitNewPaperBtn) {
     submitNewPaperBtn.addEventListener('click', () => {
-      window.location.href = 'input_data.html'; // Ensure this page exists
+      window.location.href = 'input_data.html';
     });
   }
 
@@ -220,6 +220,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const targetContent = document.getElementById(target);
       if (targetContent) {
         targetContent.style.display = 'block';
+      }
+      // Handle the visibility of the global categories dropdown
+      if (target === 'leaderboard') {
+        categoriesDropdown.style.display = 'none';
+      } else {
+        categoriesDropdown.style.display = 'inline-block'; // Adjust as per your design
       }
 
       // Fetch and display content based on active tab and selected category

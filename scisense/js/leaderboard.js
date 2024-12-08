@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (users.length === 0) {
           leaderboardTableBody.innerHTML = `
             <tr>
-              <td colspan="4">No users match the selected category.</td>
+              <td colspan="4">Please select a category</td>
             </tr>
           `;
         }
