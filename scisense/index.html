@@ -61,81 +61,72 @@
 
   </section>
 
-  <!-- Tabs and Categories -->
-  <div class="tabs">
-    <button class="tab active" data-tab="trending">Trending</button>
-    <button class="tab" data-tab="most-discussed">Most Discussed</button>
-    <button class="tab" data-tab="leaderboard">Leaderboard</button> <!-- Leaderboard Tab -->
-    
-     
-     <select id="categories-dropdown">
-     	<option value="hot">Categories </option>
-	    <option value="nature">Nature</option>
-	    <option value="health">Health</option>
-	    <option value="tech">Tech</option>
-	    <option value="physics">Physics</option>
-	    <option value="space">Space</option>
-	    <option value="environment">Environment</option>
-	    <option value="society">Society</option>
-    <!-- 
-    <select id="categories-dropdown">
-      <option value="hot">Categories • Hot</option>
-      <option value="cs.AI">cs.AI</option>
-      <option value="cs.LG">cs.LG</option>
-      <option value="math.AG">math.AG</option>
-      Add more options as needed -->
+<!-- Tabs and Categories -->
+<div class="tabs">
+  <button class="tab active" data-tab="trending">Trending</button>
+  <button class="tab" data-tab="most-discussed">Most Discussed</button>
+  <button class="tab" data-tab="leaderboard">Leaderboard</button> <!-- Leaderboard Tab -->
+  
+  <select id="categories-dropdown">
+    <option value="all">Categories </option>
+    <option value="nature">Nature</option>
+    <option value="health">Health</option>
+    <option value="tech">Tech</option>
+    <option value="physics">Physics</option>
+    <option value="space">Space</option>
+    <option value="environment">Environment</option>
+    <option value="society">Society</option>
+  </select>
+</div>
+
+<!-- Trending Content -->
+<div class="tab-content active" id="trending">
+  <div id="content-list">
+    <p id="loading-message">Loading papers...</p>
+    <!-- Trending papers will be populated here -->
+  </div>
+</div>
+
+<!-- Most Discussed Content -->
+<div class="tab-content" id="most-discussed" style="display: none;">
+  <div id="content-list-discussed">
+    <p id="loading-message-discussed">Loading papers...</p>
+    <!-- Most Discussed papers will be populated here -->
+  </div>
+</div>
+
+<!-- Leaderboard Content -->
+<div class="tab-content" id="leaderboard" style="display: none;">
+  <br>
+  <!-- Category Selection Dropdown -->
+  <div class="leaderboard-category-selector">
+    <label for="leaderboard-category">Select Category:</label>
+    <select id="leaderboard-category">
+      <option value="all">All Categories</option> <!-- Added for consistency -->
+      <option value="nature">Nature</option>
+      <option value="health">Health</option>
+      <option value="tech">Tech</option>
+      <option value="physics">Physics</option>
+      <option value="space">Space</option>
+      <option value="environment">Environment</option>
+      <option value="society">Society</option>
+      <!-- Add more options as needed -->
     </select>
   </div>
-
-
-  <!-- Trending Content -->
-  <div class="tab-content active" id="trending">
-    <div id="content-list">
-      <p id="loading-message">Loading papers...</p>
-      <!-- Trending papers will be populated here -->
-    </div>
-  </div>
-
-  <!-- Most Discussed Content -->
-  <div class="tab-content" id="most-discussed" style="display: none;">
-    <div id="content-list-discussed">
-      <p id="loading-message-discussed">Loading papers...</p>
-      <!-- Most Discussed papers will be populated here -->
-    </div>
-  </div>
-
-  <!-- Leaderboard Content -->
-  <div class="tab-content" id="leaderboard" style="display: none;">
-    <!-- <h2>Leaderboard</h2> -->
-    <br>
-      <!-- Category Selection Dropdown -->
-    <div class="leaderboard-category-selector">
-	    <label for="leaderboard-category">Select Category:</label>
-	    <select id="leaderboard-category">
-		      <option value="nature">Nature</option>
-		      <option value="health">Health</option>
-		      <option value="tech">Tech</option>
-		      <option value="physics">Physics</option>
-		      <option value="space">Space</option>
-		      <option value="environment">Environment</option>
-		      <option value="society">Society</option>
-	      <!-- Add more options as needed -->
-	    </select>
-    </div>
-    <table id="leaderboard-table">
-      <thead>
-        <tr>
-          <th>Rank</th>
-          <th>User</th>
-          <th>Knowledge Level</th>
-          <th>Points Gained</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Leaderboard entries will be populated here -->
-      </tbody>
-    </table>
-  </div>
+  <table id="leaderboard-table">
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>User</th>
+        <th>Knowledge Level</th>
+        <th>Points Gained</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Leaderboard entries will be populated here -->
+    </tbody>
+  </table>
+</div>
 
 
 	<!-- Add Discovery Modal -->

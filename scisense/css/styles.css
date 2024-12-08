@@ -1093,7 +1093,9 @@ body {
 }
 
 
-/* Modal Styles */
+/* scisense/css/styles.css */
+
+/* Modal Background */
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
@@ -1104,8 +1106,15 @@ body {
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
   background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
+  transition: opacity 0.3s ease;
 }
 
+/* Show Modal when 'active' class is added */
+.modal.active {
+  display: block;
+}
+
+/* Modal Content */
 .modal-content {
   background-color: #fefefe; /* White background */
   margin: 10% auto; /* 10% from the top and centered */
@@ -1115,6 +1124,7 @@ body {
   max-width: 500px; /* Max width */
   border-radius: 8px;
   position: relative;
+  transition: transform 0.3s ease;
 }
 
 /* Close Button */
@@ -1128,8 +1138,9 @@ body {
 
 .close-modal:hover,
 .close-modal:focus {
-  color: #000;
+  color: black;
   text-decoration: none;
+  cursor: pointer;
 }
 
 /* Form Styles */

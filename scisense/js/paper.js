@@ -47,94 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const paperIdInput = document.getElementById('paper-id'); // Ensure this exists or remove if not needed
 
 
-  // Function to get Paper ID from URL
-  const getPaperIdFromURL = () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('id');
-  };
-
-  // Function to load paper details from Firestore
-  function loadPaperDetails() {
-    const paperId = getPaperIdFromURL();
-    if (!paperId) {
-      paperTitle.textContent = 'Invalid Paper ID.';
-      paperInfo.textContent = '';
-      paperAbstract.textContent = '';
-      newsSummaryText.textContent = '';
-      tweetsList.innerHTML = '';
-      if (feedbackForm) feedbackForm.style.display = 'none';
-      return;
-    }
-
-    // Fetch the paper document from Firestore
-    db.collection('papers').doc(paperId).get()
-      .then((doc) => {
-        if (doc.exists) {
-          const paper = doc.data();
-
-          // Populate Paper Details
-          paperTitle.textContent = paper.title ? paper.title : 'Untitled Paper';
-          
-          // Handle the 'date' field as a string
-          let submissionDate = 'N/A';
-          if (paper.date && typeof paper.date === 'string') {
-            // Optional: Format the date string if it's in a recognizable format
-            const dateObj = new Date(paper.date);
-            if (!isNaN(dateObj)) {
-              submissionDate = dateObj.toLocaleDateString();
-            } else {
-              // If the date string is not in a standard format, display it as is
-              submissionDate = paper.date;
-            }
-          }
-          const authors = paper.authors ? paper.authors : 'Unknown Authors';
-          paperInfo.textContent = `${authors} • ${submissionDate}`;
-
-          // Populate Abstract
-          paperAbstract.textContent = paper.abstract ? paper.abstract : 'No abstract available.';
-
-          // Populate News Summary
-          newsSummaryText.textContent = paper.news ? paper.news : 'No news summary available.';
-
-          // Populate Author Tweets
-          tweetsList.innerHTML = ''; // Clear existing tweets
-          if (paper.tweets && Array.isArray(paper.tweets) && paper.tweets.length > 0) {
-            paper.tweets.forEach(tweet => {
-              const li = document.createElement('li');
-              li.textContent = tweet;
-              tweetsList.appendChild(li);
-            });
-          } else {
-            tweetsList.innerHTML = '<li>No tweets available.</li>';
-          }
-
-          // If you have a hidden input for paperId, set its value
-          if (paperIdInput) {
-            paperIdInput.value = paperId;
-          }
-        } else {
-          paperTitle.textContent = 'Paper Not Found.';
-          paperInfo.textContent = '';
-          paperAbstract.textContent = '';
-          newsSummaryText.textContent = '';
-          tweetsList.innerHTML = '';
-          if (feedbackForm) feedbackForm.style.display = 'none';
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching paper:', error);
-        paperTitle.textContent = 'Error Loading Paper.';
-        paperInfo.textContent = '';
-        paperAbstract.textContent = '';
-        newsSummaryText.textContent = '';
-        tweetsList.innerHTML = '';
-        if (feedbackForm) feedbackForm.style.display = 'none';
-      });
-  }
-
-  // Call the function to load paper details
-  loadPaperDetails();
-
     // Function to open a modal
   const openModal = (modal) => {
     modal.classList.add('active');
@@ -403,6 +315,117 @@ document.addEventListener('DOMContentLoaded', () => {
       window.location.href = 'input_data.html';
     });
   }
+
+    // Tab Functionality
+  const tabs = document.querySelectorAll('.tab');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const targetTab = tab.getAttribute('data-tab');
+
+      // Remove active class from all tabs
+      tabs.forEach(t => t.classList.remove('active'));
+      
+      // Hide all tab contents
+      tabContents.forEach(content => content.style.display = 'none');
+      
+      // Add active class to the clicked tab
+      tab.classList.add('active');
+      
+      // Show the corresponding tab content
+      const activeContent = document.getElementById(targetTab);
+      if (activeContent) {
+        activeContent.style.display = 'block';
+        activeContent.classList.add('active');
+      }
+    });
+  });
+
+  // Function to get Paper ID from URL
+  const getPaperIdFromURL = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('id');
+  };
+
+  // Function to load paper details from Firestore
+  function loadPaperDetails() {
+    const paperId = getPaperIdFromURL();
+    if (!paperId) {
+      paperTitle.textContent = 'Invalid Paper ID.';
+      paperInfo.textContent = '';
+      document.getElementById('abstract').innerHTML = 'N/A';
+      document.getElementById('news-summary-text').textContent = 'N/A';
+      tweetsList.innerHTML = '<li>N/A</li>';
+      return;
+    }
+
+    // Fetch the paper document from Firestore
+    db.collection('papers').doc(paperId).get()
+      .then((doc) => {
+        if (doc.exists) {
+          const paper = doc.data();
+
+          // Populate Paper Details
+          paperTitle.textContent = paper.title ? paper.title : 'Untitled Paper';
+          
+          // Handle the 'date' field as a string
+          let submissionDate = 'N/A';
+          if (paper.date && typeof paper.date === 'string') {
+            const dateObj = new Date(paper.date);
+            if (!isNaN(dateObj)) {
+              submissionDate = dateObj.toLocaleDateString();
+            } else {
+              submissionDate = paper.date;
+            }
+          }
+          const authors = paper.authors ? paper.authors : 'Unknown Authors';
+          paperInfo.textContent = `${authors} • ${submissionDate}`;
+
+          // Populate Abstract
+          const abstractContent = paper.abstract && paper.abstract !== '-' ? paper.abstract : 'N/A';
+          document.getElementById('paper-abstract').textContent = abstractContent;
+
+          // Populate News Summary
+          const newsContent = paper.news && paper.news !== '-' ? paper.news : 'N/A';
+          document.getElementById('news-summary-text').textContent = newsContent;
+
+          // Populate Author Tweets
+          tweetsList.innerHTML = ''; // Clear existing tweets
+          if (paper.tweets && Array.isArray(paper.tweets) && paper.tweets.length > 0) {
+            paper.tweets.forEach(tweet => {
+              const li = document.createElement('li');
+              li.textContent = tweet && tweet !== '-' ? tweet : 'N/A';
+              tweetsList.appendChild(li);
+            });
+          } else {
+            tweetsList.innerHTML = '<li>N/A</li>';
+          }
+
+          // If you have a hidden input for paperId, set its value
+          if (paperIdInput) {
+            paperIdInput.value = paperId;
+          }
+        } else {
+          paperTitle.textContent = 'Paper Not Found.';
+          paperInfo.textContent = '';
+          document.getElementById('abstract').textContent = 'N/A';
+          document.getElementById('news-summary-text').textContent = 'N/A';
+          tweetsList.innerHTML = '<li>N/A</li>';
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching paper:', error);
+        paperTitle.textContent = 'Error Loading Paper.';
+        paperInfo.textContent = '';
+        document.getElementById('abstract').textContent = 'N/A';
+        document.getElementById('news-summary-text').textContent = 'N/A';
+        tweetsList.innerHTML = '<li>N/A</li>';
+      });
+  }
+
+  // Call the function to load paper details
+  loadPaperDetails();
 
 
 

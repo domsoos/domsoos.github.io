@@ -1,7 +1,9 @@
 // scisense/js/script.js
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Firebase configuration
+  // -----------------------------
+  // 1. Firebase Configuration
+  // -----------------------------
   const firebaseConfig = {
     apiKey: "AIzaSyCt4qYFZ2asBo7n8oiq32wDNkT0Q-j_rmc",
     authDomain: "scisense-3046c.firebaseapp.com",
@@ -10,11 +12,16 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
   window.auth = firebase.auth();
   window.db = firebase.firestore();
 
-  // DOM Elements
+  // -----------------------------
+  // 2. DOM Elements
+  // -----------------------------
+  // Authentication Elements
   const signInButton = document.getElementById('sign-in-button');
   const signInModal = document.getElementById('sign-in-modal');
   const googleSignInButton = document.getElementById('google-sign-in');
@@ -29,21 +36,63 @@ document.addEventListener('DOMContentLoaded', () => {
   const signInLinkInSignUp = document.getElementById('sign-in-link');
   const createAccountButton = document.getElementById('create-account-button');
 
-  const submitNewPaperBtn = document.getElementById('submit-paper-btn'); // Correct ID
-  const addDiscoveryBtn = document.getElementById('add-discovery-btn'); // Correct ID
+  // Admin and User Action Buttons
+  const submitNewPaperBtn = document.getElementById('submit-paper-btn');
+  const addDiscoveryBtn = document.getElementById('add-discovery-btn');
 
-
-  // References to Modal elements
+  // Discovery Modal Elements
   const discoveryModal = document.getElementById('discovery-modal');
   const closeModalSpan = discoveryModal.querySelector('.close-modal');
   const discoveryForm = document.getElementById('discovery-form');
   const discoveryLinkInput = document.getElementById('discovery-link');
 
-  // Handle Authentication State and UI Updates
+  // Tabs and Categories
+  const tabs = document.querySelectorAll('.tab');
+  const tabContents = document.querySelectorAll('.tab-content');
+  const categoriesDropdown = document.getElementById('categories-dropdown');
+
+  // Leaderboard Elements (Handled Separately in leaderboard.js)
+  // const leaderboardCategorySelect = document.getElementById('leaderboard-category'); // Not needed here
+
+  // -----------------------------
+  // 3. Modal Handling Functions
+  // -----------------------------
+  // Function to open a modal by adding 'active' class
+  const openModal = (modal) => {
+    if (modal) {
+      modal.classList.add('active');
+    }
+  };
+
+  // Function to close a modal by removing 'active' class
+  const closeModalFn = (modal) => {
+    if (modal) {
+      modal.classList.remove('active');
+    }
+  };
+
+  // Event Listeners for Close Buttons
+  const closeButtons = document.querySelectorAll('.close-modal');
+  closeButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const modal = button.closest('.modal');
+      closeModalFn(modal);
+    });
+  });
+
+  // Close modals when clicking outside the modal content
+  window.addEventListener('click', (event) => {
+    if (event.target.classList.contains('modal')) {
+      closeModalFn(event.target);
+    }
+  });
+
+  // -----------------------------
+  // 4. Authentication State Handling
+  // -----------------------------
   auth.onAuthStateChanged((user) => {
     if (user) {
       // User is signed in
-      // Fetch user's data from Firestore
       db.collection('users').doc(user.uid).get()
         .then((doc) => {
           if (doc.exists) {
@@ -51,93 +100,58 @@ document.addEventListener('DOMContentLoaded', () => {
             signInButton.textContent = `Signed in as ${userData.name}`;
 
             if (userData.isAdmin) {
-              // Show "Submit New Paper" button for admins
-              if (submitNewPaperBtn) {
-                submitNewPaperBtn.style.display = 'inline-block';
-              }
-              // Show "Add New Scientific Discovery" button for admins
-              if (addDiscoveryBtn) {
-                addDiscoveryBtn.style.display = 'inline-block';
-              }
+              // Show "Submit New Paper" and "Add Discovery" buttons for admins
+              if (submitNewPaperBtn) submitNewPaperBtn.style.display = 'inline-block';
+              if (addDiscoveryBtn) addDiscoveryBtn.style.display = 'inline-block';
             } else {
-              // Show "Add New Scientific Discovery" button for regular users
-              if (addDiscoveryBtn) {
-                addDiscoveryBtn.style.display = 'inline-block';
-              }
-              // Hide "Submit New Paper" button for regular users
-              if (submitNewPaperBtn) {
-                submitNewPaperBtn.style.display = 'none';
-              }
+              // Show only "Add Discovery" button for regular users
+              if (addDiscoveryBtn) addDiscoveryBtn.style.display = 'inline-block';
+              if (submitNewPaperBtn) submitNewPaperBtn.style.display = 'none';
             }
           } else {
             // User document does not exist
             signInButton.textContent = `Signed in as ${user.email}`;
             // Hide both buttons
-            if (submitNewPaperBtn) {
-              submitNewPaperBtn.style.display = 'none';
-            }
-            if (addDiscoveryBtn) {
-              addDiscoveryBtn.style.display = 'none';
-            }
+            if (submitNewPaperBtn) submitNewPaperBtn.style.display = 'none';
+            if (addDiscoveryBtn) addDiscoveryBtn.style.display = 'none';
           }
         })
         .catch((error) => {
           console.error('Error fetching user data:', error);
           signInButton.textContent = `Signed in as ${user.email}`;
           // Hide both buttons in case of error
-          if (submitNewPaperBtn) {
-            submitNewPaperBtn.style.display = 'none';
-          }
-          if (addDiscoveryBtn) {
-            addDiscoveryBtn.style.display = 'none';
-          }
+          if (submitNewPaperBtn) submitNewPaperBtn.style.display = 'none';
+          if (addDiscoveryBtn) addDiscoveryBtn.style.display = 'none';
         });
     } else {
       // User is signed out
       signInButton.textContent = 'Sign In';
       // Hide both buttons
-      if (submitNewPaperBtn) {
-        submitNewPaperBtn.style.display = 'none';
-      }
-      if (addDiscoveryBtn) {
-        addDiscoveryBtn.style.display = 'none';
-      }
+      if (submitNewPaperBtn) submitNewPaperBtn.style.display = 'none';
+      if (addDiscoveryBtn) addDiscoveryBtn.style.display = 'none';
     }
   });
 
-  // Event Listener for "Submit New Paper" button (Admin Functionality)
+  // -----------------------------
+  // 5. Event Listeners for Action Buttons
+  // -----------------------------
+  // "Submit New Paper" Button (Admin Only)
   if (submitNewPaperBtn) {
     submitNewPaperBtn.addEventListener('click', () => {
-      // Redirect to the paper submission page
       window.location.href = 'input_data.html'; // Ensure this page exists
     });
   }
 
-  // Event Listener for "Add New Scientific Discovery" button (Regular and Admin Users)
+  // "Add New Scientific Discovery" Button (Admin and Regular Users)
   if (addDiscoveryBtn) {
     addDiscoveryBtn.addEventListener('click', () => {
-      // Open the discovery modal
-      discoveryModal.style.display = 'block';
+      openModal(discoveryModal);
     });
   }
 
-  // Close the modal when the user clicks on <span> (x)
-  if (closeModalSpan) {
-    closeModalSpan.addEventListener('click', () => {
-      discoveryModal.style.display = 'none';
-      discoveryForm.reset(); // Reset form fields
-    });
-  }
-
-  // Close the modal when the user clicks outside the modal content
-  window.addEventListener('click', (event) => {
-    if (event.target == discoveryModal) {
-      discoveryModal.style.display = 'none';
-      discoveryForm.reset(); // Reset form fields
-    }
-  });
-
-  // Handle Discovery Form Submission
+  // -----------------------------
+  // 6. Handle Discovery Modal Submission
+  // -----------------------------
   if (discoveryForm) {
     discoveryForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -145,34 +159,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (discoveryLink) {
         // Validate the URL
-        const urlPattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-          '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-          '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-          '(\\:\\d+)?'+ // port
-          '(\\/[-a-z\\d%@_.~+&:]*)*'+ // path
-          '(\\?[;&a-z\\d%@_.,~+&:=-]*)?'+ // query string
-          '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+        const urlPattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+          '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+          '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+          '(\\:\\d+)?' + // port
+          '(\\/[-a-z\\d%@_.~+&:]*)*' + // path
+          '(\\?[;&a-z\\d%@_.,~+&:=-]*)?' + // query string
+          '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
 
         if (urlPattern.test(discoveryLink)) {
           // Open the discovery link in a new tab
           window.open(discoveryLink, '_blank');
 
           // Optionally, store the discovery in Firestore
-          // This allows you to track discoveries added by users
           db.collection('discoveries').add({
             userId: auth.currentUser.uid,
             link: discoveryLink,
             addedAt: firebase.firestore.FieldValue.serverTimestamp()
           })
-          .then(() => {
-            alert('Scientific discovery added successfully!');
-            discoveryModal.style.display = 'none';
-            discoveryForm.reset(); // Reset form fields
-          })
-          .catch((error) => {
-            console.error('Error adding discovery:', error);
-            alert('Failed to add discovery. Please try again.');
-          });
+            .then(() => {
+              alert('Scientific discovery added successfully!');
+              closeModalFn(discoveryModal);
+              discoveryForm.reset(); // Reset form fields
+            })
+            .catch((error) => {
+              console.error('Error adding discovery:', error);
+              alert('Failed to add discovery. Please try again.');
+            });
         } else {
           alert('Please enter a valid URL.');
         }
@@ -182,323 +195,175 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-
-  // Handle Create Account Button (Open Sign-Up Modal)
-  if (createAccountButton) {
-    createAccountButton.addEventListener('click', () => {
-      openModal(signUpModal);
-    });
+  // -----------------------------
+  // 7. Tab Switching Functionality
+  // -----------------------------
+  // Function to get the currently active tab
+  function getActiveTab() {
+    return document.querySelector('.tab.active').getAttribute('data-tab');
   }
 
-
-
-
-  // Tab Switching Functionality
-  const tabs = document.querySelectorAll('.tab');
-  const tabContents = document.querySelectorAll('.tab-content');
-
+  // Event Listeners for Tab Buttons
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
-      // Remove active class from all tabs
+      // Remove 'active' class from all tabs
       tabs.forEach(t => t.classList.remove('active'));
-      // Hide all tab contents
-      tabContents.forEach(content => content.style.display = 'none');
 
-      // Add active class to the clicked tab
+      // Add 'active' class to the clicked tab
       tab.classList.add('active');
 
-      // Show corresponding tab content
+      // Hide all tab-content divs
+      tabContents.forEach(content => content.style.display = 'none');
+
+      // Show the corresponding tab-content div
       const target = tab.getAttribute('data-tab');
-      document.getElementById(target).style.display = 'block';
+      const targetContent = document.getElementById(target);
+      if (targetContent) {
+        targetContent.style.display = 'block';
+      }
+
+      // Fetch and display content based on active tab and selected category
+      const selectedCategory = categoriesDropdown.value === 'all' ? 'all' : categoriesDropdown.value;
+
+      if (target === 'trending') {
+        displayPapers(selectedCategory);
+      } else if (target === 'most-discussed') {
+        displayMostDiscussed(selectedCategory);
+      }
+      // Leaderboard is handled separately in leaderboard.js
     });
   });
 
-  // Function to open a modal
-  const openModal = (modal) => {
-    modal.classList.add('active');
-  };
+  // -----------------------------
+  // 8. Category Dropdown Filtering
+  // -----------------------------
+  if (categoriesDropdown) {
+    categoriesDropdown.addEventListener('change', () => {
+      const selectedCategory = categoriesDropdown.value === 'all' ? 'all' : categoriesDropdown.value;
+      const activeTab = getActiveTab();
 
-  // Function to close a modal
-  const closeModalFn = (modal) => {
-    modal.classList.remove('active');
-  };
-
-  // Event Listeners for Close Buttons
-  const closeButtons = document.querySelectorAll('.close-modal');
-  closeButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      const modal = button.closest('.sign-in-container') ||
-                    button.closest('.sign-up-container') ||
-                    button.closest('.password-reset-container') ||
-                    button.closest('.kgain-panel');
-      closeModalFn(modal);
-    });
-  });
-
-  // Show Sign-In Modal
-  signInButton.addEventListener('click', () => {
-    if (signInButton.textContent === 'Sign In') {
-      openModal(signInModal);
-    } else {
-      // User is signed in; sign out
-      auth.signOut()
-        .then(() => {
-          console.log('User signed out.');
-        })
-        .catch((error) => {
-          console.error('Sign out error:', error);
-        });
-    }
-  });
-
-  // Show Sign-Up Modal
-  signUpLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    closeModalFn(signInModal);
-    openModal(signUpModal);
-  });
-
-  // Handle navigation from Sign-Up to Sign-In
-  if (signInLinkInSignUp) {
-    signInLinkInSignUp.addEventListener('click', (e) => {
-      e.preventDefault();
-      closeModalFn(signUpModal);
-      openModal(signInModal);
+      if (activeTab === 'trending') {
+        displayPapers(selectedCategory);
+      } else if (activeTab === 'most-discussed') {
+        displayMostDiscussed(selectedCategory);
+      }
+      // Leaderboard is handled separately
     });
   }
 
-  // Show Password Reset Modal
-  if (forgotPasswordLink) {
-    forgotPasswordLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      closeModalFn(signInModal);
-      openModal(passwordResetModal);
-    });
-  }
+  // -----------------------------
+  // 9. Functions to Display Papers
+  // -----------------------------
+  // Function to fetch and display Trending papers
+  function displayPapers(category = 'all') {
+    console.log('Fetching Trending papers from Firestore...');
+    const contentList = document.getElementById('content-list');
+    const loadingMessage = document.getElementById('loading-message');
 
-  // Handle navigation from Password Reset to Sign-In
-  if (passwordResetSignInLink) {
-    passwordResetSignInLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      closeModalFn(passwordResetModal);
-      openModal(signInModal);
-    });
-  }
-
-  // Close Modals when clicking outside the box
-  window.addEventListener('click', (e) => {
-    if (e.target.classList.contains('sign-in-container')) {
-      closeModalFn(signInModal);
-    }
-    if (e.target.classList.contains('sign-up-container')) {
-      closeModalFn(signUpModal);
-    }
-    if (e.target.classList.contains('password-reset-container')) {
-      closeModalFn(passwordResetModal);
-    }
-    if (e.target.classList.contains('kgain-panel')) {
-      closeModalFn(kgainPanel);
-    }
-  });
-
-  // Google Sign-In
-  googleSignInButton.addEventListener('click', () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider)
-      .then((result) => {
-        console.log('Google sign-in successful:', result.user);
-        closeModalFn(signInModal);
-      })
-      .catch((error) => {
-        console.error('Google sign-in error:', error);
-        alert('Google sign-in failed. Please try again.');
-      });
-  });
-
-  // Email/Password Sign-In
-  emailSignInForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
-
-    auth.signInWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        console.log('Email sign-in successful:', userCredential.user);
-        closeModalFn(signInModal);
-      })
-      .catch((error) => {
-        console.error('Email sign-in error:', error);
-        if (error.code === 'auth/user-not-found') {
-          alert('No account found with this email.');
-        } else if (error.code === 'auth/wrong-password') {
-          alert('Incorrect password. Please try again.');
-        } else {
-          alert('Sign-in failed. Please try again.');
-        }
-      });
-  });
-
-  // Handle Sign-Up Form Submission
-  signUpForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const name = document.getElementById('sign-up-name').value.trim();
-    const email = document.getElementById('sign-up-email').value.trim();
-    const password = document.getElementById('sign-up-password').value;
-    const confirmPassword = document.getElementById('sign-up-confirm-password').value;
-
-    // Demographic and Knowledge Level fields
-    const age = document.getElementById('age').value || "Not provided";
-    const occupation = document.getElementById('occupation').value.trim() || "Not provided";
-    const knowledgeLevelInput = document.querySelector('input[name="knowledgeLevel"]:checked');
-    const knowledgeLevel = knowledgeLevelInput ? knowledgeLevelInput.value : null;
-
-    if (!knowledgeLevel) {
-      alert('Please select your level of knowledge.');
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      alert('Passwords do not match.');
-      return;
-    }
-
-    const CATEGORIES = ['nature', 'health', 'tech', 'physics', 'space', 'environment', 'society'];
-    
-    // Initialize knowledgeLevels and points
-    const knowledgeLevels = {};
-    const points = {};
-
-    CATEGORIES.forEach(category => {
-      knowledgeLevels[category] = 'N/A'; // Default knowledge level
-      points[category] = 0; // Initialize points to 0
-    });
-
-
-    auth.createUserWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        // Add user details to Firestore
-        return db.collection('users').doc(userCredential.user.uid).set({
-          name: name,
-          email: email,
-          age: age,
-          occupation: occupation,
-          isAdmin: false, // Initialize isAdmin to false
-          knowledgeLevels: knowledgeLevels,
-          points: points,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-      })
-      .then(() => {
-        console.log('User sign-up successful and data stored.');
-        closeModalFn(signUpModal);
-      })
-      .catch((error) => {
-        console.error('User sign-up error:', error);
-        if (error.code === 'auth/email-already-in-use') {
-          alert('This email is already linked to an account.');
-        } else if (error.code === 'auth/weak-password') {
-          alert('Password is too weak. Please choose a stronger password.');
-        } else {
-          alert('Sign-up failed. Please try again.');
-        }
-      });
-  });
-
-  // Handle Password Reset Form Submission
-  if (passwordResetForm) {
-    passwordResetForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const resetEmail = document.getElementById('reset-email').value.trim();
-
-      auth.sendPasswordResetEmail(resetEmail)
-        .then(() => {
-          console.log('Password reset email sent.');
-          alert('Password reset link has been sent to your email.');
-          closeModalFn(passwordResetModal);
-        })
-        .catch((error) => {
-          console.error('Error sending password reset email:', error);
-          if (error.code === 'auth/user-not-found') {
-            alert('No account found with this email.');
-          } else if (error.code === 'auth/invalid-email') {
-            alert('Invalid email address.');
-          } else {
-            alert('Error sending password reset email. Please try again.');
-          }
-        });
-    });
-  }
-
-
-  const contentList = document.getElementById('content-list');
-  const loadingMessage = document.getElementById('loading-message');
-
-  // Function to fetch and display papers
-  function displayPapers() {
-    console.log('Fetching papers from Firestore...');
-    const searchInput = document.getElementById('search-input');
-  
     db.collection('papers')
       .orderBy('submittedAt', 'desc') // Order papers by 'submittedAt' field, latest first
       .onSnapshot((snapshot) => {
         if (snapshot.empty) {
           if (loadingMessage) {
             loadingMessage.textContent = 'No papers available at the moment.';
+            loadingMessage.style.display = 'block';
+          }
+          if (contentList) {
+            contentList.innerHTML = '';
+            contentList.appendChild(loadingMessage);
           }
           return;
         }
-  
+
         if (loadingMessage) {
           loadingMessage.style.display = 'none';
         }
-  
-        // Event listener for search input
-        searchInput.addEventListener('input', () => {
-          const query = searchInput.value.toLowerCase();
-          updatePaperList(snapshot.docs, query);
-        });
-  
+
         // Initial rendering of the papers
-        updatePaperList(snapshot.docs, '');
+        updatePaperList(snapshot.docs, '', category, contentList, 'trending');
       }, (error) => {
-        console.error('Error fetching papers:', error);
-        contentList.innerHTML = '<p>Error loading papers.</p>';
+        console.error('Error fetching Trending papers:', error);
+        if (contentList) {
+          contentList.innerHTML = '<p>Error loading papers.</p>';
+        }
       });
   }
 
-  function updatePaperList(docs, query) {
+  // Function to fetch and display Most Discussed papers
+  function displayMostDiscussed(category = 'all') {
+    console.log('Fetching Most Discussed papers from Firestore...');
+    const contentList = document.getElementById('content-list-discussed');
+    const loadingMessage = document.getElementById('loading-message-discussed');
+
+    db.collection('papers')
+      .orderBy('commentsCount', 'desc') // Order papers by 'commentsCount', most first
+      .onSnapshot((snapshot) => {
+        if (snapshot.empty) {
+          if (loadingMessage) {
+            loadingMessage.textContent = 'No papers available at the moment.';
+            loadingMessage.style.display = 'block';
+          }
+          if (contentList) {
+            contentList.innerHTML = '';
+            contentList.appendChild(loadingMessage);
+          }
+          return;
+        }
+
+        if (loadingMessage) {
+          loadingMessage.style.display = 'none';
+        }
+
+        // Initial rendering of the papers
+        updatePaperList(snapshot.docs, '', category, contentList, 'most-discussed');
+      }, (error) => {
+        console.error('Error fetching Most Discussed papers:', error);
+        if (contentList) {
+          contentList.innerHTML = '<p>Error loading papers.</p>';
+        }
+      });
+  }
+
+  // Function to update paper list based on query and category
+  function updatePaperList(docs, query, category, contentList, tabType) {
+    if (!contentList) return;
     contentList.innerHTML = ''; // Clear the current list
-  
-    // Filter the papers based on the query
+
+    // Filter the papers based on the query and category
     const filteredDocs = docs.filter((doc) => {
       const paper = doc.data();
       const title = (paper.title || '').toLowerCase();
       const authors = (paper.authors || '').toLowerCase();
       const tags = (paper.tags || []).map(tag => tag.toLowerCase()).join(', ');
-  
+      const paperCategory = (paper.category || '').toLowerCase(); // Assuming 'category' field exists
+
       // Check if the query matches the title, authors, or tags
-      return (
+      const matchesQuery =
         title.includes(query) ||
         authors.includes(query) ||
-        tags.includes(query)
-      );
+        tags.includes(query);
+
+      // Check if the paper matches the selected category
+      const matchesCategory = (category === 'all') || (paperCategory === category.toLowerCase());
+
+      return matchesQuery && matchesCategory;
     });
-  
+
     // Display filtered papers
     filteredDocs.forEach((doc, index) => {
       const paper = doc.data();
       const paperId = doc.id;
-  
+
       // Create paper-item div
       const paperItem = document.createElement('div');
       paperItem.classList.add('paper-item');
-  
+
       // Number
       const numberSpan = document.createElement('span');
       numberSpan.classList.add('number');
       numberSpan.textContent = `${index + 1}.`;
       paperItem.appendChild(numberSpan);
-  
+
       // Title with link
       const titleH3 = document.createElement('h3');
       titleH3.classList.add('paper-title');
@@ -507,12 +372,12 @@ document.addEventListener('DOMContentLoaded', () => {
       titleLink.textContent = paper.title ? paper.title : 'Untitled Paper';
       titleH3.appendChild(titleLink);
       paperItem.appendChild(titleH3);
-  
+
       // Paper Info
       const infoP = document.createElement('p');
       infoP.classList.add('paper-info');
-      const authors = paper.authors ? paper.authors : 'Unknown Authors';
-  
+      const authorsText = paper.authors ? paper.authors : 'Unknown Authors';
+
       // Handling the 'date' field
       let formattedDate = 'N/A';
       if (paper.date && paper.date.toDate) {
@@ -522,9 +387,9 @@ document.addEventListener('DOMContentLoaded', () => {
           console.error('Error formatting date:', error);
         }
       }
-      infoP.textContent = `${authors} • ${formattedDate}`;
+      infoP.textContent = `${authorsText} • ${formattedDate}`;
       paperItem.appendChild(infoP);
-  
+
       // Category Tag
       const categorySpan = document.createElement('span');
       categorySpan.classList.add('category-tag');
@@ -533,7 +398,7 @@ document.addEventListener('DOMContentLoaded', () => {
           ? paper.tags.join(', ')
           : 'No Category';
       paperItem.appendChild(categorySpan);
-  
+
       // Engagement (Comments Count)
       const engagementSpan = document.createElement('span');
       engagementSpan.classList.add('engagement');
@@ -541,17 +406,28 @@ document.addEventListener('DOMContentLoaded', () => {
         typeof paper.commentsCount === 'number' ? paper.commentsCount : 0;
       engagementSpan.textContent = `${commentsCount} Comments`;
       paperItem.appendChild(engagementSpan);
-  
+
       // Append the paper-item to content-list
       contentList.appendChild(paperItem);
     });
-  
+
     // If no results are found
     if (filteredDocs.length === 0) {
-      contentList.innerHTML = '<p>No papers match your search.</p>';
+      contentList.innerHTML = '<p>No papers match your search and selected category.</p>';
     }
   }
-  
-  displayPapers();
 
+  // -----------------------------
+  // 10. Initialize Default Tab and Content
+  // -----------------------------
+  // On page load, ensure the active tab's content is displayed
+  const initialActiveTab = getActiveTab();
+  const initialCategory = categoriesDropdown.value === 'all' ? 'all' : categoriesDropdown.value;
+
+  if (initialActiveTab === 'trending') {
+    displayPapers(initialCategory);
+  } else if (initialActiveTab === 'most-discussed') {
+    displayMostDiscussed(initialCategory);
+  }
+  // Leaderboard is handled separately in leaderboard.js
 });

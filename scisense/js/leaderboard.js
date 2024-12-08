@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
       KNOWLEDGE_LEVELS.forEach(level => {
         formFields += `<option value="${level}">${level}</option>`;
       });
-      formFields += `</select>`;
+      formFields += `</select><br><br>`;
     });
 
     modal.innerHTML = `
@@ -117,45 +117,52 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Function to Fetch and Display Leaderboard based on Category
   function fetchAndDisplayLeaderboard(category) {
-    // Clear existing leaderboard entries
-    leaderboardTableBody.innerHTML = '';
+    // Clear existing leaderboard entries and show loading message
+    leaderboardTableBody.innerHTML = `
+      <tr>
+        <td colspan="4">Loading leaderboard...</td>
+      </tr>
+    `;
 
-    // Fetch all users
-    db.collection('users').get()
+    // Define the Firestore query
+    let query = db.collection('users');
+
+    if (category !== 'all') {
+      query = query.where(`knowledgeLevels.${category}`, '!=', 'N/A');
+    }
+
+    query.get()
       .then((snapshot) => {
-        const usersData = [];
-        snapshot.forEach((doc) => {
+        if (snapshot.empty) {
+          leaderboardTableBody.innerHTML = `
+            <tr>
+              <td colspan="4">No users available for the selected category.</td>
+            </tr>
+          `;
+          return;
+        }
+
+        // Process and sort users based on 'points' in the selected category
+        const users = [];
+        snapshot.forEach(doc => {
           const user = doc.data();
-          // Include all users, even without knowledgeLevel
-          usersData.push({
-            name: user.name || 'Anonymous',
-            knowledgeLevel: (user.knowledgeLevels && user.knowledgeLevels[category]) ? user.knowledgeLevels[category] : 'N/A',
-            points: (user.points && typeof user.points[category] === 'number') ? user.points[category] : 0
-          });
-        });
-
-        // Define the order of knowledge levels
-        const knowledgeLevelsOrder = {
-          'Novice': 1,
-          'Junior Researcher': 2,
-          'Expert': 3,
-          'N/A': 0
-        };
-
-        // Sort users based on knowledge level and points
-        usersData.sort((a, b) => {
-          const levelA = knowledgeLevelsOrder[a.knowledgeLevel] || 0;
-          const levelB = knowledgeLevelsOrder[b.knowledgeLevel] || 0;
-
-          if (levelA !== levelB) {
-            return levelB - levelA; // Higher knowledge level first
-          } else {
-            return b.points - a.points; // Then higher points
+          const points = user.points && user.points[category] ? user.points[category] : 0;
+          if (user.knowledgeLevels && user.knowledgeLevels[category] && user.knowledgeLevels[category] !== 'N/A') {
+            users.push({
+              name: user.name,
+              knowledgeLevel: user.knowledgeLevels[category],
+              points: points
+            });
           }
         });
 
-        // Populate the leaderboard table
-        usersData.forEach((user, index) => {
+        // Sort users by points descending
+        users.sort((a, b) => b.points - a.points);
+
+        // Populate leaderboard table
+        leaderboardTableBody.innerHTML = ''; // Clear existing entries
+
+        users.forEach((user, index) => {
           const row = document.createElement('tr');
           row.innerHTML = `
             <td>${index + 1}</td>
@@ -166,17 +173,17 @@ document.addEventListener('DOMContentLoaded', () => {
           leaderboardTableBody.appendChild(row);
         });
 
-        // Handle case when no users have data
-        if (usersData.length === 0) {
+        // If no users match the criteria
+        if (users.length === 0) {
           leaderboardTableBody.innerHTML = `
             <tr>
-              <td colspan="4">No users available for the leaderboard.</td>
+              <td colspan="4">No users match the selected category.</td>
             </tr>
           `;
         }
       })
       .catch((error) => {
-        console.error('Error fetching users for leaderboard:', error);
+        console.error('Error fetching leaderboard data:', error);
         leaderboardTableBody.innerHTML = `
           <tr>
             <td colspan="4">Error loading leaderboard.</td>
@@ -195,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let missingCategories = [];
 
             CATEGORIES.forEach(category => {
-              if (!userData.knowledgeLevels || !userData.knowledgeLevels[category]) {
+              if (!userData.knowledgeLevels || !userData.knowledgeLevels[category] || userData.knowledgeLevels[category] === 'N/A') {
                 missingCategories.push(category);
               }
             });

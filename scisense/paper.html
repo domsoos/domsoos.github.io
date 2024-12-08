@@ -26,35 +26,35 @@
     <button id="sign-in-button">Sign In</button>
   </header>
 
-  <!-- Submit New Paper Button -->
-<section class="submit-new-paper-button">
-  <div class="container">
-  	Sign in to submit a new paper
-  	<br>
-    <button id="submit-new-paper-btn">Submit New Paper</button>
-  </div>
-</section>
-
-
   <!-- Paper Details Section -->
   <section class="paper-details" id="paper-details">
     <div class="container">
       <h2 id="paper-title">Loading...</h2>
       <p class="paper-info" id="paper-info">Loading...</p>
-      <p class="paper-abstract" id="paper-abstract">Loading...</p>
-      <div id="news-summary">
-        <h3>Science News</h3>
+      
+      <!-- Tabs Navigation -->
+      <div class="tabs">
+        <button class="tab active" data-tab="abstract">Science Abstract</button>
+        <button class="tab" data-tab="news">Science News</button>
+        <button class="tab" data-tab="tweets">Author Tweets</button>
+      </div>
+      
+      <!-- Tabs Content -->
+      <div class="tab-content active" id="abstract">
+        <p id="paper-abstract">Loading...</p>
+      </div>
+      
+      <div class="tab-content" id="news" style="display: none;">
         <p id="news-summary-text">Loading...</p>
       </div>
-      <div id="author-tweets">
-        <h3>Author Tweets</h3>
+      
+      <div class="tab-content" id="tweets" style="display: none;">
         <ul id="tweets-list">
           <!-- Tweets will be populated here -->
         </ul>
       </div>
     </div>
   </section>
-
   <!-- KGain Arrow -->
   <div class="kgain-arrow" id="kgain-arrow">
      < <!-- &#10068;  Question Mark Icon -->
