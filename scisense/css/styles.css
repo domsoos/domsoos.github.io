@@ -237,6 +237,19 @@ body {
   align-items: center;
 }
 
+.modal-overlay {
+  position: fixed; /* Stay in place */
+  top: 0;
+  left: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+  display: flex; /* Enable Flexbox */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  z-index: 1000; /* Ensure it's on top of other elements */
+}
+
 .sign-in-box {
   background-color: white;
   padding: 40px;
@@ -246,6 +259,21 @@ body {
   text-align: center;
   width: 90%;
   max-width: 400px;
+    justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+}
+
+/* Close Button Styling */
+.sign-in-box .close-modal {
+  position: absolute; /* Position relative to the nearest positioned ancestor (.modal-overlay) */
+  top: 20px;
+  right: 20px;
+  left:20px;
+  /*background: none;
+  border: none;*/
+  max-width: 50px;
+  font-size: 24px;
+  cursor: pointer;
 }
 
 #google-sign-in, .sign-in-box button {
@@ -298,7 +326,7 @@ body {
 
 #toggle-feedback-btn:hover {
   background-color: #a30000;
-  transform: translateY(-5px); /* Slight upward movement on hover */
+   /*transform: translateY(-5px); Slight upward movement on hover */
 }
 
 /* Feedback Form Styles Using Transform */

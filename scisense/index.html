@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="css/styles.css">
   
   <!-- External JavaScript -->
+    <script src="js/auth.js" defer></script>
   <script src="js/script.js" defer></script>
   <script src="js/leaderboard.js" defer></script>
 
@@ -144,10 +145,11 @@
 	  </div>
 	</div>
 
-  <!-- Sign-In Modal -->
+  <!-- Sign-In Modal  -->
   <div class="sign-in-container" id="sign-in-modal">
+  	<div class="modal-overlay">
     <div class="sign-in-box">
-      <button class="close-modal">&times;</button>
+      <button class="close-modal">&times;</button><br><br><br>
       <button id="google-sign-in">Sign in with Google</button>
       <form id="email-sign-in-form">
         <input type="email" id="email" placeholder="Email Address" required />
@@ -157,7 +159,25 @@
       <a href="#" id="forgot-password">Forgot password?</a>
       <a href="#" id="sign-up-link">Sign up</a>
     </div>
+	</div>
   </div>
+
+  <!-- Sign-In Modal 
+<div id="sign-in-modal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <h2>Sign In</h2>
+    <button id="google-sign-in">Sign in with Google</button>
+    <form id="email-sign-in-form">
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit">Sign In</button>
+    </form>
+    <a href="#" id="sign-up-link">Create an Account</a>
+    <a href="#" id="forgot-password">Forgot Password?</a>
+    <a href="#" id="password-reset-sign-in-link">Back to Sign In</a>
+  </div>
+</div> -->
 
 <!-- Sign-Up Modal in paper.html -->
 <div class="sign-up-container" id="sign-up-modal">
@@ -195,26 +215,27 @@
         <input type="text" id="occupation" name="occupation" placeholder="e.g., Student, Researcher, Engineer" />
       </fieldset>
 
-      <!-- Level of Knowledge 
-      <fieldset>
-        <legend>Level of Knowledge <span class="tooltip-container"> 
-          <button type="button" class="tooltip-button" aria-label="More information about knowledge levels">?</button>
-          <div class="tooltip-content">
-            <p><strong>Novice:</strong> Non-domain experts who enjoy consuming science news.</p>
-            <p><strong>Intermediate:</strong> Junior researchers with some domain knowledge.</p>
-            <p><strong>Expert:</strong> Gurus or domain experts who have published research.</p>
-          </div>
-        </span></legend>
-        <label><input type="radio" name="knowledgeLevel" value="Novice" required /> Novice</label><br>
-        <label><input type="radio" name="knowledgeLevel" value="Intermediate" /> Intermediate</label><br>
-        <label><input type="radio" name="knowledgeLevel" value="Expert" /> Expert</label>
-      </fieldset>
-      -->
-
       <button type="submit">Sign Up</button>
     </form>
     <p>Already have an account? <a href="#" id="sign-in-link">Sign In</a></p>
   </div>
 </div>
+
+
+<!-- Toast Container 
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <strong class="me-auto">SciSense</strong>
+      <small>Just now</small>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body" id="toast-body"> -->
+      <!-- Toast message will be inserted here --> 
+      <!-- 
+    </div>
+  </div>
+</div> -->
+
 </body>
 </html>
