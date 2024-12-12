@@ -14,7 +14,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
+  padding: 20px 30px;
 }
 
 .logo {
@@ -30,14 +30,16 @@ body {
 
 #search-bar-container {
 	align-items: center;
-	margin-left: 50px;
+	/*margin-left: 50px;*/
 }
 
 .search-box {
   padding: 5px;
   border-radius: 4px;
-  border: none;
-  width: 500px;
+  border-bottom: 1px solid #8B0000;
+  /*border: 4px;*/
+  height: 30px;
+  width: 450px;
   max-width: 50%;
   align-items: center;
 }
@@ -53,9 +55,10 @@ body {
 
 /* Banner */
 .banner {
+  align-items: center;
   background-color: white;
   text-align: center;
-  padding: 40px 20px;
+  padding: 10px 5px;
 }
 
 .banner p {
@@ -79,7 +82,7 @@ body {
   display: flex;
   align-items: center;
   padding: 10px 20px;
-  background-color: white;
+  background-color: #8B0000;
   border-bottom: 1px solid #e0e0e0;
 }
 
