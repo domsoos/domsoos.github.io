@@ -27,6 +27,73 @@ document.addEventListener('DOMContentLoaded', () => {
   const prevButton = document.getElementById('prev-paper-button');
   const nextButton = document.getElementById('next-paper-button');
 
+  // Function to open a modal
+  const openModal = (modal) => {
+    modal.classList.add('active');
+  };
+
+  // Function to close a modal
+  const closeModalFn = (modal) => {
+    modal.classList.remove('active');
+  };
+
+  // Event Listeners for Close Buttons
+  const closeButtons = document.querySelectorAll('.close-modal');
+  closeButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const modal = button.closest('.sign-in-container') ||
+                    button.closest('.sign-up-container') ||
+                    button.closest('.kgain-panel');
+      closeModalFn(modal);
+    });
+  });
+
+    // Close Modals when clicking outside the box
+  window.addEventListener('click', (e) => {
+    if (e.target.classList.contains('kgain-panel')) {
+      closeModalFn(kgainPanel);
+    }
+  });
+
+    // KGain Panel Functionality
+  if (kgainArrow && kgainPanel && kgainCloseBtn) {
+    kgainArrow.addEventListener('click', () => {
+      kgainPanel.classList.add('active');
+    });
+
+    kgainCloseBtn.addEventListener('click', () => {
+      kgainPanel.classList.remove('active');
+    });
+  }
+
+    // Tab Functionality
+  const tabs = document.querySelectorAll('.tab');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const targetTab = tab.getAttribute('data-tab');
+
+      // Remove active class from all tabs
+      tabs.forEach(t => t.classList.remove('active'));
+      
+      // Hide all tab contents
+      tabContents.forEach(content => content.style.display = 'none');
+      
+      // Add active class to the clicked tab
+      tab.classList.add('active');
+      
+      // Show the corresponding tab content
+      const activeContent = document.getElementById(targetTab);
+      if (activeContent) {
+        activeContent.style.display = 'block';
+        activeContent.classList.add('active');
+      }
+    });
+  });
+
+
+
   // Function to get Paper ID from URL
   const getPaperIdFromURL = () => {
     const urlParams = new URLSearchParams(window.location.search);
