@@ -225,6 +225,29 @@ body {
 }
 
 
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin: 25px 0;
+}
+
+.navigation-buttons button {
+  background-color: #8B0000;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.navigation-buttons button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+
+
 /* Sign-In Modal */
 .sign-in-container {
   display: none; /* Hidden by default */

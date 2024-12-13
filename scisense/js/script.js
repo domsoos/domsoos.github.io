@@ -14,6 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const discoveryForm = document.getElementById('discovery-form');
   const discoveryLinkInput = document.getElementById('discovery-link');
 
+      // Admin and User Action Buttons
+  const submitNewPaperBtn = document.getElementById('submit-paper-btn');
+  const addDiscoveryBtn = document.getElementById('add-discovery-btn');
+
+
   // Tabs and Categories
   const tabs = document.querySelectorAll('.tab');
   const tabContents = document.querySelectorAll('.tab-content');
@@ -101,6 +106,22 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         alert('Discovery link cannot be empty.');
       }
+    });
+  }
+    // -----------------------------
+  // 5. Event Listeners for Action Buttons
+  // -----------------------------
+  // "Submit New Paper" Button (Admin Only)
+  if (submitNewPaperBtn) {
+    submitNewPaperBtn.addEventListener('click', () => {
+      window.location.href = 'input_data.html';
+    });
+  }
+
+  // "Add New Scientific Discovery" Button (Admin and Regular Users)
+  if (addDiscoveryBtn) {
+    addDiscoveryBtn.addEventListener('click', () => {
+      openModal(discoveryModal);
     });
   }
 

@@ -33,15 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const signInLinkInSignUp = document.getElementById('sign-in-link');
   const createAccountButton = document.getElementById('create-account-button');
 
-    // Admin and User Action Buttons
-  const submitNewPaperBtn = document.getElementById('submit-paper-btn');
-  const addDiscoveryBtn = document.getElementById('add-discovery-btn');
-
-    // Discovery Modal Elements
-  const discoveryModal = document.getElementById('discovery-modal');
-  const closeModalSpan = discoveryModal.querySelector('.close-modal');
-  const discoveryForm = document.getElementById('discovery-form');
-  const discoveryLinkInput = document.getElementById('discovery-link');
 
   // -----------------------------
   // 2. Helper Functions
@@ -316,20 +307,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // -----------------------------
-  // 5. Event Listeners for Action Buttons
-  // -----------------------------
-  // "Submit New Paper" Button (Admin Only)
-  if (submitNewPaperBtn) {
-    submitNewPaperBtn.addEventListener('click', () => {
-      window.location.href = 'input_data.html';
-    });
-  }
-
-  // "Add New Scientific Discovery" Button (Admin and Regular Users)
-  if (addDiscoveryBtn) {
-    addDiscoveryBtn.addEventListener('click', () => {
-      openModal(discoveryModal);
-    });
-  }
 });
