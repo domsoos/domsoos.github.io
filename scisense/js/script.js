@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // -----------------------------
 
   // Discovery Modal Elements
+  const signInButton = document.getElementById('sign-in-button');
+
   const discoveryModal = document.getElementById('discovery-modal');
   const closeModalSpan = discoveryModal.querySelector('.close-modal');
   const discoveryForm = document.getElementById('discovery-form');
@@ -60,6 +62,51 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('click', (event) => {
     if (event.target.classList.contains('modal')) {
       closeModalFn(event.target);
+    }
+  });
+
+    // -----------------------------
+  // 4. Authentication State Handling
+  // -----------------------------
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      // User is signed in
+      db.collection('users').doc(user.uid).get()
+        .then((doc) => {
+          if (doc.exists) {
+            const userData = doc.data();
+            signInButton.textContent = `Signed in as ${userData.name}`;
+
+            if (userData.isAdmin) {
+              // Show "Submit New Paper" and "Add Discovery" buttons for admins
+              if (submitNewPaperBtn) submitNewPaperBtn.style.display = 'inline-block';
+              if (addDiscoveryBtn) addDiscoveryBtn.style.display = 'inline-block';
+            } else {
+              // Show only "Add Discovery" button for regular users
+              if (addDiscoveryBtn) addDiscoveryBtn.style.display = 'inline-block';
+              if (submitNewPaperBtn) submitNewPaperBtn.style.display = 'none';
+            }
+          } else {
+            // User document does not exist
+            signInButton.textContent = `Signed in as ${user.email}`;
+            // Hide both buttons
+            if (submitNewPaperBtn) submitNewPaperBtn.style.display = 'none';
+            if (addDiscoveryBtn) addDiscoveryBtn.style.display = 'none';
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching user data:', error);
+          signInButton.textContent = `Signed in as ${user.email}`;
+          // Hide both buttons in case of error
+          if (submitNewPaperBtn) submitNewPaperBtn.style.display = 'none';
+          if (addDiscoveryBtn) addDiscoveryBtn.style.display = 'none';
+        });
+    } else {
+      // User is signed out
+      signInButton.textContent = 'Sign In';
+      // Hide both buttons
+      if (submitNewPaperBtn) submitNewPaperBtn.style.display = 'none';
+      if (addDiscoveryBtn) addDiscoveryBtn.style.display = 'none';
     }
   });
 
@@ -279,7 +326,11 @@ document.addEventListener('DOMContentLoaded', () => {
         loadingMessage.style.textAlign = 'center'; // Optional: Center the message
         loadingMessage.style.marginTop = '20px'; // Optional: Add top margin
         contentList.appendChild(loadingMessage);
+
       }
+      // Clear any previously stored list since there are no papers
+      localStorage.removeItem('displayedPapers');
+      
       return;
     }
 
@@ -289,6 +340,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Initial rendering of the papers
       updatePaperList(snapshot.docs, query, category, contentList, 'trending');
+
+      // After updating the paper list, extract the displayed paper IDs
+      // We'll assume that each paper item has a link to `paper.html?id=paperId`
+      const paperLinks = contentList.querySelectorAll('.paper-item a');
+
+      // Extract the 'id' parameter from each link's href
+      const displayedPaperIds = Array.from(paperLinks).map(link => {
+        const url = new URL(link.href, window.location.origin);
+        return url.searchParams.get('id');
+      }).filter(id => id !== null); // Ensure no null values
+      console.log('Displayed Paper IDs Stored:', displayedPaperIds);
+      // Store the list of displayed paper IDs in localStorage
+      // This list will be used by paper.js to determine Previous and Next articles
+      localStorage.setItem('displayedPapers', JSON.stringify(displayedPaperIds));
+
     }, (error) => {
       console.error('Error fetching Trending papers:', error);
       if (contentList) {

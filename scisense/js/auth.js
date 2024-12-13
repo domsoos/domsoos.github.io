@@ -274,36 +274,37 @@ document.addEventListener('DOMContentLoaded', () => {
             const userData = doc.data();
             signInButton.textContent = `Signed in as ${userData.name}`;
 
-            if (userData.isAdmin) {
+            /*if (userData.isAdmin) {
               // Show "Submit New Paper" and "Add Discovery" buttons for admins
-              if (submitNewPaperBtn) submitNewPaperBtn.style.display = 'inline-block';
-              if (addDiscoveryBtn) addDiscoveryBtn.style.display = 'inline-block';
+              //if (submitNewPaperBtn) submitNewPaperBtn.style.display = 'inline-block';
+              //if (addDiscoveryBtn) addDiscoveryBtn.style.display = 'inline-block';
             } else {
               // Show only "Add Discovery" button for regular users
               if (addDiscoveryBtn) addDiscoveryBtn.style.display = 'inline-block';
               if (submitNewPaperBtn) submitNewPaperBtn.style.display = 'none';
             }
+            */
           } else {
             // User document does not exist
             signInButton.textContent = `Signed in as ${user.email}`;
             // Hide both buttons
-            if (submitNewPaperBtn) submitNewPaperBtn.style.display = 'none';
-            if (addDiscoveryBtn) addDiscoveryBtn.style.display = 'none';
+            //if (submitNewPaperBtn) submitNewPaperBtn.style.display = 'none';
+            //if (addDiscoveryBtn) addDiscoveryBtn.style.display = 'none';
           }
         })
         .catch((error) => {
           console.error('Error fetching user data:', error);
           signInButton.textContent = `Signed in as ${user.email}`;
           // Hide both buttons in case of error
-          if (submitNewPaperBtn) submitNewPaperBtn.style.display = 'none';
-          if (addDiscoveryBtn) addDiscoveryBtn.style.display = 'none';
+          //if (submitNewPaperBtn) submitNewPaperBtn.style.display = 'none';
+          //if (addDiscoveryBtn) addDiscoveryBtn.style.display = 'none';
         });
     } else {
       // User is signed out
       signInButton.textContent = 'Sign In';
       // Hide both buttons
-      if (submitNewPaperBtn) submitNewPaperBtn.style.display = 'none';
-      if (addDiscoveryBtn) addDiscoveryBtn.style.display = 'none';
+      //if (submitNewPaperBtn) submitNewPaperBtn.style.display = 'none';
+      //if (addDiscoveryBtn) addDiscoveryBtn.style.display = 'none';
     }
   });
 

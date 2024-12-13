@@ -91,6 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
           if (paperIdInput) {
             paperIdInput.value = paperId;
           }
+          console.log(paperId);
+          setupNavigation(paperId);
         } else {
           paperTitle.textContent = 'Paper Not Found.';
           paperInfo.textContent = '';
@@ -111,6 +113,74 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Call the function to load paper details
   loadPaperDetails();
+
+
+  // **Define the setupNavigation Function**
+  /**
+   * Sets up the Previous and Next buttons based on the list of displayed papers.
+   * @param {string} currentPaperId - The ID of the currently viewed paper.
+   */
+  function setupNavigation(currentPaperId) {
+    if (!prevButton || !nextButton) {
+      console.warn('Previous and/or Next buttons are not found in the DOM.');
+      return;
+    }
+    
+    // Retrieve the list of displayed paper IDs from localStorage
+    const displayedPapersJSON = localStorage.getItem('displayedPapers');
+    console.log('Displayed Paper IDs Stored:', displayedPapersJSON);
+    if (!displayedPapersJSON) {
+      console.warn('No displayed papers list found in localStorage.');
+      prevButton.disabled = true;
+      nextButton.disabled = true;
+      return;
+    }
+
+    const displayedPapers = JSON.parse(displayedPapersJSON);
+    const currentIndex = displayedPapers.indexOf(currentPaperId);
+
+    if (currentIndex === -1) {
+      console.warn('Current paper ID not found in the displayed papers list.');
+      prevButton.disabled = true;
+      nextButton.disabled = true;
+      return;
+    }
+
+    // Determine Previous and Next Paper IDs
+    const prevPaperId = currentIndex > 0 ? displayedPapers[currentIndex - 1] : null;
+    const nextPaperId = currentIndex < displayedPapers.length - 1 ? displayedPapers[currentIndex + 1] : null;
+
+    // **Set Up Previous Button**
+    if (prevPaperId) {
+      prevButton.disabled = false;
+      prevButton.addEventListener('click', handlePrevClick);
+    } else {
+      prevButton.disabled = true; // No previous paper
+    }
+
+    // **Set Up Next Button**
+    if (nextPaperId) {
+      nextButton.disabled = false;
+      nextButton.addEventListener('click', handleNextClick);
+    } else {
+      nextButton.disabled = true; // No next paper
+    }
+
+    // **Handle Previous Button Click**
+    function handlePrevClick() {
+      window.location.href = `paper.html?id=${prevPaperId}`;
+    }
+
+    // **Handle Next Button Click**
+    function handleNextClick() {
+      window.location.href = `paper.html?id=${nextPaperId}`;
+    }
+
+    // **Optional: Remove Existing Event Listeners to Prevent Multiple Bindings**
+    // This is useful if `setupNavigation` might be called multiple times
+    // before navigating to another paper.
+    // Use named functions or event delegation to manage listeners more effectively.
+  }
 
 
 
