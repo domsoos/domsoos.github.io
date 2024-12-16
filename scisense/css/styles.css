@@ -332,17 +332,65 @@ body {
 }
 
 
-/* Up Arrow Button Styles */
+.toggle-div {
+  display: flex;
+  justify-content: center;
+}
+
 #toggle-feedback-btn {
-  left: 50%; /* Center horizontally */
-  transform: translateX(-50%);
   position: relative;
   bottom: 20px;
-  /*right: 20px;*/
   background-color: #8B0000;
   color: #fff;
   border: none;
-  /*border-radius: 15%;*/
+  border-radius: 8px;
+  width: 250px;
+  height: 50px;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* Ensure it stays above other elements */
+}
+
+#toggle-feedback-btn.active {
+  position: relative;
+  bottom: 20px;
+  background-color: #8B0000;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  width: 250px;
+  height: 50px;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* Ensure it stays above other elements */
+}
+
+#toggle-feedback-btn:hover {
+  background-color: #a30000;
+}
+
+#toggle-feedback-btn::before {
+  content: "↑"; /* Initial up arrow */
+  font-size: 24px;
+}
+
+#toggle-feedback-btn.active::before {
+  content: "↓"; /* Arrow direction when form is open */
+}
+
+
+/* Up Arrow Button Styles 
+#toggle-feedback-btn {
+  left: 50%;  Center horizontally 
+  transform: translateX(-50%);
+  position: relative;
+  bottom: 20px;
+  background-color: #8B0000;
+  color: #fff;
+  border: none;
+  /*border-radius: 15%;
   border-radius: 8px;
   width: 250px;
   height: 50px;
@@ -353,10 +401,6 @@ body {
   z-index: 1000; /* Ensure it stays above other elements */
 }
 
-#toggle-feedback-btn:hover {
-  background-color: #a30000;
-   /*transform: translateY(-5px); Slight upward movement on hover */
-}
 
 /* Feedback Form Styles Using Transform */
 .feedback-form {

@@ -317,95 +317,70 @@ document.addEventListener('DOMContentLoaded', () => {
     return papersData[paperId][questionName][option] || "";
   };
 
-  // Toggle Feedback Form Visibility
-  toggleFeedbackBtn.addEventListener('click', () => {
-    feedbackForm.classList.toggle('active');
+   // Hide the feedback form by default
+  //const feedbackForm = document.getElementById('feedback-form');
+  feedbackForm.style.display = 'none';
 
-    // Change button icon and aria-label based on state
+  // Show the feedback form when the button is clicked
+  toggleFeedbackBtn.addEventListener('click', () => {
+    feedbackForm.style.display = 'block';
+  });
+
+  document.getElementById('toggle-feedback-btn').addEventListener('click', function() {
+  document.getElementById('feedback-form').classList.toggle('active');
+  this.classList.toggle('active');
+  });
+
+  // Toggle Feedback Form Visibility
+  function toggleFeedbackForm() {
     if (feedbackForm.classList.contains('active')) {
+      // Show feedback form
+      document.querySelector('.feedback-form').classList.add('overflow-hidden');
+      feedbackForm.style.display = 'block';
+      toggleFeedbackBtn.content = "↓";
       toggleFeedbackBtn.innerHTML = '<i class="fas fa-arrow-down"></i>'; // Down arrow
       toggleFeedbackBtn.setAttribute('aria-label', 'Close Feedback Form');
-      
+
       // Prevent background scrolling
       document.body.style.overflow = 'hidden';
-      
+
       // Move focus to the first input field
       const firstInput = feedbackForm.querySelector('textarea, input, select');
       if (firstInput) {
         firstInput.focus();
       }
     } else {
+      // Hide feedback form
+      document.querySelector('.feedback-form').classList.remove('overflow-hidden');
+      feedbackForm.style.display = 'none';
+      toggleFeedbackBtn.content = "↑";
       toggleFeedbackBtn.innerHTML = '<i class="fas fa-arrow-up"></i>'; // Up arrow
       toggleFeedbackBtn.setAttribute('aria-label', 'Open Feedback Form');
-      
+
       // Restore background scrolling
       document.body.style.overflow = '';
     }
-  });
+  }
 
-  // Handle Feedback Form Submission
-  if (feedbackForm) {
-    const feedbackFormInner = document.getElementById('feedback-form-inner');
 
-    feedbackFormInner.addEventListener('submit', (e) => {
+  // Toggle Feedback Form Visibility on second click
+  toggleFeedbackBtn.addEventListener('click', toggleFeedbackForm);
+
+
+  // Handle KGain Form Submission
+  if (kgainForm) {
+    kgainForm.addEventListener('submit', (e) => {
       e.preventDefault();
 
       const user = auth.currentUser;
       if (!user) {
-        alert('Please sign in to submit feedback.');
+        alert('Please sign in to submit your answers.');
         return;
       }
 
       const paperId = getPaperIdFromURL();
       if (!paperId) {
         alert('Invalid Paper ID.');
-        return;
-      }
-
-      // Collect Feedback Data
-      const feedbackMessage = document.getElementById('feedback-message').value.trim();
-
-      if (!feedbackMessage) {
-        alert('Please enter your feedback.');
-        return;
-      }
-
-      // Submit Feedback to Firestore
-      db.collection('feedback').add({
-        userId: user.uid,
-        paperId: paperId,
-        message: feedbackMessage,
-        submittedAt: firebase.firestore.FieldValue.serverTimestamp(),
-      })
-      .then(() => {
-        alert('Thank you for your feedback!');
-        feedbackFormInner.reset();
-        feedbackForm.classList.remove('active');
-        toggleFeedbackBtn.innerHTML = '<i class="fas fa-arrow-up"></i>'; // Reset to up arrow
-        toggleFeedbackBtn.setAttribute('aria-label', 'Open Feedback Form');
-        document.body.style.overflow = ''; // Restore background scrolling
-      })
-      .catch((error) => {
-        console.error('Error submitting feedback:', error);
-        alert('There was an error submitting your feedback. Please try again later.');
-      });
-    });
-  }
-
-    // Handle KGain Form Submission
-    if (kgainForm) {
-      kgainForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const user = auth.currentUser;
-        if (!user) {
-          alert('Please sign in to submit your answers.');
-          return;
-        }
-
-        const paperId = getPaperIdFromURL();
-        if (!paperId) {
-          alert('Invalid Paper ID.');
           return;
         }
 
@@ -456,64 +431,5 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Handle Feedback Form Submission
-    if (feedbackForm) {
-      feedbackForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const user = auth.currentUser;
-        if (!user) {
-          alert('Please sign in to submit feedback.');
-        }
-
-        // Collect Paper ID from Hidden Input
-        const paperId = paperIdInput.value;
-
-        // Collect Demographic Information
-        const demographic = {
-          age: document.getElementById('age').value || "Not provided",
-          academicLevel: document.getElementById('academicLevel').value || "Not provided",
-          occupation: document.getElementById('occupation').value || "Not provided",
-        };
-
-        // Collect Stimuli Feedback
-        const newsVsAbstracts = document.querySelector('input[name="newsVsAbstracts"]:checked');
-        const news1VsNews2 = document.querySelector('input[name="news1VsNews2"]:checked');
-
-        if (!newsVsAbstracts || !news1VsNews2) {
-          alert('Please complete all required fields in Stimuli Feedback.');
-          return;
-        }
-
-        const stimuliFeedback = {
-          newsVsAbstracts: newsVsAbstracts.value,
-          news1VsNews2: news1VsNews2.value,
-        };
-
-        // Collect KGain Feedback
-        const kGain1 = document.getElementById('kgain1').value.trim();
-        const kGain2 = document.getElementById('kgain2').value.trim();
-
-        if (!kGain1 || !kGain2) {
-          alert('Please answer all KGain questions.');
-          return;
-        }
-
-        const kGainFeedback = {
-          question1: kGain1,
-          question2: kGain2,
-        };
-
-        // Submit Feedback to Firestore
-        submitFeedback(user.uid, paperId, demographic, stimuliFeedback, kGainFeedback);
-
-        // Update User Demographics if provided
-        updateUserDemographics(user.uid, demographic);
-
-        // Reset Form
-        feedbackForm.reset();
-        alert('Thank you for your feedback!');
-      });
-    }
 
 });
