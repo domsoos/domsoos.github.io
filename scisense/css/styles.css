@@ -380,25 +380,18 @@ body {
   content: "↓"; /* Arrow direction when form is open */
 }
 
+fieldset ul {
+  list-style: none;
+}
 
-/* Up Arrow Button Styles 
-#toggle-feedback-btn {
-  left: 50%;  Center horizontally 
-  transform: translateX(-50%);
-  position: relative;
-  bottom: 20px;
-  background-color: #8B0000;
-  color: #fff;
-  border: none;
-  /*border-radius: 15%;
-  border-radius: 8px;
-  width: 250px;
-  height: 50px;
-  font-size: 24px;
-  cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-  z-index: 1000; /* Ensure it stays above other elements */
+fieldset li {
+  display: inline-block;
+  margin-right: 25px; /* adjust this to fit your needs */
+}
+
+fieldset label {
+  display: block;
+  text-align: center;
 }
 
 

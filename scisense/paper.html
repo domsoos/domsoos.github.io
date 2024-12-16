@@ -100,51 +100,44 @@
     <!-- Feedback Form -->
     <div id="feedback-form" class="feedback-form">
     <form id="feedback-form-inner">
-      <h2>Feedback</h2>
+      <h2>Which content is more exciting?</h2>
       <!-- Your feedback form fields go here 
       <label for="feedback-message">Your Feedback:</label>
       <textarea id="feedback-message" name="feedback-message" rows="4" required></textarea>
       
       <button type="submit">Submit Feedback</button>
       -->
+          <!-- Stimuli Feedback Section -->
+      <fieldset>
+        <legend>Stimuli Feedback</legend>
+        <!-- <p>Which content type gives you more engagement/excitement?</p> -->
+        <ul>
+           <li><label><input type="radio" name="stimulusFeedback" value="Abstract" />Science  Abstract</label></li>
+          <li><label><input type="radio" name="stimulusFeedback" value="News" required />Science News</label></li>
+          <li><label><input type="radio" name="stimulusFeedback" value="Author's Tweets" /> Author's Tweets</label></li>
+        </ul>
+      </fieldset>
 
-
-  <!-- Feedback Form 
-  <form id="feedback-form">
-    <h2>Provide Your Feedback</h2>
-
-     Demographic Section -->
-    <fieldset>
-      <legend>Demographic Information (Optional)</legend>
-      <label for="age">Age:</label>
-      <input type="number" id="demo-age" name="age" min="0" />
+      <fieldset>
+        <legend>Update Demographic Information (Optional)</legend>
+        <label for="age">Age:</label>
+        <input type="number" id="demo-age" name="age" min="0" />
       
-      <label for="academicLevel">Academic Level:</label>
-      <select id="academicLevel" name="academicLevel">
-        <option value="">Select</option>
-        <option value="Undergraduate">Undergraduate</option>
-        <option value="Graduate">Graduate</option>
-        <option value="PhD">PhD</option>
-        <option value="Other">Other</option>
-      </select>
+        <label for="academicLevel">Academic Level:</label>
+        <select id="academicLevel" name="academicLevel">
+          <option value="">Select</option>
+          <option value="Undergraduate">Undergraduate</option>
+          <option value="Graduate">Graduate</option>
+          <option value="PhD">PhD</option>
+          <option value="Other">Other</option>
+        </select>
       
       <label for="occupation">Occupation:</label>
       <input type="text" id="education" name="occupation" />
     </fieldset>
 
-    <!-- Stimuli Feedback Section -->
-    <fieldset>
-      <legend>Stimuli Feedback</legend>
-      <p>News vs Abstracts:</p>
-      <label><input type="radio" name="newsVsAbstracts" value="News" required /> News</label>
-      <label><input type="radio" name="newsVsAbstracts" value="Abstracts" /> Abstracts
-      
-      <p>News1 vs News2:</p>
-      <label><input type="radio" name="news1VsNews2" value="News1" required /> News1</label>
-      <label><input type="radio" name="news1VsNews2" value="News2" /> News2</label>
-    </fieldset>
 
-    <!-- KGain Questions Section -->
+    <!-- KGain Questions Section 
     <fieldset>
       <legend>Knowledge Gain (KGain) Questions</legend>
       <label for="kgain1">Question 1:</label>
@@ -153,6 +146,7 @@
       <label for="kgain2">Question 2:</label>
       <input type="text" id="kgain2" name="kgain2" required />
     </fieldset>
+    -->
 
     <!-- Hidden Input to Store Paper Identifier -->
     <input type="hidden" id="paper-id" name="paper-id" value="" />

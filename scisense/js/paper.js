@@ -249,8 +249,57 @@ document.addEventListener('DOMContentLoaded', () => {
     // Use named functions or event delegation to manage listeners more effectively.
   }
 
+  // Hide the feedback form by default
+  //const feedbackForm = document.getElementById('feedback-form');
+  feedbackForm.style.display = 'none';
+
+  // Show the feedback form when the button is clicked
+  toggleFeedbackBtn.addEventListener('click', () => {
+    feedbackForm.style.display = 'block';
+  });
+
+  document.getElementById('toggle-feedback-btn').addEventListener('click', function() {
+  document.getElementById('feedback-form').classList.toggle('active');
+  this.classList.toggle('active');
+  });
+
+  // Toggle Feedback Form Visibility
+  function toggleFeedbackForm() {
+    if (feedbackForm.classList.contains('active')) {
+      // Show feedback form
+      document.querySelector('.feedback-form').classList.add('overflow-hidden');
+      feedbackForm.style.display = 'block';
+      toggleFeedbackBtn.content = "↓";
+      toggleFeedbackBtn.innerHTML = '<i class="fas fa-arrow-down"></i>'; // Down arrow
+      toggleFeedbackBtn.setAttribute('aria-label', 'Close Feedback Form');
+
+      // Prevent background scrolling
+      //document.body.style.overflow = 'hidden';
+
+      // Move focus to the first input field
+      const firstInput = feedbackForm.querySelector('textarea, input, select');
+      if (firstInput) {
+        firstInput.focus();
+      }
+    } else {
+      // Hide feedback form
+      document.querySelector('.feedback-form').classList.remove('overflow-hidden');
+      feedbackForm.style.display = 'none';
+      toggleFeedbackBtn.content = "↑";
+      toggleFeedbackBtn.innerHTML = '<i class="fas fa-arrow-up"></i>'; // Up arrow
+      toggleFeedbackBtn.setAttribute('aria-label', 'Open Feedback Form');
+
+      // Restore background scrolling
+      document.body.style.overflow = '';
+    }
+  }
 
 
+  // Toggle Feedback Form Visibility on second click
+  toggleFeedbackBtn.addEventListener('click', toggleFeedbackForm);
+
+
+  /* Knowledge gain section */
   // Function to get correct answers (Replace with Firestore data fetching if needed)
   const getCorrectAnswers = (paperId) => {
     const papersData = {
@@ -316,56 +365,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     return papersData[paperId][questionName][option] || "";
   };
-
-   // Hide the feedback form by default
-  //const feedbackForm = document.getElementById('feedback-form');
-  feedbackForm.style.display = 'none';
-
-  // Show the feedback form when the button is clicked
-  toggleFeedbackBtn.addEventListener('click', () => {
-    feedbackForm.style.display = 'block';
-  });
-
-  document.getElementById('toggle-feedback-btn').addEventListener('click', function() {
-  document.getElementById('feedback-form').classList.toggle('active');
-  this.classList.toggle('active');
-  });
-
-  // Toggle Feedback Form Visibility
-  function toggleFeedbackForm() {
-    if (feedbackForm.classList.contains('active')) {
-      // Show feedback form
-      document.querySelector('.feedback-form').classList.add('overflow-hidden');
-      feedbackForm.style.display = 'block';
-      toggleFeedbackBtn.content = "↓";
-      toggleFeedbackBtn.innerHTML = '<i class="fas fa-arrow-down"></i>'; // Down arrow
-      toggleFeedbackBtn.setAttribute('aria-label', 'Close Feedback Form');
-
-      // Prevent background scrolling
-      document.body.style.overflow = 'hidden';
-
-      // Move focus to the first input field
-      const firstInput = feedbackForm.querySelector('textarea, input, select');
-      if (firstInput) {
-        firstInput.focus();
-      }
-    } else {
-      // Hide feedback form
-      document.querySelector('.feedback-form').classList.remove('overflow-hidden');
-      feedbackForm.style.display = 'none';
-      toggleFeedbackBtn.content = "↑";
-      toggleFeedbackBtn.innerHTML = '<i class="fas fa-arrow-up"></i>'; // Up arrow
-      toggleFeedbackBtn.setAttribute('aria-label', 'Open Feedback Form');
-
-      // Restore background scrolling
-      document.body.style.overflow = '';
-    }
-  }
-
-
-  // Toggle Feedback Form Visibility on second click
-  toggleFeedbackBtn.addEventListener('click', toggleFeedbackForm);
-
 
   // Handle KGain Form Submission
   if (kgainForm) {
