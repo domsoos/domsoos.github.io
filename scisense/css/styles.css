@@ -334,14 +334,17 @@ body {
 
 /* Up Arrow Button Styles */
 #toggle-feedback-btn {
-  position: fixed;
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%);
+  position: relative;
   bottom: 20px;
-  right: 20px;
+  /*right: 20px;*/
   background-color: #8B0000;
   color: #fff;
   border: none;
-  border-radius: 50%;
-  width: 50px;
+  /*border-radius: 15%;*/
+  border-radius: 8px;
+  width: 250px;
   height: 50px;
   font-size: 24px;
   cursor: pointer;

@@ -168,6 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // "Add New Scientific Discovery" Button (Admin and Regular Users)
   if (addDiscoveryBtn) {
     addDiscoveryBtn.addEventListener('click', () => {
+    	console.log("opening discovery modal:)");
       openModal(discoveryModal);
     });
   }
