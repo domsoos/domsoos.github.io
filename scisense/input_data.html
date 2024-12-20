@@ -62,6 +62,19 @@
         <input type="text" id="tags" name="tags" placeholder="e.g., AI, Machine Learning, NLP" required />
 		<br><br>
 
+		<label for="category">Category:</label>
+		<select id="select-category">
+			<option value="">Pick a category</option>
+			<option value="nature">Nature</option>
+		    <option value="health">Health</option>
+		    <option value="tech">Tech</option>
+		    <option value="physics">Physics</option>
+		    <option value="space">Space</option>
+		    <option value="environment">Environment</option>
+		    <option value="society">Society</option>
+		    <option value="humans">Humans</option>
+		</select>
+
         <button type="submit">Submit Paper</button>
       </form>
     </div>
@@ -78,13 +91,19 @@
       <h2>Add Knowledge Gain Question</h2>
       <form id="add-kgain-form">
         <label for="select-paper">Select Paper:</label>
-        <select id="select-paper" required>
-          <option value="">--Select Paper--</option>
+        <select id="select-paper" style="width:90%;"required>
+          <option value="">-- Choose one --</option>
           <!-- Options will be populated dynamically -->
         </select>
         
+        <br>
+        <br>
+
         <label for="kgain-question-text">Question:</label>
-        <textarea id="kgain-question-text" name="questionText" required placeholder="Enter your question here..."></textarea>
+        <textarea id="kgain-question-text" name="questionText" required placeholder="Enter your question here..." style="width:400px;height:40px;"></textarea>
+
+        <br>
+        <br>
         
         <label>Options:</label>
         <div id="options-container">
@@ -99,13 +118,15 @@
           </div>
         </div>
         <button type="button" id="add-option-btn">Add Option</button>
-        
+        <br>
+        <br>
         <label for="correct-answer">Correct Answer:</label>
+        <br>
         <select id="correct-answer" name="correctAnswer" required>
           <option value="">--Select--</option>
           <!-- Options will be populated dynamically based on added options -->
         </select>
-        
+        <br>
         <button type="submit">Add Question</button>
       </form>
     </div>

@@ -163,6 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
           console.log(paperId);
           setupNavigation(paperId);
+
           // Fetch and display KGain questions
           fetchKGainQuestions(paperId);
         } else {
@@ -210,16 +211,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const kgainForm = document.createElement('form');
         kgainForm.id = 'kgain-questions-form';
 
-        snapshot.forEach((doc, index) => {
+        let index = 1;
+        snapshot.forEach((doc) => {
           const question = doc.data();
 
           // Create question container
           const questionDiv = document.createElement('div');
           questionDiv.classList.add('kgain-question');
 
+          console.log(index);
           // Question text
           const questionText = document.createElement('p');
-          questionText.textContent = `Q${index + 1}: ${question.questionText}`;
+          questionText.textContent = `Q${index}: ${question.questionText}`;
           questionDiv.appendChild(questionText);
 
           // Options
@@ -238,10 +241,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             optionLabel.prepend(optionInput);
             optionsDiv.appendChild(optionLabel);
+
           }
 
           questionDiv.appendChild(optionsDiv);
           kgainForm.appendChild(questionDiv);
+          index++;
         });
 
         // Submit Button

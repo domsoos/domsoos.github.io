@@ -18,12 +18,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const signInButton = document.getElementById('sign-in-button');
   const signInModal = document.getElementById('sign-in-modal');
 
-    const addOptionBtn = document.getElementById('add-option-btn');
+  const addOptionBtn = document.getElementById('add-option-btn');
   const optionsContainer = document.getElementById('options-container');
-    const correctAnswerSelect = document.getElementById('correct-answer');
+  const correctAnswerSelect = document.getElementById('correct-answer');
 
 
-    const addKGainBtn = document.getElementById('add-kgain-btn');
+  const addKGainBtn = document.getElementById('add-kgain-btn');
   const addKGainModal = document.getElementById('add-kgain-modal');
   const addKGainForm = document.getElementById('add-kgain-form');
   addKGainBtn.style.display = 'inline-block';
@@ -107,6 +107,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  const br = document.createElement('br');
+
   // Function to update Correct Answer Dropdown based on current options
   const updateCorrectAnswerOptions = () => {
     // Clear existing options
@@ -120,6 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
       option.value = optionLabel;
       option.textContent = `${optionLabel}: ${optionText}`;
       correctAnswerSelect.appendChild(option);
+      correctAnswerSelect.append(br);
     });
   };
 
@@ -213,6 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
               alert('KGain question added successfully!');
               closeModalFn(addKGainModal);
               addKGainForm.reset();
+
               // Reset options to default two options
               optionsContainer.innerHTML = `
                 <div class="option">
@@ -343,6 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const scienceNews = document.getElementById('science-news').value.trim();
     const tweetsRaw = document.getElementById('tweets').value.trim();
     const tagsRaw = document.getElementById('tags').value.trim();
+    const category = document.getElementById('category');//.value.trim();
 
     // Validate required fields
     if (!paperTitle || !scienceAbstract || !scienceNews || !tweetsRaw || !tagsRaw) {
@@ -362,6 +367,7 @@ document.addEventListener('DOMContentLoaded', () => {
       news: scienceNews,
       tweets: tweets,
       tags: tags,
+      category: category,
       submittedBy: user.uid,
       submittedAt: firebase.firestore.FieldValue.serverTimestamp()
     };
