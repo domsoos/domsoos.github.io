@@ -1,0 +1,101 @@
+/* scisense/css/styles.css */
+
+/* KGain Section Styles */
+.kgain-section {
+  margin-top: 40px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.kgain-section h3 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.kgain-question {
+  margin-bottom: 20px;
+}
+
+.kgain-question p {
+  font-weight: bold;
+}
+
+.kgain-options label {
+  display: block;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.kgain-options input[type="radio"] {
+  margin-right: 10px;
+}
+
+.kgain-questions-form button[type="submit"] {
+  margin-top: 15px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.kgain-feedback {
+  border-top: 1px solid #ccc;
+  padding: 10px 0;
+}
+
+.kgain-feedback p {
+  margin: 5px 0;
+}
+
+.kgain-feedback strong {
+  font-weight: bold;
+}
+
+
+/* New Styles for Dynamic Options */
+#options-container .option {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+#options-container .option input[type="text"] {
+  flex: 1;
+  padding: 8px;
+  margin-right: 10px;
+}
+
+.remove-option-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.remove-option-btn:hover {
+  background-color: #c0392b;
+}
+
+#add-option-btn {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+#add-option-btn:hover {
+  background-color: #2980b9;
+}
+
+
+.modal-content {
+  /* Existing styles... */
+  
+  /* Add overflow auto if content exceeds modal height */
+  max-height: 80vh;
+  overflow-y: auto;
+}

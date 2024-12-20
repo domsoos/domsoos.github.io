@@ -61,12 +61,55 @@
         <label for="tags">Tags:</label>
         <input type="text" id="tags" name="tags" placeholder="e.g., AI, Machine Learning, NLP" required />
 		<br><br>
-        
 
         <button type="submit">Submit Paper</button>
       </form>
     </div>
   </section>
+
+    <nav>
+    <button id="add-kgain-btn" style="display: none;">Add Knowledge Gain Question</button>
+    <!-- Other admin buttons -->
+  </nav>
+  <!-- Add KGain Question Modal -->
+  <div id="add-kgain-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Add Knowledge Gain Question</h2>
+      <form id="add-kgain-form">
+        <label for="select-paper">Select Paper:</label>
+        <select id="select-paper" required>
+          <option value="">--Select Paper--</option>
+          <!-- Options will be populated dynamically -->
+        </select>
+        
+        <label for="kgain-question-text">Question:</label>
+        <textarea id="kgain-question-text" name="questionText" required placeholder="Enter your question here..."></textarea>
+        
+        <label>Options:</label>
+        <div id="options-container">
+          <!-- Dynamic options will be added here -->
+          <div class="option">
+            <input type="text" name="option" placeholder="Option A text" required>
+            <button type="button" class="remove-option-btn">Remove</button>
+          </div>
+          <div class="option">
+            <input type="text" name="option" placeholder="Option B text" required>
+            <button type="button" class="remove-option-btn">Remove</button>
+          </div>
+        </div>
+        <button type="button" id="add-option-btn">Add Option</button>
+        
+        <label for="correct-answer">Correct Answer:</label>
+        <select id="correct-answer" name="correctAnswer" required>
+          <option value="">--Select--</option>
+          <!-- Options will be populated dynamically based on added options -->
+        </select>
+        
+        <button type="submit">Add Question</button>
+      </form>
+    </div>
+  </div>
 
   <!-- Sign-In Modal -->
   <div class="sign-in-container" id="sign-in-modal">

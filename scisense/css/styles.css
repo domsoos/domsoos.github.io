@@ -344,7 +344,7 @@ body {
   color: #fff;
   border: none;
   border-radius: 8px;
-  width: 250px;
+  width: 450px;
   height: 50px;
   font-size: 24px;
   cursor: pointer;
@@ -359,7 +359,7 @@ body {
   color: #fff;
   border: none;
   border-radius: 8px;
-  width: 250px;
+  width: 450px;
   height: 50px;
   font-size: 24px;
   cursor: pointer;
@@ -372,12 +372,12 @@ body {
 }
 
 #toggle-feedback-btn::before {
-  content: "↑"; /* Initial up arrow */
+  content: "↑    Leave Feedback    ↑";/*"↑"; /* Initial up arrow */
   font-size: 24px;
 }
 
 #toggle-feedback-btn.active::before {
-  content: "↓"; /* Arrow direction when form is open */
+  content: "↓    Close Form    ↓";/*"↓"; /* Arrow direction when form is open */
 }
 
 fieldset ul {
@@ -386,7 +386,7 @@ fieldset ul {
 
 fieldset li {
   display: inline-block;
-  margin-right: 25px; /* adjust this to fit your needs */
+  margin-right: 5px; /* adjust this to fit your needs */
 }
 
 fieldset label {
@@ -394,14 +394,26 @@ fieldset label {
   text-align: center;
 }
 
+/*
+fiedldset .demographic-feedback {
+	text-align: left;
+}*/
+
+.container .demographic-feedback {
+  text-align: left;
+}
+
+.demographic-feedback {
+	text-align: left;
+}
 
 /* Feedback Form Styles Using Transform */
 .feedback-form {
   position: center;
   /*bottom: 0;
   right: 20px;*/
-  width: 500px;
-  max-width: 85%;
+  width: 550px;
+  max-width: 90%;
   background-color: #fff;
   border: 2px solid #a30000; /*#007BFF;*/
   border-radius: 8px 8px 0 0;
@@ -902,7 +914,8 @@ fieldset label {
   transform: translateY(-50%) translateX(-100%);
 }
 
-/* Optional: Add media queries for responsiveness */
+/* for low width screens */
+/* Optional: Add media queries for responsiveness 
 @media (max-width: 768px) {
   .sign-in-box,
   .sign-up-box,
@@ -920,6 +933,7 @@ fieldset label {
     transform: translateY(-50%) translateX(-100%);
   }
 }
+*/
 
 
 /* Tooltip Container */
