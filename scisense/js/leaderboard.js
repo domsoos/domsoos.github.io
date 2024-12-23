@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // DOM Elements
   const leaderboardTableBody = document.querySelector('#leaderboard-table tbody');
   const leaderboardCategorySelect = document.getElementById('leaderboard-category');
-  const CATEGORIES = ['nature', 'health', 'tech', 'physics', 'space', 'environment', 'society'];
+  const CATEGORIES = ['nature', 'health', 'tech', 'physics', 'space', 'environment', 'society', 'general'];
   const KNOWLEDGE_LEVELS = ['Novice', 'Junior Researcher', 'Expert'];
 
   // Function to Prompt for Knowledge Levels

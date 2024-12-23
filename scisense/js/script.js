@@ -429,13 +429,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const filteredDocs = docs.filter((doc) => {
       const paper = doc.data();
       const title = (paper.title || '').toLowerCase();
+      const news = (paper.news || '').toLowerCase();
       const authors = (paper.authors || '').toLowerCase();
       const tags = (paper.tags || []).map(tag => tag.toLowerCase()).join(', ');
-      const paperCategory = (paper.category || '').toLowerCase(); // Assuming 'category' field exists
+      const paperCategory = (paper.category || '').toLowerCase(); 
 
       // Check if the query matches the title, authors, or tags
       const matchesQuery =
         title.includes(query) ||
+        news.includes(query) ||
         authors.includes(query) ||
         tags.includes(query);
 

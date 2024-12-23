@@ -123,6 +123,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
           // Populate Paper Details
           paperTitle.textContent = paper.title ? paper.title : 'Untitled Paper';
+
+          const category = paper.category || 'general';
+          console.log('Paper Category:', category);
           
           // Handle the 'date' field as a string
           let submissionDate = 'N/A';
@@ -165,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
           setupNavigation(paperId);
 
           // Fetch and display KGain questions
-          fetchKGainQuestions(paperId);
+          fetchKGainQuestions(paperId, category);
         } else {
           paperTitle.textContent = 'Paper Not Found.';
           paperInfo.textContent = '';
@@ -187,7 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
     // **Function to Fetch and Display KGain Questions**
-  function fetchKGainQuestions(paperId) {
+  function fetchKGainQuestions(paperId, category) {
     if (!kgainSection || !kgainContainer) {
       console.error('KGain Section or Container not found in the DOM.');
       return;
@@ -278,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const question = doc.data();
             const selectedOption = kgainForm[`question-${doc.id}`].value;
             if (selectedOption === question.correctAnswer) {
-              score += 1;
+              score += 10;
             }
             answers[doc.id] = {
               selected: selectedOption,
@@ -287,7 +290,7 @@ document.addEventListener('DOMContentLoaded', () => {
           });
 
           // Display Feedback
-          let feedbackHTML = `<p>You scored <strong>${score}</strong> out of <strong>${totalQuestions}</strong>.</p>`;
+          let feedbackHTML = `<p>You scored <strong>${score}</strong> out of <strong>${totalQuestions*10}</strong>.<br><strong>${score}</strong> points are added to the ${category} category</p>`;
           snapshot.forEach((doc, index) => {
             const question = doc.data();
             const userAnswer = answers[doc.id].selected;
@@ -307,7 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
           kgainContainer.innerHTML = feedbackHTML;
 
           // Update User Points in Firestore
-          updateUserPoints(score, totalQuestions, answers);
+          updateUserPoints(score, totalQuestions, answers, category);
         });
       })
       .catch((error) => {
@@ -322,7 +325,7 @@ document.addEventListener('DOMContentLoaded', () => {
    * @param {number} totalQuestions - Total number of questions.
    * @param {object} answers - User's answers with correct answers.
    */
-  function updateUserPoints(score, totalQuestions, answers) {
+  function updateUserPoints(score, totalQuestions, answers, category) {
     const user = auth.currentUser;
     if (!user) {
       console.error('No authenticated user found.');
@@ -337,15 +340,15 @@ document.addEventListener('DOMContentLoaded', () => {
           const currentPoints = userData.points || {};
 
           // For simplicity, assign a fixed number of points per correct answer
-          const pointsPerCorrect = 10; // Adjust as needed
-          const totalPointsToAdd = score * pointsPerCorrect;
+          //const pointsPerCorrect = 10; // Adjust as needed
+          //const totalPointsToAdd = score * pointsPerCorrect;
 
           // Update the 'points' map
           const updatedPoints = { ...currentPoints };
           // If you have categories associated with questions, update accordingly
           // For now, distribute points equally across a default category
-          const defaultCategory = 'physics'; // Replace with actual category if available
-          updatedPoints[defaultCategory] = (currentPoints[defaultCategory] || 0) + totalPointsToAdd;
+          //const defaultCategory = category; // Replace with actual category if available
+          updatedPoints[category] = (currentPoints[category] || 0) + score;
 
           // Update user document in Firestore
           db.collection('users').doc(user.uid).update({
