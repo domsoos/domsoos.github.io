@@ -324,6 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
    * @param {number} score - Number of correct answers.
    * @param {number} totalQuestions - Total number of questions.
    * @param {object} answers - User's answers with correct answers.
+   * @param {string} category of the article
    */
   function updateUserPoints(score, totalQuestions, answers, category) {
     const user = auth.currentUser;
@@ -339,15 +340,8 @@ document.addEventListener('DOMContentLoaded', () => {
           const userData = doc.data();
           const currentPoints = userData.points || {};
 
-          // For simplicity, assign a fixed number of points per correct answer
-          //const pointsPerCorrect = 10; // Adjust as needed
-          //const totalPointsToAdd = score * pointsPerCorrect;
-
           // Update the 'points' map
           const updatedPoints = { ...currentPoints };
-          // If you have categories associated with questions, update accordingly
-          // For now, distribute points equally across a default category
-          //const defaultCategory = category; // Replace with actual category if available
           updatedPoints[category] = (currentPoints[category] || 0) + score;
 
           // Update user document in Firestore
