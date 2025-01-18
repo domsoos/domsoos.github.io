@@ -346,11 +346,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const scienceAbstract = document.getElementById('science-abstract').value.trim();
     const scienceNews = document.getElementById('science-news').value.trim();
     const tweetsRaw = document.getElementById('tweets').value.trim();
+    const tweetHTML= document.getElementById('tweethtml').value.trim();
     const tagsRaw = document.getElementById('tags').value.trim();
     const category = document.getElementById('category');//.value.trim();
 
     // Validate required fields
-    if (!paperTitle || !scienceAbstract || !scienceNews || !tweetsRaw || !tagsRaw) {
+    if (!paperTitle || !scienceAbstract || !scienceNews || !tweetsRaw || !tagsRaw || !tweetHTML) {
       alert('Please fill in all required fields.');
       return;
     }
@@ -367,6 +368,7 @@ document.addEventListener('DOMContentLoaded', () => {
       news: scienceNews,
       tweets: tweets,
       tags: tags,
+      tweetHTML: tweetHTML,
       category: category,
       submittedBy: user.uid,
       submittedAt: firebase.firestore.FieldValue.serverTimestamp()

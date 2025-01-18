@@ -150,6 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
           // Populate Author Tweets
           tweetsList.innerHTML = ''; // Clear existing tweets
+          /*
           if (paper.tweets && Array.isArray(paper.tweets) && paper.tweets.length > 0) {
             paper.tweets.forEach(tweet => {
               const li = document.createElement('li');
@@ -159,6 +160,17 @@ document.addEventListener('DOMContentLoaded', () => {
           } else {
             tweetsList.innerHTML = '<li>N/A</li>';
           }
+          */
+          if (paper.tweethtml) {
+			const embeddedTweetLi = document.createElement('p');
+			embeddedTweetLi.innerHTML = paper.tweethtml;
+			tweetsList.appendChild(embeddedTweetLi);
+
+			  // Re-scan the newly inserted blockquote
+			if (window.twttr) {
+			    window.twttr.widgets.load(tweetsList);
+			}
+		  }
 
           // If you have a hidden input for paperId, set its value
           if (paperIdInput) {
