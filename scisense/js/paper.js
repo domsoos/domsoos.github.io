@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
           document.getElementById('paper-abstract').textContent = abstractContent;
 
           // Populate News Summary
-          const newsContent = paper.news && paper.news !== '-' ? paper.news : 'N/A';
+          const newsContent = paper.newshtml && paper.newshtml !== '-' ? paper.newshtml : 'N/A';
           document.getElementById('news-summary-text').innerHTML = newsContent;
 
           // Populate Author Tweets
