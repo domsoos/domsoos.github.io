@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
           // Populate News Summary
           const newsContent = paper.news && paper.news !== '-' ? paper.news : 'N/A';
-          document.getElementById('news-summary-text').textContent = newsContent;
+          document.getElementById('news-summary-text').innerHTML = newsContent;
 
           // Populate Author Tweets
           tweetsList.innerHTML = ''; // Clear existing tweets
