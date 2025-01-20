@@ -214,6 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Clear existing questions
     kgainContainer.innerHTML = '';
 
+
     // Fetch KGain questions from Firestore
     db.collection('papers').doc(paperId).collection('kgainQuestions').get()
       .then((snapshot) => {
@@ -227,7 +228,12 @@ document.addEventListener('DOMContentLoaded', () => {
         kgainForm.id = 'kgain-questions-form';
 
         let index = 1;
-        snapshot.forEach((doc) => {
+        const docs = snapshot.docs;
+        const twoAnswers = docs.filter(doc => Object.keys(doc.data().options).length === 2);
+		const others = docs.filter(doc => Object.keys(doc.data().options).length !== 2);
+		[...twoAnswers, ...others].forEach((doc) => {
+        //snapshot.docs.reverse().forEach((doc) => {
+        //snapshot.forEach((doc) => {
           const question = doc.data();
 
           // Create question container

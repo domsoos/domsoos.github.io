@@ -365,10 +365,10 @@ document.addEventListener('DOMContentLoaded', () => {
       title: paperTitle,
       authors: authors,
       abstract: scienceAbstract,
-      news: scienceNews,
+      newshtml: scienceNews,
       tweets: tweets,
       tags: tags,
-      tweetHTML: tweetHTML,
+      tweethtml: tweetHTML,
       category: category,
       submittedBy: user.uid,
       submittedAt: firebase.firestore.FieldValue.serverTimestamp()
