@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const kgainSection = document.getElementById('kgain-section');
   const kgainContainer = document.getElementById('kgain-container');
 
+
   // Function to open a modal
   const openModal = (modal) => {
     modal.classList.add('active');
@@ -333,7 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .catch((error) => {
         console.error('Error fetching KGain questions:', error);
-        kgainContainer.innerHTML = '<p>Error loading Knowledge Gain questions.</p>';
+        kgainContainer.innerHTML = '<p>Sign in to load Knowledge Gain questions.</p>';
       });
   }
 

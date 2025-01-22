@@ -30,6 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const selectPaper = document.getElementById('select-paper');
   const closeModalBtns = document.querySelectorAll('.close-modal');
 
+  const questionCountInput = document.getElementById('question-count');
+  const questionFieldsContainer = document.getElementById('question-fields-container');
+
   // Verify essential elements are present
   if (!optionsContainer) {
     console.error("Error: 'options-container' element not found in the DOM.");
@@ -81,6 +84,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Populate the dropdown on load
   populatePapersDropdown();
+
+  // Dynamically create question fields
+function createQuestionBlock(index) {
+  const block = document.createElement('div');
+  block.classList.add('question-block');
+
+  block.innerHTML = `
+    <h3>Question ${index + 1}</h3>
+    <label>Type:</label>
+    <label><input type="radio" name="questionType${index}" value="a" required>True/False</label>
+    <label><input type="radio" name="questionType${index}" value="b">Easy MC</label>
+    <label><input type="radio" name="questionType${index}" value="c">Hard MC</label>
+    <br><br>
+    <label>Question Text:</label>
+    <textarea id="kgain-question-text-${index}" required></textarea>
+    <br><br>
+    <label>Options:</label>
+    <div class="options-container-${index}">
+      <div class="option">
+        <input type="text" name="option" placeholder="Option A text" required />
+      </div>
+      <div class="option">
+        <input type="text" name="option" placeholder="Option B text" required />
+      </div>
+    </div>
+    <button type="button" class="add-option-btn" data-idx="${index}">Add Option</button>
+    <br><br>
+    <label>Correct Answer:</label>
+    <select id="correct-answer-${index}" required>
+      <option value="">--Select--</option>
+    </select>
+    <br><br>
+    <hr/>
+  `;
+  return block;
+}
 
   // Event Listener for Add KGain Button
   if (addKGainBtn) {

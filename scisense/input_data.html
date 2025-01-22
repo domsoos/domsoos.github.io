@@ -90,49 +90,50 @@
     <button id="add-kgain-btn" style="display: none;">Add Knowledge Gain Question</button>
     <!-- Other admin buttons -->
   </nav>
-  <!-- Add KGain Question Modal -->
-  <div id="add-kgain-modal" class="modal">
-    <div class="modal-content">
-      <span class="close-modal">&times;</span>
-      <h2>Add Knowledge Gain Question</h2>
-      <form id="add-kgain-form">
-        <label for="select-paper">Select Paper:</label>
-        <select id="select-paper" style="width:90%;"required>
-          <option value="">-- Choose one --</option>
-          <!-- Options will be populated dynamically -->
-        </select>
-        
-        <br>
-        <br>
+	  <!-- Add KGain Question Modal -->
+	<div id="add-kgain-modal" class="modal">
+	  <div class="modal-content">
+	    <span class="close-modal">&times;</span>
+	    <h2>Add Knowledge Gain Question</h2>
+	    <form id="add-kgain-form">
+	      <label for="select-paper">Select Paper:</label>
+	      <select id="select-paper" required>
+	        <option value="">-- Choose one --</option>
+	      </select>
+	      <br><br>
 
-        <label for="kgain-question-text">Question:</label>
-        <textarea id="kgain-question-text" name="questionText" required placeholder="Enter your question here..." style="width:400px;height:40px;"></textarea>
+	      <label>Question Type:</label>
+	      <br>
+	      <input type="radio" name="questionType" value="a" required> Type 1 (True/False)
+	      <br>
+	      <input type="radio" name="questionType" value="b"> Type 2 (Easy MC)
+	      <br>
+	      <input type="radio" name="questionType" value="c"> Type 3 (Hard MC)
+	      <br><br>
 
-        <br>
-        <br>
-        
-        <label>Options:</label>
-        <div id="options-container">
-          <!-- Dynamic options will be added here -->
-          <div class="option">
-            <input type="text" name="option" placeholder="Option A text" required>
-            <button type="button" class="remove-option-btn">Remove</button>
-          </div>
-          <div class="option">
-            <input type="text" name="option" placeholder="Option B text" required>
-            <button type="button" class="remove-option-btn">Remove</button>
-          </div>
-        </div>
-        <button type="button" id="add-option-btn">Add Option</button>
-        <br>
-        <br>
-        <label for="correct-answer">Correct Answer:</label>
-        <br>
-        <select id="correct-answer" name="correctAnswer" required>
-          <option value="">--Select--</option>
-          <!-- Options will be populated dynamically based on added options -->
-        </select>
-        <br>
+	      <label for="kgain-question-text">Question:</label>
+	      <textarea id="kgain-question-text" required></textarea>
+	      <br><br>
+
+	      <label>Options:</label>
+	      <div id="options-container">
+	        <div class="option">
+	          <input type="text" name="option" placeholder="Option A" required>
+	          <button type="button" class="remove-option-btn">Remove</button>
+	        </div>
+	        <div class="option">
+	          <input type="text" name="option" placeholder="Option B" required>
+	          <button type="button" class="remove-option-btn">Remove</button>
+	        </div>
+	      </div>
+	      <button type="button" id="add-option-btn">Add Option</button>
+	      <br><br>
+
+	      <label>Correct Answer:</label>
+	      <select id="correct-answer" required>
+	        <option value="">--Select--</option>
+	      </select>
+	      <br><br>
         <button type="submit">Add Question</button>
       </form>
     </div>
