@@ -210,9 +210,9 @@ document.addEventListener('DOMContentLoaded', () => {
     containerC.id = 'kgain-container-c';
 
     // Clear them or set them empty initially
-    containerA.innerHTML = '';
-    containerB.innerHTML = '';
-    containerC.innerHTML = '';
+    containerA.innerHTML = '<h1>True or False<h1>';
+    containerB.innerHTML = '<h1>Easy Multiple Choice<h1>';
+    containerC.innerHTML = '<h1>Hard Multiple Choice<h1>';
 
     // Append containers to the form (plus separation lines)
     kgainForm.appendChild(containerA);
@@ -229,9 +229,9 @@ document.addEventListener('DOMContentLoaded', () => {
     db.collection('papers').doc(paperId).collection('kgainQuestions').get()
       .then((snapshot) => {
         if (snapshot.empty) {
-          containerA.innerHTML = '<p>No Knowledge Gain questions available for Type A.</p>';
-          containerB.innerHTML = '<p>No Knowledge Gain questions available for Type B.</p>';
-          containerC.innerHTML = '<p>No Knowledge Gain questions available for Type C.</p>';
+          containerA.innerHTML = '<p>No Knowledge Gain questions available for Type 1.</p>';
+          containerB.innerHTML = '<p>No Knowledge Gain questions available for Type 2.</p>';
+          containerC.innerHTML = '<p>No Knowledge Gain questions available for Type 3.</p>';
           return;
         }
 
@@ -376,7 +376,7 @@ document.addEventListener('DOMContentLoaded', () => {
           });
 
           // Insert feedback into the container
-          kgainContainer.innerHTML = feedbackHTML;
+          kgainForm.innerHTML = feedbackHTML;
 
           // Update User Points in Firestore
           updateUserPoints(score, totalQuestions, answers, category);
@@ -496,11 +496,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleNextClick() {
       window.location.href = `paper.html?id=${nextPaperId}`;
     }
-
-    // **Optional: Remove Existing Event Listeners to Prevent Multiple Bindings**
-    // This is useful if `setupNavigation` might be called multiple times
-    // before navigating to another paper.
-    // Use named functions or event delegation to manage listeners more effectively.
   }
 
   // Hide the feedback form by default
@@ -548,149 +543,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-
   // Toggle Feedback Form Visibility on second click
   toggleFeedbackBtn.addEventListener('click', toggleFeedbackForm);
   
-  /*
-  let isPanelOpen = false;
-  let originalLeftPos = 0;
-  let currentWidth = 100%;
-  let originalWidth = 100%;
-  
-  */
-
-  /* Knowledge gain section 
-  // Function to get correct answers (Replace with Firestore data fetching if needed)
-  const getCorrectAnswers = (paperId) => {
-    const papersData = {
-      "deep-learning-approaches-in-ai": {
-        kgain1: "A",
-        kgain2: "A"
-      },
-      "language-models-are-few-shot-learners": {
-        kgain1: "A",
-        kgain2: "A"
-      },
-      "seq-2-seq": {
-        kgain1: "C",
-        kgain2: "B"
-      }
-      // Add more papers and their correct answers
-    };
-
-    return papersData[paperId] || null;
-  };
-
-  // Function to get option text for feedback
-  const getOptionText = (paperId, questionName, option) => {
-    const papersData = {
-      "deep-learning-approaches-in-ai": {
-        kgain1: {
-          A: "They require large amounts of data and computational resources.",
-          B: "They are always interpretable.",
-          C: "They cannot be used for image recognition."
-        },
-        kgain2: {
-          A: "Healthcare",
-          B: "Agriculture",
-          C: "Retail"
-        }
-      },
-      "language-models-are-few-shot-learners": {
-        kgain1: {
-          A: "The ability of models to perform tasks with only a few examples.",
-          B: "Models that require extensive training data.",
-          C: "A method where models learn from zero examples."
-        },
-        kgain2: {
-          A: "Enabled more flexible and efficient language understanding and generation.",
-          B: "Made models slower and less accurate.",
-          C: "Has no significant impact."
-        }
-      },
-      "seq-2-seq": {
-        kgain1: {
-          A: "Convolutional Neural Networks (CNNs)",
-          B: "Recurrent Neural Networks (RNNs)",
-          C: "Sequence-to-Sequence (Seq2Seq) model with Encoder and Decoder"
-        },
-        kgain2: {
-          A: "Image classification",
-          B: "Machine translation",
-          C: "Object detection"
-        }
-      }
-      // Add more papers and their options
-    };
-
-    return papersData[paperId][questionName][option] || "";
-  };
-// Handle KGain Form Submission
-if (kgainForm) {
-  kgainForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    const user = auth.currentUser;
-    if (!user) {
-      alert("Please sign in to continue.");
-      return;
-    }
-
-    const paperId = document.getElementById('paper-id').value;
-
-    if (paperId !== '') {
-      const correctAnswers = getCorrectAnswers(paperId);
-      if (correctAnswers !== null) {
-        // display the panel with answers
-        kgainPanel.style.width = `${panelWidth}px`;
-        kgainPanel.innerHTML = `
-          <h2>Knowledge Gain Panel</h2>
-          <p id="paper-title"></p>
-          <button id="submit-btn">Submit</button>
-          <div class="answers">
-            ${correctAnswers.kgain1} 
-            ${correctAnswers.kgain2}
-          </div>
-        `;
-
-        const paperTitleElement = document.getElementById('paper-title');
-        paperTitleElement.textContent = correctAnswers.title;
-
-        const submitButtonElement = document.getElementById('submit-btn');
-        if (submitButtonElement) {
-          submitButtonElement.addEventListener('click', () => {
-            // do something when the button is clicked
-            console.log(correctAnswers);
-            closeKGainPanel();
-          });
-        }
-
-        document.addEventListener('click', (e) => {
-          if (!kgainPanel.contains(e.target)) {
-            closeKGainPanel();
-          }
-        });
-
-        function openKGainPanel() {
-          isPanelOpen = true;
-          kgainArrow.style.transform = 'translateX(0)';
-        }
-
-        function closeKGainPanel() {
-          isPanelOpen = false;
-          kgainArrow.style.transform = 'translateX(-20%)';
-          kgainPanel.style.width = `${panelWidth}px`;
-        }
-      } else {
-        alert("Please select a paper.");
-      }
-    } else {
-      alert("Please enter a paper ID.");
-    }
-
-   });
-  }
-  */
-
 });
