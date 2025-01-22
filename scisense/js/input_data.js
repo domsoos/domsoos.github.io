@@ -222,6 +222,7 @@ function createQuestionBlock(index) {
             // Proceed with adding KGain question
             const paperId = selectPaper.value;
             const questionText = document.getElementById('kgain-question-text').value.trim();
+            const questionType = document.querySelector('input[name="questionType"]:checked')?.value;
             const correctAnswer = document.getElementById('correct-answer').value;
 
             // Collect all option texts
@@ -238,7 +239,7 @@ function createQuestionBlock(index) {
               return;
             }
 
-            if (!paperId || !questionText || !correctAnswer) {
+            if (!paperId || !questionType || !questionText || !correctAnswer) {
               alert('Please fill in all required fields.');
               return;
             }
@@ -246,6 +247,7 @@ function createQuestionBlock(index) {
             // Add the question to Firestore
             db.collection('papers').doc(paperId).collection('kgainQuestions').add({
               questionText: questionText,
+              type: questionType,
               options: options,
               correctAnswer: correctAnswer,
               weight: 1, // Default weight
