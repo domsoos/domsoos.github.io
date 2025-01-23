@@ -321,7 +321,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
           // Calculate Score
           let score = 0;
-          alert(`snapshot size: ${snapshot.size}`)
           const totalQuestions = snapshot.size;
           const answers = {};
 
