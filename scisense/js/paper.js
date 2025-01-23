@@ -321,6 +321,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
           // Calculate Score
           let score = 0;
+          alert(`snapshot size: ${snapshot.size}`)
           const totalQuestions = snapshot.size;
           const answers = {};
 
@@ -366,12 +367,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const userAnswer = answers[doc.id].selected;
             const correctAnswer = answers[doc.id].correct;
             const isCorrect = userAnswer === correctAnswer;
+
+            const userAnswerText = question.options[userAnswer] || 'No answer selected';
+            const correctAnswerText = question.options[correctAnswer] || 'No correct answer';
+
             
             feedbackHTML += `
               <div class="kgain-feedback">
-                <p>Q${index + 1}: ${question.questionText}</p>
-                <p>Your Answer: <strong>${userAnswer}</strong> - ${isCorrect ? '<span style="color: green;">Correct</span>' : '<span style="color: red;">Incorrect</span>'}</p>
-                ${!isCorrect ? `<p>Correct Answer: <strong>${correctAnswer}</strong></p>` : ''}
+                <p><strong>${question.questionText}</strong></p>
+                <p>Your Answer: <strong>${userAnswerText}</strong> which is ${isCorrect ? '<span style="color: green;">Correct</span>' : '<span style="color: red;">Incorrect</span>'}</p>
+                ${!isCorrect ? `<p>Correct Answer: <strong>${correctAnswerText}</strong></p>` : ''}
               </div>
             `;
           });
