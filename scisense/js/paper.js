@@ -260,6 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
           questionDiv.appendChild(questionText);
 
           const optionsDiv = document.createElement('div');
+          questionDiv.classList.add('kgain-options');
           for (const [optKey, optValue] of Object.entries(data.options)) {
             const label = document.createElement('label');
             label.textContent = optValue;

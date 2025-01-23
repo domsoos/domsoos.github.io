@@ -3,11 +3,11 @@
 /* KGain Section Styles */
 .kgain-section {
   /*margin-top: 40px;*/
-  padding: 20px;
+  padding: 30px;
   background-color: #f9f9f9;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
+  border-radius: 10px;
+  /*display: flex;
+  flex-direction: column;*/
 }
 
 .kgain-section h3 {
@@ -17,7 +17,8 @@
 }
 
 .kgain-question {
-  margin-bottom: 20px;
+  margin-bottom: 2px;
+  display:block;
 }
 
 .kgain-question p {
