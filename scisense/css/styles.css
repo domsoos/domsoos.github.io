@@ -34,6 +34,7 @@ body {
   color: #8B0000;
   border-bottom: 2px solid transparent;
   font-size: 16px;
+  width:;
 }
 
 .tab.active {
@@ -43,7 +44,7 @@ body {
 
 /* Hamburger */
 .hamburger {
-  font-size: 26px;
+  font-size: 37px;
   cursor: pointer;
   display: none; /* hidden on desktop by default */
 }
@@ -60,7 +61,7 @@ body {
   border: none;
   padding: 10px 20px;
   cursor: pointer;
-  color: #8B0000;
+  color: white;
   border-bottom: 2px solid transparent;
   font-size: 16px;
 }
@@ -79,9 +80,9 @@ body {
   right: 0;
   background-color: #fff;
   width: 100%;
-  max-width: 250px;
+  max-width: 280px;
   padding: 10px;
-  box-shadow: -2px 2px 5px rgba(0,0,0,0.2);
+  box-shadow: -3px 3px 7px rgba(0,0,0,0.2);
 }
 
 .nav-links.open button {
@@ -90,21 +91,41 @@ body {
 }
 
 /* Responsive: Show hamburger below 768px, hide nav by default */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 800px) {
   .hamburger {
     display: block;
   }
   .nav-links {
     display: none;
   }
-}
 
-/* Additional adjustments */
-@media screen and (max-width: 800px) {
-  .tab {
-    width: 100px;
+  .nav-links.open button.active {
+  	/*background-color: grey;*/
+  	color: white;
+  }
+
+  .nav-links.open button:hover {
+    color: white;
+  	background-color: #8B0000;
+  }
+
+  .nav-links.open #create-account-button {
+    background-color: white;
+    color:  #8B0000;
+  }
+
+    .nav-links.open #create-account-button button:hover {
+    background-color: #8B0000;
+    color:  white;
   }
 }
+
+/* Additional adjustments 
+@media screen and (max-width: 800px) {
+  .tab {
+    width: 170px;
+  }
+}*/
 
 @media screen and (max-width: 600px) {
   .paper-item {
@@ -123,8 +144,6 @@ body {
     margin-top: 5px;
   }
 }
-
-
 
 
 .logo {
@@ -178,8 +197,8 @@ body {
 }
 
 #create-account-button {
-  background-color: #8B0000;
-  color: white;
+  background-color: #8B0000;/*white;*/
+  color:  white;
   border: none;
   padding: 10px 20px;
   border-radius: 4px;
