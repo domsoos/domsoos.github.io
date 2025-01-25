@@ -17,6 +17,116 @@ body {
   padding: 20px 30px;
 }
 
+/* Tabs */
+.tabs {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #8B0000;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.tab {
+  background: none;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  color: #8B0000;
+  border-bottom: 2px solid transparent;
+  font-size: 16px;
+}
+
+.tab.active {
+  border-bottom: 2px solid #8B0000;
+  font-weight: bold;
+}
+
+/* Hamburger */
+.hamburger {
+  font-size: 26px;
+  cursor: pointer;
+  display: none; /* hidden on desktop by default */
+}
+
+/* Navigation Links */
+.nav-links {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.nav-links button {
+  background: none;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  color: #8B0000;
+  border-bottom: 2px solid transparent;
+  font-size: 16px;
+}
+
+.nav-links button.active {
+  border-bottom: 2px solid #8B0000;
+  font-weight: bold;
+}
+
+/* For mobile, hide the nav unless open */
+.nav-links.open {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 65px;
+  right: 0;
+  background-color: #fff;
+  width: 100%;
+  max-width: 250px;
+  padding: 10px;
+  box-shadow: -2px 2px 5px rgba(0,0,0,0.2);
+}
+
+.nav-links.open button {
+  color: #8B0000;
+  border: none;
+}
+
+/* Responsive: Show hamburger below 768px, hide nav by default */
+@media screen and (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+  .nav-links {
+    display: none;
+  }
+}
+
+/* Additional adjustments */
+@media screen and (max-width: 800px) {
+  .tab {
+    width: 100px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .paper-item {
+    grid-template-columns: 30px 1fr;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "number title"
+      "number metadata";
+  }
+  .number { font-size: 16px; }
+  .paper-title { font-size: 16px; }
+  .paper-info { flex-basis: 100%; }
+  .category-tag, .engagement {
+    font-size: 14px;
+    margin-left: 0;
+    margin-top: 5px;
+  }
+}
+
+
+
+
 .logo {
   font-size: 24px;
   font-weight: bold;
@@ -75,30 +185,6 @@ body {
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
-}
-
-/* Tabs */
-.tabs {
-  display: flex;
-  align-items: center;
-  padding: 10px 20px;
-  background-color: #8B0000;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.tab {
-  background: none;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  color: #8B0000;
-  border-bottom: 2px solid transparent;
-  font-size: 16px;
-}
-
-.tab.active {
-  border-bottom: 2px solid #8B0000;
-  font-weight: bold;
 }
 
 #categories-dropdown {
@@ -177,51 +263,6 @@ body {
   margin-left: 250px;
   font-size: 12px;
   white-space: nowrap; 
-}
-
-/* Responsive Adjustments */
-@media screen and (max-width: 800px) {
-  .paper-title {
-    font-size: 16px;
-  }
-
-  .category-tag {
-  	font-size: 12px;
-  	margin-left: 50px;
-  }
-  .engagement {
-    font-size: 12px;
-    margin-left: 250px;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .paper-item {
-    grid-template-columns: 30px 1fr; /* Reduce number column width on small screens */
-    grid-template-rows: auto auto auto;
-    grid-template-areas:
-      "number title"
-      "number metadata";
-  }
-
-  .number {
-    font-size: 16px;
-  }
-
-  .paper-title {
-    font-size: 16px;
-  }
-
-  .paper-info {
-    flex-basis: 100%; /* Take full width */
-  }
-
-  .category-tag,
-  .engagement {
-  	font-size: 14px;
-    margin-left: 0;
-    margin-top: 5px;
-  }
 }
 
 

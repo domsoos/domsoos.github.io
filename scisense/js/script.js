@@ -32,6 +32,34 @@ document.addEventListener('DOMContentLoaded', () => {
   // Search Container
   const searchContainer = document.getElementById('search-bar-container');
 
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+      if (!hamburger || !navLinks) return;
+
+      function toggleNav() {
+        navLinks.classList.toggle('open');
+        hamburger.innerHTML = navLinks.classList.contains('open') ? '&#10005;' : '&#9776;';
+        hamburger.setAttribute('aria-expanded', navLinks.classList.contains('open'));
+        document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : 'auto';
+      }
+
+      hamburger.addEventListener('click', toggleNav);
+      navLinks.querySelectorAll('button').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          if (navLinks.classList.contains('open')) toggleNav();
+        });
+      });
+      window.addEventListener('resize', function() {
+        if (window.innerWidth > 768 && navLinks.classList.contains('open')) toggleNav();
+      });
+      hamburger.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggleNav();
+        }
+      });
+
+
   // -----------------------------
   // 3. Modal Handling Functions
   // -----------------------------
