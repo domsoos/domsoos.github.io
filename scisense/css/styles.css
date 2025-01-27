@@ -7,45 +7,87 @@ body {
   background-color: #f8f8f8;
 }
 
-/* Header */
-.header {
-  background-color: #8B0000; /* Deep Red */
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 30px;
+#loading-indicator {
+  padding-top: 100px;
+  display: flex; /* Use Flexbox */
+  flex-direction: column; /* Stack spinner and text vertically */
+  align-items: center; /* Center horizontally */
+  justify-content: center; /* Center vertically */
+  height: 100%; /* Ensure it takes up the parent's full height */
+  width: 100%; /* Ensure it takes up the parent's full width */
+  box-sizing: border-box; /* Include padding/borders in size calculations */
 }
 
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 0, 0, 0.1); /* Light border */
+  border-top-color: #8B0000; /* Accent color */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+
+
+.pageWrapper {
+  max-width: 1280px; /* Add 'px' to specify the unit */
+  margin: 0 auto;    /* Centers the container */
+  padding: 0 16px;   /* Optional: Adds horizontal padding */
+}
+
+/* Header */
+.header {
+  background-color: #8B0000;
+  color: white;
+  padding: 10px 20px;
+  position: relative;
+  box-sizing: border-box;
+}
+
+/* Wrapper for Header Row */
+.header-row {
+  display: flex; /* Align all items in a row */
+  justify-content: space-between; /* Space out items */
+  align-items: center; /* Vertically center items */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Logo */
 .logo {
   font-size: 24px;
   font-weight: bold;
-  cursor: pointer;
 }
 
 .logo a {
-	text-decoration: none;
-	color:white;
+  text-decoration: none;
+  color: white;
 }
 
-#search-bar-container {
-	align-items: center;
-	/*margin-left: 50px;*/
+/* Desktop Navigation */
+.desktop-nav {
+  display: flex;
+  gap: 15px; /* Spacing between buttons */
+  flex: 1; /* Push content outward */
+  justify-content: flex-end; /* Align buttons to the right */
 }
-
-.search-box {
-  padding: 5px;
+.sign-in-button {
+  background: white;
+  color: #8B0000;
+  border: none;
+  padding: 8px 16px;
   border-radius: 4px;
-  border-bottom: 1px solid #8B0000;
-  /*border: 4px;*/
-  height: 30px;
-  width: 450px;
-  max-width: 50%;
-  align-items: center;
+  cursor: pointer;
 }
-
-#sign-in-button {
-  background-color: white;
+.desktop-nav button {
+  background: white;
   color: #8B0000;
   border: none;
   padding: 8px 16px;
@@ -53,63 +95,358 @@ body {
   cursor: pointer;
 }
 
-/* Banner */
-.banner {
-  align-items: center;
-  background-color: white;
-  text-align: center;
-  padding: 10px 5px;
+/* Container with Bottom Border */
+.container {
+  width: 100%; /* Full width */
+  padding: 10px 15px; /* Top/Bottom and Left/Right padding */
+  margin-bottom: 20px; /* Space below the container */
+  border-bottom: 2px solid #ddd; /* Subtle bottom border */
+  box-sizing: border-box; /* Include padding and border in the element's width */
 }
 
-.banner p {
-  font-size: 20px;
+/* Menu Toggle */
+.menu-toggle {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+  display: none; /* Hidden on larger screens */
+  margin-left: 10px; /* Optional spacing */
+}
+
+/* Sidebar (Hidden by Default) */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -100%; /* Fully hidden off-screen */
+  width: 250px;
+  height: 100%;
+  background-color: #8B0000;
+  color: white;
+  padding: 20px;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+  transition: right 0.3s ease; /* Smooth slide effect */
+  z-index: 1000;
+}
+
+.sidebar.open {
+  right: 0; /* Slide in when 'open' class is added */
+}
+
+/* Close Button */
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
   margin-bottom: 20px;
-  color: #333;
 }
 
-#create-account-button {
+/* Sidebar Menu */
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-menu li {
+  margin-bottom: 15px;
+}
+sign-in-button,
+.sidebar-menu button {
+  background: white;
+  color: #8B0000;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+
+.sidebar-menu button:hover {
+  background-color: #FFD700;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .desktop-nav {
+    display: none; /* Hide desktop navigation on mobile */
+  }
+
+  .menu-toggle {
+    display: block; /* Show menu toggle on smaller screens */
+  }
+
+  .sidebar {
+    right: -300px; /* Fully hidden off-screen */
+  }
+
+  .sidebar.open {
+    right: 0; /* Slide in when open */
+  }
+}
+
+/* Banner Section */
+.banner {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Spread items out vertically */
+  align-items: center;
+  text-align: center;
+  padding-top: 20px 10px;
+  padding-left: 20px 10px;
+  padding-right: 20px 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+
+/* Banner Title */
+.banner-title {
+  font-size: 24px; /* Larger font for emphasis */
+  font-weight: bold;
+  color: #333; /* Neutral text color */
+}
+
+/* Align the search bar container width with the options-bar width */
+#search-bar-container {
+  display: flex;
+  justify-content: center; /* Center-align the search bar within the container */
+  align-items: center;
+  max-width: 640px; /* Same as the .options-bar width */
+  width: 100%;
+  margin: 0 auto; /* Center the container */
+  padding-bottom: 20px; /* Add spacing below the search bar */
+  box-sizing: border-box;
+}
+
+.search-box {
+  width: 100%; /* Fills the width of the search-bar container */
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-box:focus {
+  border-color: #8B0000;
+  box-shadow: 0 0 4px rgba(139, 0, 0, 0.5);
+  outline: none;
+}
+
+.options-bar {
+  display: flex;
+  justify-content: space-between; /* Space between selectors and button */
+  align-items: center;
+  max-width: 640px; /* Ensure consistent width */
+  width: 100%;
+  gap: 10px;
+  margin: 0 auto;
+  padding-bottom: 20px;
+}
+
+.selectors-group {
+  display: flex;
+  gap: 10px; /* Add spacing between selectors */
+}
+
+#add-discovery-btn {
+  padding: 10px 15px;
+  border-radius: 4px;
   background-color: #8B0000;
   color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
   cursor: pointer;
+}
+
+#add-discovery-btn:hover {
+  background-color: #a50000;
+}
+
+
+#add-discovery-btn {
+  margin-left: auto; /* Push the button to the far right */
+}
+
+/* Add horizontal padding for smaller screens */
+@media (max-width: 768px) {
+  #search-bar-container,
+  .options-bar {
+    padding: 0 16px; /* Add horizontal padding */
+  }
+
+  .search-box {
+    width: 100%; /* Ensure it fills the available space within the padding */
+    padding: 10px; /* Maintain padding consistency */
+  }
+
+  #add-discovery-btn {
+    margin-left: 10px; /* Add slight spacing to the left of the button */
+  }
+}
+
+/* Default desktop styles */
+#search-bar-container,
+.options-bar {
+  display: flex;
+  justify-content: space-between; /* Align dropdowns and button */
+  align-items: center;
+  max-width: 640px;
+  width: 100%;
+  margin: 0 auto;
+  padding-bottom: 20px;
+  box-sizing: border-box;
+}
+
+
+#submit-paper-btn {
+  height: 36px; /* Same height for dropdown and button */
+  font-size: 14px; /* Smaller text for compact look */
+  padding: 0 12px; /* Reduced padding */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-color: #8B0000;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#categories-dropdown,
+#sort-dropdown,
+#add-discovery-btn {
+  height: 34px; /* Smaller height for compact look */
+  font-size: 14px; /* Uniform font size */
+  padding: 0 10px; /* Reduced padding */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#add-discovery-btn {
+  background-color: #8B0000;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#sort-dropdown {
+  width: auto; /* Shrinks to fit content */
+  background-color: #fff;
+  color: #333;
+}
+
+/* New Paper Button */
+#add-discovery-btn {
+  background-color: #8B0000;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-box:focus {
+  border-color: #8B0000;
+  box-shadow: 0 0 4px rgba(139, 0, 0, 0.5);
+  outline: none;
+}
+
+/* Swipe controls */
+#swipe-container {
+  width: 100%; /* Full width */
+  min-height: 100vh; /* Full viewport height */
+  overflow: hidden; /* Prevent scrolling */
+  touch-action: pan-y; /* Allow vertical scrolling but enable horizontal swipes */
+}
+
+#swipe-indicator {
+  position: absolute;
+  top: 50%; /* Center vertically */
+  left: 0;
+  width: 100px; /* Indicator size */
+  height: 4px; /* Thickness of the indicator */
+  background-color: rgba(139, 0, 0, 0.7); /* Semi-transparent red */
+  border-radius: 2px;
+  transform: translateX(0);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 0; /* Hidden by default */
+  pointer-events: none; /* Prevent interference with user interactions */
+}
+
+#article-content {
+  padding: 20px;
   font-size: 16px;
+  line-height: 1.5;
 }
 
 /* Tabs */
 .tabs {
-  display: flex;
-  align-items: center;
-  padding: 10px 20px;
-  background-color: #8B0000;
-  border-bottom: 1px solid #e0e0e0;
+  display: flex; /* Make tabs display in a row */
+  justify-content: flex-start; /* Align tabs to the left */
+  align-items: center; /* Vertically align tabs */
+  gap: 15px; /* Add spacing between tabs */
+  margin-bottom: 20px; /* Add space below the tabs */
+  border-bottom: 2px solid #ddd; /* Underline for the tab container */
+  width: 100%; /* Ensure the container spans full width */
+  box-sizing: border-box; /* Include padding in width calculation */
 }
 
+/* Individual Tab */
 .tab {
-  background: none;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  color: #8B0000;
-  border-bottom: 2px solid transparent;
-  font-size: 16px;
+  background-color: transparent; /* No background */
+  border: none; /* Remove default button border */
+  border-bottom: 2px solid transparent; /* Underline for active tab */
+  font-size: 16px; /* Slightly larger text */
+  font-weight: bold; /* Bold text for visibility */
+  color: #555; /* Neutral text color */
+  cursor: pointer; /* Pointer cursor on hover */
+  padding: 10px 15px; /* Add padding for spacing */
+  transition: all 0.3s ease; /* Smooth hover and focus effects */
+}
+
+.tab:hover {
+  color: #8B0000; /* Highlight text color on hover */
 }
 
 .tab.active {
-  border-bottom: 2px solid #8B0000;
-  font-weight: bold;
+  border-bottom: 2px solid;
+  color: white;  
+  background-color: #8B0000;
 }
 
-#categories-dropdown {
-  margin-left: auto;
-  padding: 5px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  font-size: 16px;
+/* Responsive Styling for Smaller Screens */
+@media (max-width: 768px) {
+  .tabs {
+    justify-content: center; /* Center tabs on smaller screens */
+    gap: 10px; /* Reduce spacing between tabs */
+  }
+
+  .tab {
+    font-size: 14px; /* Slightly smaller font for compact display */
+    padding: 8px 10px; /* Adjust padding for smaller screens */
+  }
 }
 
+/* Tab Content */
+.tab-content {
+  display: none; /* Hide by default */
+  padding: 0px, 20px;
+}
 
+.tab-content.active {
+  display: block;
+}
+
+#swipe-container {
+  padding: 10px 0;
+  overflow: hidden; /* Prevent overflow issues */
+}
 
 /* Content List */
 .content-list {
@@ -117,136 +454,265 @@ body {
   padding: 20px;
 }
 
-/* Paper Item Container */
-.paper-item {
-  display: grid;
-  grid-template-columns: 50px 1fr;
-  grid-template-rows: auto auto;
-  grid-template-areas:
-    "number title"
-    "number metadata";
-  align-items: center; /* Vertically center items */
-  padding: 10px 0;
-  border-bottom: 2px solid #f0f0f0;
+#paper-abstract {
+  line-height: 2; /* Double spacing */
+  font-size: 16px; /* Ensure the font size remains readable */
+  color: #333; /* Neutral text color for readability */
+  margin: 20px 0; /* Add some spacing above and below the abstract */
 }
 
-/* Number Styling */
-.number {
-  grid-area: number;
-  justify-self: center; /* Horizontally center the number */
-  align-self: center;   /* Vertically center the number */
-  color: #8B0000;
-  font-weight: bold;
+#news-summary-text {
+  line-height: 2; /* Double spacing for News */
 }
 
-/* Title Styling */
-.paper-title {
-  grid-area: title;
-  margin: 0;
-  color: #8B0000;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap; /* Allow wrapping for responsiveness */
+#tweets-list li {
+  line-height: 2; /* Double spacing for each tweet in the list */
 }
 
-.paper-title a {
-  text-decoration: none;
-  color: inherit;
-}
-
-/* Metadata Styling */
-.paper-info {
-  grid-area: metadata;
-  color: grey;
-  font-size: 14px;
-  margin: 5px 0 0 0;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.category-tag {
-  color: grey;
-  margin-left: 50px;
-  font-size: 14px;
-  white-space: nowrap;  /*Prevent text from wrapping */
-}
-.engagement {
-  color: grey;
-  margin-left: 250px;
-  font-size: 12px;
-  white-space: nowrap; 
-}
-
-/* Responsive Adjustments */
-@media screen and (max-width: 800px) {
-  .paper-title {
-    font-size: 16px;
-  }
-
-  .category-tag {
-  	font-size: 12px;
-  	margin-left: 50px;
-  }
-  .engagement {
-    font-size: 12px;
-    margin-left: 250px;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .paper-item {
-    grid-template-columns: 30px 1fr; /* Reduce number column width on small screens */
-    grid-template-rows: auto auto auto;
-    grid-template-areas:
-      "number title"
-      "number metadata";
-  }
-
-  .number {
-    font-size: 16px;
-  }
-
-  .paper-title {
-    font-size: 16px;
-  }
-
-  .paper-info {
-    flex-basis: 100%; /* Take full width */
-  }
-
-  .category-tag,
-  .engagement {
-  	font-size: 14px;
-    margin-left: 0;
-    margin-top: 5px;
-  }
-}
-
-
+/* Container for Navigation Buttons */
 .navigation-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin: 25px 0;
+  display: flex; /* Arrange items in a row */
+  justify-content: space-between; /* Push buttons apart */
+  align-items: center; /* Align buttons vertically */
+  width: 100%; /* Use full width */
+  max-width: 400px; /* Prevent container from being too wide */
+  margin: 20px auto; /* Center the container horizontally */
+  gap: 20px; /* Add spacing between the buttons */
 }
 
+/* Individual Buttons */
 .navigation-buttons button {
-  background-color: #8B0000;
-  color: white;
-  border: none;
+  flex: 1; /* Equal width for both buttons */
+  text-align: center; /* Center text */
   padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
   font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: #8B0000; /* Default button color */
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.navigation-buttons button:hover {
+  background-color: #a52a2a; /* Slightly lighter red on hover */
 }
 
 .navigation-buttons button:disabled {
-  background-color: #ccc;
+  background-color: #ccc; /* Gray out disabled button */
+  color: white;
   cursor: not-allowed;
 }
 
+/* Hide the navigation buttons on phone-sized screens */
+@media (max-width: 768px) {
+  .navigation-buttons {
+    display: none; /* Hides the entire navigation buttons container */
+  }
+}
 
+.navigation-buttons,
+.navigation-buttons::before,
+.navigation-buttons::after,
+.navigation-buttons button {
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+.navigation-buttons {
+  border-top: none; /* Remove any top border specifically */
+}
+
+
+/* Paper Item Container */
+.paper-item {
+  display: flex;
+  flex-direction: column; /* Stack content vertically */
+  padding: 10px 15px; /* Add padding for breathing room */
+  margin: 10px 5px; /* Space between items */
+  border: 1px solid #ddd; /* Light border for subtle separation */
+  border-radius: 6px; /* Rounded corners for a modern look */
+}
+
+/* Hover State for Paper Items */
+.paper-item:hover {
+  background-color: #f0f0f0; /* Slightly darker background on hover */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); /* Enhance the shadow on hover */
+  cursor: pointer;
+}
+
+/* Title Section */
+.paper-title {
+  font-size: 16px; /* Slightly larger for better emphasis */
+  font-weight: bold;
+  margin-bottom: 8px; /* Adjust spacing below the title */
+  line-height: 1.4; /* Adjust line height for better readability */
+  color: #8B0000; /* Keep the deep red color */
+  text-align: left; /* Align to the left */
+  transition: color 0.3s ease; /* Smooth hover effect */
+}
+
+.paper-title a {
+  text-decoration: none; /* Remove underline */
+  color: inherit; /* Inherit the title's color */
+}
+
+.paper-title a:hover {
+  color: #a50000; /* Slightly lighter red on hover */
+  text-decoration: underline; /* Add a subtle underline */
+}
+
+/* Info Section (Authors and Date) */
+.paper-info {
+  font-size: 14px; /* Smaller font size */
+  color: #555; /* Neutral gray text */
+  margin-bottom: 15px; /* Space below info section */
+}
+
+/* Info Row (Category and Comments) */
+.info-row {
+  display: flex;
+  justify-content: space-between; /* Push category and engagement to opposite sides */
+  align-items: center; /* Align items vertically */
+  margin-top: auto; /* Push row towards the bottom */
+  width: 100%; /* Full width of container */
+}
+
+/* Category Tag */
+.category-tag {
+  font-size: 12px;
+  color: #555;
+  background-color: #f3f3f3; /* Light gray background */
+  padding: 5px 10px; /* Padding inside tag */
+  border-radius: 4px; /* Rounded corners */
+  white-space: nowrap; /* Prevent wrapping */
+  overflow: hidden; /* Hide overflowing text */
+  text-overflow: ellipsis; /* Show ellipsis if text is too long */
+}
+
+/* Engagement (Comments Count) */
+.engagement {
+  font-size: 12px; /* Match category tag font size */
+  color: #555;
+  text-align: right; /* Align text to the right */
+  white-space: nowrap; /* Prevent wrapping */
+  cursor: pointer;
+}
+
+.engagement:hover {
+  text-decoration: underline; /* Add underline on hover */
+}
+
+.feedback-container, .kgain-panel {
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.form-title {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.form-instructions {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.feedback-step {
+  margin-bottom: 20px;
+}
+
+.feedback-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+textarea {
+  resize: none;
+}
+
+button {
+  padding: 10px 15px;
+  font-size: 14px;
+  color: #fff;
+  background: #8B0000;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #a50000;
+}
+
+.next-btn, .back-btn {
+  margin-right: 10px;
+}
+
+/* Progress Bar Container */
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 20px; /* Adds space below */
+}
+
+/* Progress Indicator */
+.progress {
+  height: 100%;
+  width: 0%;
+  background-color: #8B0000;
+  transition: width 0.3s ease;
+}
+
+/* Quiz Section */
+.quiz-section {
+  margin-top: 20px;
+  text-align: center;
+}
+
+/* Take Quiz Button */
+.take-quiz-button {
+  background-color: #8B0000;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.take-quiz-button:hover {
+  background-color: #a50000;
+  transform: scale(1.05);
+}
 
 /* Sign-In Modal */
 .sign-in-container {
@@ -269,7 +735,7 @@ body {
   left: 0;
   width: 100%; /* Full width */
   height: 100%; /* Full height */
-  background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+  background-color: rgba(0, 0, 0, 0.3); /* Black background with opacity */
   display: flex; /* Enable Flexbox */
   justify-content: center; /* Center horizontally */
   align-items: center; /* Center vertically */
@@ -278,7 +744,7 @@ body {
 
 .sign-in-box {
   background-color: white;
-  padding: 40px;
+  padding: 10px;
   border: 1px solid #f0f0f0;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -301,36 +767,6 @@ body {
   font-size: 24px;
   cursor: pointer;
 }
-
-#google-sign-in, .sign-in-box button {
-  background-color: #8B0000;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin: 10px 0;
-  width: 100%;
-  font-size: 16px;
-}
-
-.sign-in-box input {
-  width: 100%;
-  padding: 10px;
-  margin: 5px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-}
-
-.sign-in-box a {
-  display: block;
-  margin: 10px 0;
-  color: #8B0000;
-  text-decoration: none;
-  font-size: 14px;
-}
-
 
 /* Up Arrow Button Styles */
 #toggle-feedback-btn {
@@ -428,9 +864,6 @@ body {
   }
 }
 
-
-
-
 /* working feedback below */
 
 /* Feedback Form */
@@ -481,51 +914,22 @@ body {
   width: 100%;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .search-box {
-    width: 100%;
-    margin: 10px 0;
-  }
-  .tabs {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  #categories-dropdown {
-    margin-left: 0;
-    margin-top: 10px;
-  }
-}
-
-
 /* Paper Details Section */
 .paper-details {
-  background: #fff;
-  padding: 40px 0;
+  padding: 20px 10px;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #ddd;
 }
 
-.paper-details .container {
-  max-width: 800px;
-  margin: auto;
+/* Title and Author */
+.paper-header {
+  text-align: center; /* Center align for a clean look */
+  margin-bottom: 20px; /* Space below the header */
 }
 
-.paper-details h2 {
-  margin-bottom: 10px;
-  color: #333;
-}
-
-.paper-details .paper-info {
-  color: #666;
-  margin-bottom: 20px;
-}
-
-.paper-details .paper-abstract {
-  font-size: 18px;
-  line-height: 1.6;
+#paper-info {
+  font-size: 16px; /* Smaller author font */
+  color: #555; /* Neutral gray for secondary information */
 }
 
 /* Science News Section */
@@ -622,45 +1026,6 @@ body {
   background-color: #a30000;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .header .container {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .header nav ul {
-    flex-direction: column;
-    margin-top: 10px;
-  }
-  
-  .header nav ul li {
-    margin-left: 0;
-    margin-bottom: 10px;
-  }
-  
-  .introduction {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .profile-pic {
-    margin: 0 0 15px 0;
-  }
-  
-  .intro-text {
-    margin: 0;
-  }
-  
-  .paper-details .container {
-    padding: 0 10px;
-  }
-  
-  #feedback-form {
-    padding: 15px;
-  }
-}
-
 /* Sign-Up Modal */
 .sign-up-container {
   display: none; /* Hidden by default */
@@ -748,18 +1113,6 @@ body {
   cursor: pointer;
 }
 
-/* Responsive Adjustments for KGain Panel and Sticky Footer */
-@media (max-width: 768px) {
-  .kgain-panel {
-    width: 100%;
-  }
-
-  .sticky-footer {
-    padding: 10px;
-  }
-}
-
-
 /* Modal Styling */
 .sign-in-container,
 .sign-up-container,
@@ -841,47 +1194,6 @@ body {
   background-color: #a30000;
 }
 
-/* KGain Panel Styling */
-.kgain-panel {
-  display: none; /* Hidden by default */
-  position: fixed;
-  top: 50%;
-  right: 0;
-  transform: translateY(-50%);
-  width: 300px;
-  background-color: #f9f9f9;
-  box-shadow: -2px 0 5px rgba(0,0,0,0.3);
-  padding: 20px;
-  transition: transform 0.3s ease-in-out;
-  z-index: 1002;
-  overflow-y: auto;
-}
-
-.kgain-panel.active {
-  display: block; /* Show when active */
-  transform: translateY(-50%) translateX(-100%);
-}
-
-/* Optional: Add media queries for responsiveness */
-@media (max-width: 768px) {
-  .sign-in-box,
-  .sign-up-box,
-  .password-reset-box,
-  .kgain-panel {
-    width: 95%;
-  }
-
-  .kgain-panel {
-    width: 100%;
-    right: -100%;
-  }
-
-  .kgain-panel.active {
-    transform: translateY(-50%) translateX(-100%);
-  }
-}
-
-
 /* Tooltip Container */
 .tooltip-container {
   position: relative;
@@ -962,8 +1274,6 @@ body {
 	text-align: center;
 }
 
-
-
 /* Leaderboard Table Styles */
 #leaderboard-table {
   width: 100%;
@@ -991,38 +1301,6 @@ body {
 #leaderboard-table tr:hover {
   background-color: #ddd;
 }
-
-/* Tabs Styles */
-.tabs {
-  display: flex;
-  align-items: center;
-  padding: 10px 20px;
-  background-color: #fff; /* White background */
-}
-
-.tab {
-  background-color: #f1f1f1;
-  border: none;
-  outline: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  margin-right: 5px;
-  border-radius: 4px;
-}
-
-.tab.active, .tab:hover {
-  background-color: #8B0000; /* Deep Red */
-  color: white;
-}
-
-#categories-dropdown {
-  margin-left: auto;
-  padding: 8px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
-
 
 /* Modal Styles for Knowledge Level Prompt */
 .modal {

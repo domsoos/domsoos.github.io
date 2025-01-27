@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then((doc) => {
           if (doc.exists) {
             const userData = doc.data();
-            signInButton.textContent = `Signed in as ${userData.name}`;
+            signInButton.textContent = `${userData.name}`;
 
             /*if (userData.isAdmin) {
               // Show "Submit New Paper" and "Add Discovery" buttons for admins

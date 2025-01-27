@@ -1,4 +1,5 @@
 <!-- scisense/index.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,73 +20,99 @@
   <script src="js/script.js" defer></script>
   <script src="js/leaderboard.js" defer></script>
 
+
 </head>
 <body>
 
   <!-- Header -->
   <header class="header">
-    <div class="logo"><a href="index.html">SciSense</a></div>
-    <br>
-    <br>
-
-    <!-- Tabs and Categories -->
-  <button class="tab active" data-tab="trending">Trending</button>
-  <button class="tab" data-tab="most-discussed">Most Discussed</button>
-  <button class="tab" data-tab="leaderboard">Leaderboard</button> <!-- Leaderboard Tab -->
-
-    <button id="create-account-button">Create Account</button>
-    <button id="sign-in-button">Sign In</button>
+    <!-- Wrapper for Logo, Navigation, and Menu Toggle -->
+    <div class="header-row">
+      <div class="logo">
+        <a href="index.html">SciSense</a>
+      </div>
+  
+      <!-- Navigation Buttons (Visible on Desktop) -->
+      <nav class="desktop-nav">
+        <button class="tab active" data-tab="trending">Trending</button>
+        <button class="tab" data-tab="most-discussed">Most Discussed</button>
+        <button class="tab" data-tab="leaderboard">Leaderboard</button>
+        <!-- Sidebar Sign In Button -->
+        <button class="sign-in-btn">Sign In</button>
+      </nav>
+  
+      <!-- Menu Toggle for Mobile -->
+      <button class="menu-toggle" id="menu-toggle">&#9776;</button>
+    </div>
+  
+    <!-- Sidebar for Mobile -->
+    <nav class="sidebar" id="sidebar">
+      <button class="close-btn" id="close-btn">&times;</button>
+      <ul class="sidebar-menu">
+        <li><button class="tab active" data-tab="trending">Trending</button></li>
+        <li><button class="tab" data-tab="most-discussed">Most Discussed</button></li>
+        <li><button class="tab" data-tab="leaderboard">Leaderboard</button></li>
+        <li><button id="create-account-button">Create Account</button></li>
+        <li><button class="sign-in-btn">Sign In</button>
+        </li>
+      </ul>
+    </nav>
   </header>
+  
+  
+  <script src="js/components/SideBar/sidebar.js" defer></script>
+
 
   <!-- Banner -->
   <section class="banner">
-    <p>Where Science Makes Sense</p>
-      <!-- Submit New Paper Button -->
+    
+    <p class="banner-title">Where Science Makes Sense</p>
 
-      <!-- SEARCH BAR -->
+    <!-- SEARCH BAR -->
     <div id="search-bar-container">
       <!-- Load component scripts -->
       <script src="./js/components/SearchBar/searchbar.js"></script>
       <!-- Initialize scripts -->
       <script src="./js/components/SearchBar/init.js"></script>
+    </div>
+
+    <!-- Options Row: Dropdowns and New Paper Button -->
+    
+    <div class="options-bar">
+      <!-- Grouped Selectors -->
+      <div class="selectors-group">
         <select id="categories-dropdown">
-    <option value="all">All </option>
-    <option value="nature">Nature</option>
-    <option value="health">Health</option>
-    <option value="tech">Tech</option>
-    <option value="physics">Physics</option>
-    <option value="space">Space</option>
-    <option value="environment">Environment</option>
-    <option value="society">Society</option>
-  </select>
+          <option value="all">All</option>
+          <option value="nature">Nature</option>
+          <option value="health">Health</option>
+          <option value="tech">Tech</option>
+          <option value="physics">Physics</option>
+          <option value="space">Space</option>
+          <option value="environment">Environment</option>
+          <option value="society">Society</option>
+        </select>
+    
+        <select id="sort-dropdown">
+          <option value="hot">Hot</option>
+          <option value="new">New</option>
+          <option value="best">Best</option>
+        </select>
+      </div>
+    
+      <!-- New Paper Button -->
+      <button id="add-discovery-btn">+ Paper</button>
     </div>
-
-	<!-- User Actions Section -->
-<!-- User Actions Section -->
-	<div id="user-actions" style="margin: 20px 0;">
-	  <button id="submit-paper-btn" style="display: none; background-color: #8B0000; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin-right: 10px;">
-	    Add New Paper
-	  </button>
-	  <button id="add-discovery-btn" style="display: none; background-color: #8B0000; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">
-	    Submit New Scientific Discovery
-	  </button>
-	</div>
-		<!-- 
-    <div class="container">
-  	  Sign in to submit a new paper
-  	  <br>
-  	  <br>
-      <button id="submit-new-paper-btn">Submit New Paper</button>
-    </div>
-     -->
-
+    
   </section>
+  <div class="pageWrapper">
 
 <!-- Trending Content -->
 <div class="tab-content active" id="trending">
   <div id="content-list">
-    <p id="loading-message">Loading papers...</p>
-    <!-- Trending papers will be populated here -->
+    <div id="loading-indicator">
+      <div class="spinner"></div>
+    </div>
+        <!-- Trending papers will be populated here -->
   </div>
 </div>
 
@@ -237,6 +264,6 @@
     </div>
   </div>
 </div> -->
-
+</div>
 </body>
 </html>

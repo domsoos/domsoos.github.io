@@ -1,5 +1,3 @@
-// scisense/js/paper.js
-
 document.addEventListener('DOMContentLoaded', () => {
   const auth = window.auth;
   const db = window.db;
@@ -7,92 +5,19 @@ document.addEventListener('DOMContentLoaded', () => {
   // DOM Elements
   const toggleFeedbackBtn = document.getElementById('toggle-feedback-btn');
   const feedbackForm = document.getElementById('feedback-form');
-
-  // KGain Elements
   const kgainArrow = document.getElementById('kgain-arrow');
   const kgainPanel = document.getElementById('kgain-panel');
   const kgainCloseBtn = document.getElementById('kgain-close');
-
   const submitNewPaperBtn = document.getElementById('submit-new-paper-btn');
-
   const paperTitle = document.getElementById('paper-title');
   const paperInfo = document.getElementById('paper-info');
   const paperAbstract = document.getElementById('paper-abstract');
   const newsSummaryText = document.getElementById('news-summary-text');
   const tweetsList = document.getElementById('tweets-list');
-  const kgainForm = document.getElementById('kgain-form'); // Ensure this exists
-  const paperIdInput = document.getElementById('paper-id'); // Ensure this exists or remove if not needed
-
-
+  const paperIdInput = document.getElementById('paper-id');
   const prevButton = document.getElementById('prev-paper-button');
   const nextButton = document.getElementById('next-paper-button');
-
-  // Function to open a modal
-  const openModal = (modal) => {
-    modal.classList.add('active');
-  };
-
-  // Function to close a modal
-  const closeModalFn = (modal) => {
-    modal.classList.remove('active');
-  };
-
-  // Event Listeners for Close Buttons
-  const closeButtons = document.querySelectorAll('.close-modal');
-  closeButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      const modal = button.closest('.sign-in-container') ||
-                    button.closest('.sign-up-container') ||
-                    button.closest('.kgain-panel');
-      closeModalFn(modal);
-    });
-  });
-
-    // Close Modals when clicking outside the box
-  window.addEventListener('click', (e) => {
-    if (e.target.classList.contains('kgain-panel')) {
-      closeModalFn(kgainPanel);
-    }
-  });
-
-    // KGain Panel Functionality
-  if (kgainArrow && kgainPanel && kgainCloseBtn) {
-    kgainArrow.addEventListener('click', () => {
-      kgainPanel.classList.add('active');
-    });
-
-    kgainCloseBtn.addEventListener('click', () => {
-      kgainPanel.classList.remove('active');
-    });
-  }
-
-    // Tab Functionality
-  const tabs = document.querySelectorAll('.tab');
-  const tabContents = document.querySelectorAll('.tab-content');
-
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      const targetTab = tab.getAttribute('data-tab');
-
-      // Remove active class from all tabs
-      tabs.forEach(t => t.classList.remove('active'));
-      
-      // Hide all tab contents
-      tabContents.forEach(content => content.style.display = 'none');
-      
-      // Add active class to the clicked tab
-      tab.classList.add('active');
-      
-      // Show the corresponding tab content
-      const activeContent = document.getElementById(targetTab);
-      if (activeContent) {
-        activeContent.style.display = 'block';
-        activeContent.classList.add('active');
-      }
-    });
-  });
-
-
+  const swipeContainer = document.getElementById('swipe-container');
 
   // Function to get Paper ID from URL
   const getPaperIdFromURL = () => {
@@ -100,104 +25,211 @@ document.addEventListener('DOMContentLoaded', () => {
     return urlParams.get('id');
   };
 
+  const currentPaperId = getPaperIdFromURL();
+  console.log('Current Paper ID:', currentPaperId);
+
+  if (!currentPaperId) {
+    console.error('Invalid Paper ID. Cannot load paper details.');
+    displayErrorMessage('Invalid Paper ID. Please try again.');
+    return;
+  }
+
+  // Function to display error messages
+  function displayErrorMessage(message) {
+    if (paperTitle) paperTitle.textContent = message;
+    if (paperInfo) paperInfo.textContent = '';
+    if (paperAbstract) paperAbstract.textContent = 'N/A';
+    if (newsSummaryText) newsSummaryText.textContent = 'N/A';
+    if (tweetsList) tweetsList.innerHTML = '<li>N/A</li>';
+  }
+
   // Function to load paper details from Firestore
   function loadPaperDetails() {
     const paperId = getPaperIdFromURL();
     if (!paperId) {
-      paperTitle.textContent = 'Invalid Paper ID.';
-      paperInfo.textContent = '';
-      document.getElementById('abstract').innerHTML = 'N/A';
-      document.getElementById('news-summary-text').textContent = 'N/A';
-      tweetsList.innerHTML = '<li>N/A</li>';
+      displayErrorMessage('Invalid Paper ID. Please try again.');
       return;
     }
 
-    // Fetch the paper document from Firestore
-    db.collection('papers').doc(paperId).get()
+    db.collection('papers')
+      .doc(paperId)
+      .get()
       .then((doc) => {
         if (doc.exists) {
           const paper = doc.data();
+          console.log('Loaded paper:', paper);
 
           // Populate Paper Details
-          paperTitle.textContent = paper.title ? paper.title : 'Untitled Paper';
-          
-          // Handle the 'date' field as a string
-          let submissionDate = 'N/A';
-          if (paper.date && typeof paper.date === 'string') {
-            const dateObj = new Date(paper.date);
-            if (!isNaN(dateObj)) {
-              submissionDate = dateObj.toLocaleDateString();
-            } else {
-              submissionDate = paper.date;
-            }
-          }
-          const authors = paper.authors ? paper.authors : 'Unknown Authors';
+          paperTitle.textContent = paper.title || 'Untitled Paper';
+          const authors = paper.authors || 'Unknown Authors';
+          const submissionDate = paper.date
+            ? new Date(paper.date).toLocaleDateString()
+            : 'N/A';
           paperInfo.textContent = `${authors} • ${submissionDate}`;
+          paperAbstract.textContent = paper.abstract || 'N/A';
+          newsSummaryText.textContent = paper.news || 'N/A';
 
-          // Populate Abstract
-          const abstractContent = paper.abstract && paper.abstract !== '-' ? paper.abstract : 'N/A';
-          document.getElementById('paper-abstract').textContent = abstractContent;
-
-          // Populate News Summary
-          const newsContent = paper.news && paper.news !== '-' ? paper.news : 'N/A';
-          document.getElementById('news-summary-text').textContent = newsContent;
-
-          // Populate Author Tweets
-          tweetsList.innerHTML = ''; // Clear existing tweets
-          if (paper.tweets && Array.isArray(paper.tweets) && paper.tweets.length > 0) {
-            paper.tweets.forEach(tweet => {
+          // Populate Tweets
+          tweetsList.innerHTML = '';
+          if (Array.isArray(paper.tweets) && paper.tweets.length > 0) {
+            paper.tweets.forEach((tweet) => {
               const li = document.createElement('li');
-              li.textContent = tweet && tweet !== '-' ? tweet : 'N/A';
+              li.textContent = tweet;
               tweetsList.appendChild(li);
             });
           } else {
             tweetsList.innerHTML = '<li>N/A</li>';
           }
 
-          // If you have a hidden input for paperId, set its value
-          if (paperIdInput) {
-            paperIdInput.value = paperId;
-          }
-          console.log(paperId);
+          // Set up navigation buttons
           setupNavigation(paperId);
         } else {
-          paperTitle.textContent = 'Paper Not Found.';
-          paperInfo.textContent = '';
-          document.getElementById('abstract').textContent = 'N/A';
-          document.getElementById('news-summary-text').textContent = 'N/A';
-          tweetsList.innerHTML = '<li>N/A</li>';
+          displayErrorMessage('Paper Not Found.');
         }
       })
       .catch((error) => {
         console.error('Error fetching paper:', error);
-        paperTitle.textContent = 'Error Loading Paper.';
-        paperInfo.textContent = '';
-        document.getElementById('abstract').textContent = 'N/A';
-        document.getElementById('news-summary-text').textContent = 'N/A';
-        tweetsList.innerHTML = '<li>N/A</li>';
+        displayErrorMessage('Error Loading Paper. Please try again.');
       });
   }
 
   // Call the function to load paper details
   loadPaperDetails();
 
+  // Tab Functionality
+  function setupTabs() {
+    const tabs = document.querySelectorAll('.tab'); // Select all tabs
+    const tabContents = document.querySelectorAll('.tab-content'); // Select all tab contents
+  
+    if (!tabs || !tabContents) {
+      console.error('Tabs or Tab Content elements are missing in the DOM.');
+      return;
+    }
+  
+    // Loop through each tab and add click event
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', (e) => {
+        e.preventDefault(); // Prevent default behavior (e.g., navigation)
+  
+        const targetTab = tab.getAttribute('data-tab'); // Get the target tab from data-tab attribute
+  
+        // Remove 'active' class from all tabs and hide all tab contents
+        tabs.forEach((t) => t.classList.remove('active'));
+        tabContents.forEach((content) => {
+          content.style.display = 'none';
+          content.classList.remove('active');
+        });
+  
+        // Add 'active' class to the clicked tab
+        tab.classList.add('active');
+  
+        // Show the corresponding tab content
+        const activeContent = document.getElementById(targetTab);
+        if (activeContent) {
+          activeContent.style.display = 'block';
+          activeContent.classList.add('active');
+        } else {
+          console.error(`No content found for tab: ${targetTab}`);
+        }
+      });
+    });
+  
+    // Automatically show the first tab on load
+    const firstTab = tabs[0];
+    const firstTabContent = tabContents[0];
+    if (firstTab && firstTabContent) {
+      firstTab.classList.add('active');
+      firstTabContent.style.display = 'block';
+      firstTabContent.classList.add('active');
+    }
+  }
+  
 
-  // **Define the setupNavigation Function**
+setupTabs();
+
+  /**
+   * Adds swipe navigation for switching between papers.
+   */
+  function setupSwipeNavigation(currentPaperId) {
+    console.log('Setting up swipe navigation for:', currentPaperId);
+  
+    if (!swipeContainer) {
+      console.warn('Swipe container not found. Skipping swipe setup.');
+      return;
+    }
+  
+    let touchStartX = 0;
+    let touchEndX = 0;
+    let isSwiping = false;
+  
+    // Visual cue for swipe progress
+    const swipeIndicator = document.createElement('div');
+    swipeIndicator.id = 'swipe-indicator';
+    swipeContainer.appendChild(swipeIndicator);
+  
+    swipeContainer.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      isSwiping = true;
+      swipeIndicator.style.opacity = '0.5'; // Make indicator visible
+    });
+  
+    swipeContainer.addEventListener('touchmove', (e) => {
+      if (!isSwiping) return;
+      touchEndX = e.changedTouches[0].screenX;
+  
+      const swipeProgress = touchEndX - touchStartX;
+      swipeIndicator.style.transform = `translateX(${swipeProgress}px)`;
+    });
+  
+    swipeContainer.addEventListener('touchend', () => {
+      const swipeDistance = touchEndX - touchStartX;
+      const swipeThreshold = 100; // Minimum distance for a valid swipe
+  
+      swipeIndicator.style.opacity = '0'; // Hide indicator
+      swipeIndicator.style.transform = 'translateX(0px)'; // Reset position
+      isSwiping = false;
+  
+      if (Math.abs(swipeDistance) > swipeThreshold) {
+        if (swipeDistance > 0) {
+          console.log('Swipe Right detected');
+          document.body.classList.add('swiping-right');
+          setTimeout(() => {
+            document.body.classList.remove('swiping-right');
+            prevButton?.click();
+          }, 300); // Delay navigation for animation
+        } else {
+          console.log('Swipe Left detected');
+          document.body.classList.add('swiping-left');
+          setTimeout(() => {
+            document.body.classList.remove('swiping-left');
+            nextButton?.click();
+          }, 300); // Delay navigation for animation
+        }
+      }
+  
+      // Reset swipe values
+      touchStartX = 0;
+      touchEndX = 0;
+    });
+  }  
+
+  setupSwipeNavigation(currentPaperId);
+
   /**
    * Sets up the Previous and Next buttons based on the list of displayed papers.
    * @param {string} currentPaperId - The ID of the currently viewed paper.
    */
   function setupNavigation(currentPaperId) {
+    console.log('Setting up navigation for paper:', currentPaperId);
+
     if (!prevButton || !nextButton) {
       console.warn('Previous and/or Next buttons are not found in the DOM.');
       return;
     }
-    
-    // Retrieve the list of displayed paper IDs from localStorage
+
     const displayedPapersJSON = localStorage.getItem('displayedPapers');
-    console.log('Displayed Paper IDs Stored:', displayedPapersJSON);
     if (!displayedPapersJSON) {
-      console.warn('No displayed papers list found in localStorage.');
+      console.warn('No displayed papers found in localStorage.');
       prevButton.disabled = true;
       nextButton.disabled = true;
       return;
@@ -213,307 +245,110 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Determine Previous and Next Paper IDs
     const prevPaperId = currentIndex > 0 ? displayedPapers[currentIndex - 1] : null;
-    const nextPaperId = currentIndex < displayedPapers.length - 1 ? displayedPapers[currentIndex + 1] : null;
+    const nextPaperId =
+      currentIndex < displayedPapers.length - 1 ? displayedPapers[currentIndex + 1] : null;
 
-    // **Set Up Previous Button**
+    // Set up Previous Button
     if (prevPaperId) {
       prevButton.disabled = false;
-      prevButton.addEventListener('click', handlePrevClick);
+      prevButton.addEventListener('click', () => {
+        window.location.href = `paper.html?id=${prevPaperId}`;
+      });
     } else {
-      prevButton.disabled = true; // No previous paper
+      prevButton.disabled = true;
     }
 
-    // **Set Up Next Button**
+    // Set up Next Button
     if (nextPaperId) {
       nextButton.disabled = false;
-      nextButton.addEventListener('click', handleNextClick);
+      nextButton.addEventListener('click', () => {
+        window.location.href = `paper.html?id=${nextPaperId}`;
+      });
     } else {
-      nextButton.disabled = true; // No next paper
+      nextButton.disabled = true;
     }
-
-    // **Handle Previous Button Click**
-    function handlePrevClick() {
-      window.location.href = `paper.html?id=${prevPaperId}`;
-    }
-
-    // **Handle Next Button Click**
-    function handleNextClick() {
-      window.location.href = `paper.html?id=${nextPaperId}`;
-    }
-
-    // **Optional: Remove Existing Event Listeners to Prevent Multiple Bindings**
-    // This is useful if `setupNavigation` might be called multiple times
-    // before navigating to another paper.
-    // Use named functions or event delegation to manage listeners more effectively.
   }
 
-
-
-  // Function to get correct answers (Replace with Firestore data fetching if needed)
-  const getCorrectAnswers = (paperId) => {
-    const papersData = {
-      "deep-learning-approaches-in-ai": {
-        kgain1: "A",
-        kgain2: "A"
-      },
-      "language-models-are-few-shot-learners": {
-        kgain1: "A",
-        kgain2: "A"
-      },
-      "seq-2-seq": {
-        kgain1: "C",
-        kgain2: "B"
-      }
-      // Add more papers and their correct answers
-    };
-
-    return papersData[paperId] || null;
-  };
-
-  // Function to get option text for feedback
-  const getOptionText = (paperId, questionName, option) => {
-    const papersData = {
-      "deep-learning-approaches-in-ai": {
-        kgain1: {
-          A: "They require large amounts of data and computational resources.",
-          B: "They are always interpretable.",
-          C: "They cannot be used for image recognition."
-        },
-        kgain2: {
-          A: "Healthcare",
-          B: "Agriculture",
-          C: "Retail"
-        }
-      },
-      "language-models-are-few-shot-learners": {
-        kgain1: {
-          A: "The ability of models to perform tasks with only a few examples.",
-          B: "Models that require extensive training data.",
-          C: "A method where models learn from zero examples."
-        },
-        kgain2: {
-          A: "Enabled more flexible and efficient language understanding and generation.",
-          B: "Made models slower and less accurate.",
-          C: "Has no significant impact."
-        }
-      },
-      "seq-2-seq": {
-        kgain1: {
-          A: "Convolutional Neural Networks (CNNs)",
-          B: "Recurrent Neural Networks (RNNs)",
-          C: "Sequence-to-Sequence (Seq2Seq) model with Encoder and Decoder"
-        },
-        kgain2: {
-          A: "Image classification",
-          B: "Machine translation",
-          C: "Object detection"
-        }
-      }
-      // Add more papers and their options
-    };
-
-    return papersData[paperId][questionName][option] || "";
-  };
-
-  // Toggle Feedback Form Visibility
+// Event Listeners for Feedback Button
+if (toggleFeedbackBtn && feedbackForm) {
   toggleFeedbackBtn.addEventListener('click', () => {
     feedbackForm.classList.toggle('active');
+  });
+}
 
-    // Change button icon and aria-label based on state
-    if (feedbackForm.classList.contains('active')) {
-      toggleFeedbackBtn.innerHTML = '<i class="fas fa-arrow-down"></i>'; // Down arrow
-      toggleFeedbackBtn.setAttribute('aria-label', 'Close Feedback Form');
-      
-      // Prevent background scrolling
-      document.body.style.overflow = 'hidden';
-      
-      // Move focus to the first input field
-      const firstInput = feedbackForm.querySelector('textarea, input, select');
-      if (firstInput) {
-        firstInput.focus();
-      }
-    } else {
-      toggleFeedbackBtn.innerHTML = '<i class="fas fa-arrow-up"></i>'; // Up arrow
-      toggleFeedbackBtn.setAttribute('aria-label', 'Open Feedback Form');
-      
-      // Restore background scrolling
-      document.body.style.overflow = '';
+const takeQuizButton = document.getElementById('take-quiz-button');
+const paperDetailsSection = document.getElementById('paper-details');
+const feedbackSection = document.getElementById('feedback-section');
+const feedbackSteps = document.querySelectorAll('.feedback-step'); // All steps
+const progressBar = document.getElementById('progress'); // Progress bar element
+const backToContentButton = document.createElement('button');
+
+let currentStepIndex = 0; // Track the current feedback step
+
+// Function to show a specific feedback step
+function showFeedbackStep(index) {
+  feedbackSteps.forEach((step, i) => {
+    step.style.display = i === index ? 'block' : 'none'; // Show only the current step
+  });
+  updateProgressBar(index); // Update progress bar
+}
+
+// Function to update the progress bar width
+function updateProgressBar(index) {
+  const progressPercentage = ((index + 1) / feedbackSteps.length) * 100;
+  progressBar.style.width = `${progressPercentage}%`;
+}
+
+// Take Quiz Button - Start Feedback Section
+takeQuizButton.addEventListener('click', () => {
+  // Hide paper details and show feedback form
+  paperDetailsSection.style.display = 'none';
+  feedbackSection.style.display = 'block';
+  currentStepIndex = 0; // Reset to first step
+  showFeedbackStep(currentStepIndex);
+});
+
+// "Next" button functionality
+const nextButtons = document.querySelectorAll('.next-btn');
+nextButtons.forEach((btn) => {
+  btn.addEventListener('click', () => {
+    if (currentStepIndex < feedbackSteps.length - 1) {
+      currentStepIndex++;
+      showFeedbackStep(currentStepIndex);
     }
   });
+});
 
-  // Handle Feedback Form Submission
-  if (feedbackForm) {
-    const feedbackFormInner = document.getElementById('feedback-form-inner');
-
-    feedbackFormInner.addEventListener('submit', (e) => {
-      e.preventDefault();
-
-      const user = auth.currentUser;
-      if (!user) {
-        alert('Please sign in to submit feedback.');
-        return;
-      }
-
-      const paperId = getPaperIdFromURL();
-      if (!paperId) {
-        alert('Invalid Paper ID.');
-        return;
-      }
-
-      // Collect Feedback Data
-      const feedbackMessage = document.getElementById('feedback-message').value.trim();
-
-      if (!feedbackMessage) {
-        alert('Please enter your feedback.');
-        return;
-      }
-
-      // Submit Feedback to Firestore
-      db.collection('feedback').add({
-        userId: user.uid,
-        paperId: paperId,
-        message: feedbackMessage,
-        submittedAt: firebase.firestore.FieldValue.serverTimestamp(),
-      })
-      .then(() => {
-        alert('Thank you for your feedback!');
-        feedbackFormInner.reset();
-        feedbackForm.classList.remove('active');
-        toggleFeedbackBtn.innerHTML = '<i class="fas fa-arrow-up"></i>'; // Reset to up arrow
-        toggleFeedbackBtn.setAttribute('aria-label', 'Open Feedback Form');
-        document.body.style.overflow = ''; // Restore background scrolling
-      })
-      .catch((error) => {
-        console.error('Error submitting feedback:', error);
-        alert('There was an error submitting your feedback. Please try again later.');
-      });
-    });
-  }
-
-    // Handle KGain Form Submission
-    if (kgainForm) {
-      kgainForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const user = auth.currentUser;
-        if (!user) {
-          alert('Please sign in to submit your answers.');
-          return;
-        }
-
-        const paperId = getPaperIdFromURL();
-        if (!paperId) {
-          alert('Invalid Paper ID.');
-          return;
-        }
-
-        // Fetch correct answers from Firestore or a predefined object
-        const correctAnswers = getCorrectAnswers(paperId);
-        if (!correctAnswers) {
-          alert('Cannot retrieve correct answers.');
-          return;
-        }
-
-        const userAnswers = {
-          kgain1: kgainForm.kgain1.value,
-          kgain2: kgainForm.kgain2.value
-        };
-
-        let pointsEarned = 0;
-        let feedback = '';
-
-        // Validate answers
-        if (userAnswers.kgain1 === correctAnswers.kgain1) {
-          pointsEarned += 10;
-          feedback += 'Question 1: Correct! +10 points.\n';
-        } else {
-          feedback += `Question 1: Incorrect. Correct answer: ${correctAnswers.kgain1}) ${getOptionText(paperId, 'kgain1', correctAnswers.kgain1)}\n`;
-        }
-
-        if (userAnswers.kgain2 === correctAnswers.kgain2) {
-          pointsEarned += 10;
-          feedback += 'Question 2: Correct! +10 points.\n';
-        } else {
-          feedback += `Question 2: Incorrect. Correct answer: ${correctAnswers.kgain2}) ${getOptionText(paperId, 'kgain2', correctAnswers.kgain2)}\n`;
-        }
-
-        // Update user points in Firestore
-        db.collection('users').doc(user.uid).update({
-          points: firebase.firestore.FieldValue.increment(pointsEarned)
-        })
-        .then(() => {
-          feedback += `\nTotal Points Earned: ${pointsEarned}`;
-          alert(feedback);
-          kgainForm.reset();
-          closeKGainPanel();
-        })
-        .catch((error) => {
-          console.error('Error updating points:', error);
-          alert('Failed to update points. Please try again.');
-        });
-      });
+// "Back" button functionality
+const backButtons = document.querySelectorAll('.back-btn');
+backButtons.forEach((btn) => {
+  btn.addEventListener('click', () => {
+    if (currentStepIndex > 0) {
+      currentStepIndex--;
+      showFeedbackStep(currentStepIndex);
     }
+  });
+});
 
-    // Handle Feedback Form Submission
-    if (feedbackForm) {
-      feedbackForm.addEventListener('submit', (e) => {
-        e.preventDefault();
+// Add "Back to Content" button functionality
+backToContentButton.textContent = 'Back to Content';
+backToContentButton.classList.add('back-to-content-button');
+feedbackSection.appendChild(backToContentButton);
 
-        const user = auth.currentUser;
-        if (!user) {
-          alert('Please sign in to submit feedback.');
-        }
+backToContentButton.addEventListener('click', () => {
+  feedbackSection.style.display = 'none';
+  paperDetailsSection.style.display = 'block';
+});
 
-        // Collect Paper ID from Hidden Input
-        const paperId = paperIdInput.value;
+// Transition to Knowledge Gain Panel after Feedback Submission
+feedbackForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  feedbackSection.style.display = 'none';
+  kgainPanel.style.display = 'block';
+});
 
-        // Collect Demographic Information
-        const demographic = {
-          age: document.getElementById('age').value || "Not provided",
-          academicLevel: document.getElementById('academicLevel').value || "Not provided",
-          occupation: document.getElementById('occupation').value || "Not provided",
-        };
-
-        // Collect Stimuli Feedback
-        const newsVsAbstracts = document.querySelector('input[name="newsVsAbstracts"]:checked');
-        const news1VsNews2 = document.querySelector('input[name="news1VsNews2"]:checked');
-
-        if (!newsVsAbstracts || !news1VsNews2) {
-          alert('Please complete all required fields in Stimuli Feedback.');
-          return;
-        }
-
-        const stimuliFeedback = {
-          newsVsAbstracts: newsVsAbstracts.value,
-          news1VsNews2: news1VsNews2.value,
-        };
-
-        // Collect KGain Feedback
-        const kGain1 = document.getElementById('kgain1').value.trim();
-        const kGain2 = document.getElementById('kgain2').value.trim();
-
-        if (!kGain1 || !kGain2) {
-          alert('Please answer all KGain questions.');
-          return;
-        }
-
-        const kGainFeedback = {
-          question1: kGain1,
-          question2: kGain2,
-        };
-
-        // Submit Feedback to Firestore
-        submitFeedback(user.uid, paperId, demographic, stimuliFeedback, kGainFeedback);
-
-        // Update User Demographics if provided
-        updateUserDemographics(user.uid, demographic);
-
-        // Reset Form
-        feedbackForm.reset();
-        alert('Thank you for your feedback!');
-      });
-    }
+// Initialize the first step and progress bar
+showFeedbackStep(currentStepIndex);
 
 });

@@ -449,61 +449,61 @@ document.addEventListener('DOMContentLoaded', () => {
       const paper = doc.data();
       const paperId = doc.id;
 
-      // Create paper-item div
-      const paperItem = document.createElement('div');
-      paperItem.classList.add('paper-item');
+     // Create a new paper-item div
+const paperItem = document.createElement('div');
+paperItem.classList.add('paper-item');
 
-      // Number
-      const numberSpan = document.createElement('span');
-      numberSpan.classList.add('number');
-      numberSpan.textContent = `${index + 1}.`;
-      paperItem.appendChild(numberSpan);
+// Title Section
+const titleSection = document.createElement('h3');
+titleSection.classList.add('paper-title');
+const titleLink = document.createElement('a');
+titleLink.href = `paper.html?id=${paperId}`;
+titleLink.textContent = paper.title ? paper.title : 'Untitled Paper';
+titleSection.appendChild(titleLink);
+paperItem.appendChild(titleSection);
 
-      // Title with link
-      const titleH3 = document.createElement('h3');
-      titleH3.classList.add('paper-title');
-      const titleLink = document.createElement('a');
-      titleLink.href = `paper.html?id=${paperId}`;
-      titleLink.textContent = paper.title ? paper.title : 'Untitled Paper';
-      titleH3.appendChild(titleLink);
-      paperItem.appendChild(titleH3);
+// Info Section
+const infoSection = document.createElement('p');
+infoSection.classList.add('paper-info');
+const authorsText = paper.authors ? paper.authors : 'Unknown Authors';
+let formattedDate = 'N/A';
+if (paper.date && paper.date.toDate) {
+  try {
+    formattedDate = paper.date.toDate().toLocaleDateString();
+  } catch (error) {
+    console.error('Error formatting date:', error);
+  }
+}
+infoSection.textContent = `${authorsText} • ${formattedDate}`;
+paperItem.appendChild(infoSection);
 
-      // Paper Info
-      const infoP = document.createElement('p');
-      infoP.classList.add('paper-info');
-      const authorsText = paper.authors ? paper.authors : 'Unknown Authors';
+// Category and Engagement Row
+const rowSection = document.createElement('div');
+rowSection.classList.add('info-row');
 
-      // Handling the 'date' field
-      let formattedDate = 'N/A';
-      if (paper.date && paper.date.toDate) {
-        try {
-          formattedDate = paper.date.toDate().toLocaleDateString();
-        } catch (error) {
-          console.error('Error formatting date:', error);
-        }
-      }
-      infoP.textContent = `${authorsText} • ${formattedDate}`;
-      paperItem.appendChild(infoP);
+// Category Tag
+const categorySpan = document.createElement('span');
+categorySpan.classList.add('category-tag');
+categorySpan.textContent =
+  paper.tags && paper.tags.length > 0
+    ? paper.tags.join(', ')
+    : 'No Category';
+rowSection.appendChild(categorySpan);
 
-      // Category Tag
-      const categorySpan = document.createElement('span');
-      categorySpan.classList.add('category-tag');
-      categorySpan.textContent =
-        paper.tags && paper.tags.length > 0
-          ? paper.tags.join(', ')
-          : 'No Category';
-      paperItem.appendChild(categorySpan);
+// Engagement (Comments Count)
+const engagementSpan = document.createElement('span');
+engagementSpan.classList.add('engagement');
+const commentsCount =
+  typeof paper.commentsCount === 'number' ? paper.commentsCount : 0;
+engagementSpan.textContent = `${commentsCount} Comments`;
+rowSection.appendChild(engagementSpan);
 
-      // Engagement (Comments Count)
-      const engagementSpan = document.createElement('span');
-      engagementSpan.classList.add('engagement');
-      const commentsCount =
-        typeof paper.commentsCount === 'number' ? paper.commentsCount : 0;
-      engagementSpan.textContent = `${commentsCount} Comments`;
-      paperItem.appendChild(engagementSpan);
+// Add the rowSection to paperItem
+paperItem.appendChild(rowSection);
 
-      // Append the paper-item to content-list
-      contentList.appendChild(paperItem);
+// Append the paperItem to contentList
+contentList.appendChild(paperItem);
+
     });
 
     // If no results are found
@@ -524,5 +524,39 @@ document.addEventListener('DOMContentLoaded', () => {
   } else if (initialActiveTab === 'most-discussed') {
     displayMostDiscussed(initialCategory, searchInput.value.trim().toLowerCase());
   }
-  // Leaderboard is handled separately in leaderboard.js
+  
+  
+  const signInButtons = document.querySelectorAll('.sign-in-btn');
+  const signInModal = document.getElementById('sign-in-modal');
+  const closeModalButtons = document.querySelectorAll('.close-modal');
+  
+  // Open Modal Logic
+  function openSignInModal() {
+    console.log('Opening Sign-In Modal');
+    signInModal.classList.add('active');
+    signInModal.style.display = 'block';
+  }
+  
+  // Close Modal Logic
+  function closeSignInModal() {
+    console.log('Closing Sign-In Modal');
+    signInModal.classList.remove('active');
+    signInModal.style.display = 'none';
+  }
+  
+  // Attach Listeners Safely
+  signInButtons.forEach(button => {
+    button.addEventListener('click', openSignInModal);
+  });
+  
+  closeModalButtons.forEach(button => {
+    button.addEventListener('click', closeSignInModal);
+  });
+  
+  // Optional: Close modal when clicking outside
+  window.addEventListener('click', (e) => {
+    if (e.target === signInModal) closeSignInModal();
+  });
+  
+  
 });
