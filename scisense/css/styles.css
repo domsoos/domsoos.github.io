@@ -365,20 +365,6 @@ sign-in-button,
   touch-action: pan-y; /* Allow vertical scrolling but enable horizontal swipes */
 }
 
-#swipe-indicator {
-  position: absolute;
-  top: 50%; /* Center vertically */
-  left: 0;
-  width: 100px; /* Indicator size */
-  height: 4px; /* Thickness of the indicator */
-  background-color: rgba(139, 0, 0, 0.7); /* Semi-transparent red */
-  border-radius: 2px;
-  transform: translateX(0);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  opacity: 0; /* Hidden by default */
-  pointer-events: none; /* Prevent interference with user interactions */
-}
-
 #article-content {
   padding: 20px;
   font-size: 16px;
