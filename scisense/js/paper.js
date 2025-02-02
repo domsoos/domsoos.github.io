@@ -188,6 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tweetsList.innerHTML = '<li>N/A</li>';
         kgainSection.style.display = 'none';
       });
+
   }
 
   // **Define Swipe Navigation Functionality**
