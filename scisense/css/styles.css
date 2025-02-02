@@ -359,8 +359,6 @@ sign-in-button,
 
 /* Swipe controls */
 #swipe-container {
-  width: 100%; /* Full width */
-  min-height: 100vh; /* Full viewport height */
   overflow: hidden; /* Prevent scrolling */
   touch-action: pan-y; /* Allow vertical scrolling but enable horizontal swipes */
 }

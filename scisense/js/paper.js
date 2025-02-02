@@ -1,5 +1,3 @@
-// scisense/js/paper.js
-
 document.addEventListener('DOMContentLoaded', () => {
   const auth = window.auth;
   const db = window.db;
@@ -12,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const kgainArrow = document.getElementById('kgain-arrow');
   const kgainPanel = document.getElementById('kgain-panel');
   const kgainCloseBtn = document.getElementById('kgain-close');
-
   const submitNewPaperBtn = document.getElementById('submit-new-paper-btn');
 
   const paperTitle = document.getElementById('paper-title');
@@ -23,11 +20,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const kgainForm = document.getElementById('kgain-form'); // Ensure this exists
   const paperIdInput = document.getElementById('paper-id'); // Ensure this exists or remove if not needed
 
-
   const prevButton = document.getElementById('prev-paper-button');
   const nextButton = document.getElementById('next-paper-button');
 
   const kgainSection = document.getElementById('kgain-section');
+
+  // *** NEW: Swipe container element ***
+  // Make sure you have an element with id="swipe-container" in your HTML.
+  const swipeContainer = document.getElementById('swipe-container');
 
   // Function to open a modal
   const openModal = (modal) => {
@@ -50,14 +50,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-    // Close Modals when clicking outside the box
+  // Close Modals when clicking outside the box
   window.addEventListener('click', (e) => {
     if (e.target.classList.contains('kgain-container')) {
       closeModalFn(kgainPanel);
     }
   });
 
-    /// KGain Panel Functionality
+  /// KGain Panel Functionality
   if (kgainArrow && kgainPanel && kgainCloseBtn) {
     kgainArrow.addEventListener('click', () => {
       kgainPanel.classList.add('active');
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-    // Tab Functionality
+  // Tab Functionality
   const tabs = document.querySelectorAll('.tab');
   const tabContents = document.querySelectorAll('.tab-content');
 
@@ -148,15 +148,15 @@ document.addEventListener('DOMContentLoaded', () => {
           // Populate Author Tweets
           tweetsList.innerHTML = ''; // Clear existing tweets
           if (paper.tweethtml) {
-			const embeddedTweetLi = document.createElement('p');
-			embeddedTweetLi.innerHTML = paper.tweethtml;
-			tweetsList.appendChild(embeddedTweetLi);
+            const embeddedTweetLi = document.createElement('p');
+            embeddedTweetLi.innerHTML = paper.tweethtml;
+            tweetsList.appendChild(embeddedTweetLi);
 
-			  // Re-scan the newly inserted blockquote
-			if (window.twttr) {
-			    window.twttr.widgets.load(tweetsList);
-			}
-		  }
+            // Re-scan the newly inserted blockquote
+            if (window.twttr) {
+              window.twttr.widgets.load(tweetsList);
+            }
+          }
 
           // If you have a hidden input for paperId, set its value
           if (paperIdInput) {
@@ -164,6 +164,9 @@ document.addEventListener('DOMContentLoaded', () => {
           }
           console.log(paperId);
           setupNavigation(paperId);
+
+          // *** NEW: Set up swipe navigation after loading the paper ***
+          setupSwipeNavigation(paperId);
 
           // Fetch and display KGain questions
           fetchKGainQuestions(paperId, category);
@@ -187,7 +190,81 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   }
 
-    // **Function to Fetch and Display KGain Questions**
+  // **Define Swipe Navigation Functionality**
+  function setupSwipeNavigation(currentPaperId) {
+    // If no swipe container is found, exit.
+    if (!swipeContainer) {
+      console.warn('Swipe container not found. Skipping swipe setup.');
+      return;
+    }
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+    let isSwiping = false;
+
+    // Create the swipe indicator element with instructional text
+    const swipeIndicator = document.createElement('div');
+    swipeIndicator.id = 'swipe-indicator';
+    swipeIndicator.textContent = 'Swipe for next article';
+    swipeIndicator.style.opacity = '1'; // Fully visible initially
+    swipeContainer.appendChild(swipeIndicator);
+
+    // Automatically fade out the indicator after 3 seconds
+    setTimeout(() => {
+      swipeIndicator.style.transition = 'opacity 0.5s ease';
+      swipeIndicator.style.opacity = '0';
+    }, 3000);
+
+    swipeContainer.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      isSwiping = true;
+      // Make indicator visible when the swipe starts
+      swipeIndicator.style.transition = 'opacity 0.2s ease';
+      swipeIndicator.style.opacity = '0.5';
+    });
+
+    swipeContainer.addEventListener('touchmove', (e) => {
+      if (!isSwiping) return;
+      touchEndX = e.changedTouches[0].screenX;
+      const swipeProgress = touchEndX - touchStartX;
+      swipeIndicator.style.transform = `translateX(${swipeProgress}px)`;
+    });
+
+    swipeContainer.addEventListener('touchend', () => {
+      const swipeDistance = touchEndX - touchStartX;
+      const swipeThreshold = 100; // Minimum distance for a valid swipe
+
+      // Reset indicator's styles
+      swipeIndicator.style.opacity = '0';
+      swipeIndicator.style.transform = 'translateX(0px)';
+      isSwiping = false;
+
+      if (Math.abs(swipeDistance) > swipeThreshold) {
+        if (swipeDistance > 0) {
+          console.log('Swipe Right detected');
+          document.body.classList.add('swiping-right');
+          setTimeout(() => {
+            document.body.classList.remove('swiping-right');
+            // Trigger previous paper navigation
+            if (prevButton) prevButton.click();
+          }, 300);
+        } else {
+          console.log('Swipe Left detected');
+          document.body.classList.add('swiping-left');
+          setTimeout(() => {
+            document.body.classList.remove('swiping-left');
+            // Trigger next paper navigation
+            if (nextButton) nextButton.click();
+          }, 300);
+        }
+      }
+      // Reset swipe values
+      touchStartX = 0;
+      touchEndX = 0;
+    });
+  }
+
+  // **Function to Fetch and Display KGain Questions**
   function fetchKGainQuestions(paperId, category) {
     if (!kgainSection) {
       console.error('KGain Section not found in the DOM.');
@@ -224,7 +301,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // We'll accumulate all question references here
     let allQuestions = [];
 
-
     // Fetch KGain questions from Firestore
     db.collection('papers').doc(paperId).collection('kgainQuestions').get()
       .then((snapshot) => {
@@ -235,69 +311,68 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
 
-      // Separate questions by type
-      const typeA = [];
-      const typeB = [];
-      const typeC = [];
+        // Separate questions by type
+        const typeA = [];
+        const typeB = [];
+        const typeC = [];
 
-      snapshot.forEach((doc) => {
-        const data = doc.data();
-        if (data.type === 'a') typeA.push({ id: doc.id, data });
-        else if (data.type === 'b') typeB.push({ id: doc.id, data });
-        else if (data.type === 'c') typeC.push({ id: doc.id, data });
-      });
-
-      // Rendering helper
-      function renderQuestions(qArr, parentDiv, typeKey) {
-        qArr.forEach((qObj) => {
-          const { id, data } = qObj;
-
-          const questionDiv = document.createElement('div');
-          questionDiv.classList.add('kgain-question');
-
-          const questionText = document.createElement('p');
-          questionText.textContent = data.questionText;
-          questionDiv.appendChild(questionText);
-
-          const optionsDiv = document.createElement('div');
-          questionDiv.classList.add('kgain-options');
-          for (const [optKey, optValue] of Object.entries(data.options)) {
-            const label = document.createElement('label');
-            label.textContent = optValue;
-
-            const radio = document.createElement('input');
-            radio.type = 'radio';
-            radio.name = `question-${id}`;
-            radio.value = optKey;
-
-            label.prepend(radio);
-            optionsDiv.appendChild(label);
-          }
-          questionDiv.appendChild(optionsDiv);
-
-          // Voting (checkbox)
-          const voteLabel = document.createElement('label');
-          voteLabel.textContent = ' Vote for this question';
-          const voteCheck = document.createElement('input');
-          voteCheck.type = 'checkbox';
-          // name each vote uniquely so we can locate it later
-          voteCheck.name = `vote-${id}`;
-          voteCheck.classList.add(`vote-${typeKey}`);
-          voteLabel.prepend(voteCheck);
-          questionDiv.appendChild(voteLabel);
-
-          parentDiv.appendChild(questionDiv);
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          if (data.type === 'a') typeA.push({ id: doc.id, data });
+          else if (data.type === 'b') typeB.push({ id: doc.id, data });
+          else if (data.type === 'c') typeC.push({ id: doc.id, data });
         });
-      }
 
-      // Render in separate containers
-      renderQuestions(typeA, containerA, 'a');
-      renderQuestions(typeB, containerB, 'b');
-      renderQuestions(typeC, containerC, 'c');
+        // Rendering helper
+        function renderQuestions(qArr, parentDiv, typeKey) {
+          qArr.forEach((qObj) => {
+            const { id, data } = qObj;
 
-      // Combine all questions in a single array for scoring
-      allQuestions = [...typeA, ...typeB, ...typeC];
+            const questionDiv = document.createElement('div');
+            questionDiv.classList.add('kgain-question');
 
+            const questionText = document.createElement('p');
+            questionText.textContent = data.questionText;
+            questionDiv.appendChild(questionText);
+
+            const optionsDiv = document.createElement('div');
+            questionDiv.classList.add('kgain-options');
+            for (const [optKey, optValue] of Object.entries(data.options)) {
+              const label = document.createElement('label');
+              label.textContent = optValue;
+
+              const radio = document.createElement('input');
+              radio.type = 'radio';
+              radio.name = `question-${id}`;
+              radio.value = optKey;
+
+              label.prepend(radio);
+              optionsDiv.appendChild(label);
+            }
+            questionDiv.appendChild(optionsDiv);
+
+            // Voting (checkbox)
+            const voteLabel = document.createElement('label');
+            voteLabel.textContent = ' Vote for this question';
+            const voteCheck = document.createElement('input');
+            voteCheck.type = 'checkbox';
+            // name each vote uniquely so we can locate it later
+            voteCheck.name = `vote-${id}`;
+            voteCheck.classList.add(`vote-${typeKey}`);
+            voteLabel.prepend(voteCheck);
+            questionDiv.appendChild(voteLabel);
+
+            parentDiv.appendChild(questionDiv);
+          });
+        }
+
+        // Render in separate containers
+        renderQuestions(typeA, containerA, 'a');
+        renderQuestions(typeB, containerB, 'b');
+        renderQuestions(typeC, containerC, 'c');
+
+        // Combine all questions in a single array for scoring
+        allQuestions = [...typeA, ...typeB, ...typeC];
 
         // Submit Button
         const submitButton = document.createElement('button');
@@ -370,7 +445,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const userAnswerText = question.options[userAnswer] || 'No answer selected';
             const correctAnswerText = question.options[correctAnswer] || 'No correct answer';
 
-            
             feedbackHTML += `
               <div class="kgain-feedback">
                 <p><strong>${question.questionText}</strong></p>
@@ -440,7 +514,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Call the function to load paper details
   loadPaperDetails();
 
-
   // **Define the setupNavigation Function**
   /**
    * Sets up the Previous and Next buttons based on the list of displayed papers.
@@ -504,7 +577,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Hide the feedback form by default
-  //const feedbackForm = document.getElementById('feedback-form');
   feedbackForm.style.display = 'none';
 
   // Show the feedback form when the button is clicked
@@ -513,8 +585,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.getElementById('toggle-feedback-btn').addEventListener('click', function() {
-  document.getElementById('feedback-form').classList.toggle('active');
-  this.classList.toggle('active');
+    document.getElementById('feedback-form').classList.toggle('active');
+    this.classList.toggle('active');
   });
 
   // Toggle Feedback Form Visibility
@@ -550,5 +622,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Toggle Feedback Form Visibility on second click
   toggleFeedbackBtn.addEventListener('click', toggleFeedbackForm);
-  
 });
