@@ -1,0 +1,128 @@
+
+/* Sign-Up Modal */
+.sign-up-container {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1001; /* Above other elements */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+}
+
+.sign-up-box {
+  background-color: #fefefe;
+  margin: 10% auto; /* 10% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+  max-width: 400px;
+  border-radius: 8px;
+}
+
+.sign-up-box h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.sign-up-box form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.sign-up-box form input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+}
+
+.sign-up-box form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #8B0000;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.sign-up-box form button:hover {
+  background-color: #a30000;
+}
+
+.sign-up-box p {
+  text-align: center;
+}
+
+.sign-up-box p a {
+  color: #8B0000;
+  text-decoration: none;
+}
+
+.sign-up-box p a:hover {
+  text-decoration: underline;
+}
+
+
+/* Modal Styling */
+.sign-in-container,
+.sign-up-container,
+.password-reset-container {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* Ensure it's on top */
+}
+
+.sign-in-container.active,
+.sign-up-container.active,
+.password-reset-container.active {
+  display: flex; /* Show when active */
+}
+
+.sign-in-box,
+.sign-up-box,
+.password-reset-box {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 95%;
+  max-width: 450px;
+  position: relative;
+}
+
+#email-sign-in-form {
+	/*width: 95%;*/
+	/*padding:20px;*/
+	width: 95%;
+	position: relative;
+}
+
+#email-sign-in-form button {
+	width: 85%;
+	text-align: center;
+
+}
+
+/* Close Button Styling */
+.close-modal {
+  position: relative;
+  top: 10px;
+  /*right: 1px;*/
+  font-size: 27px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  background: none;
+}

@@ -595,10 +595,10 @@ fiedldset .demographic-feedback {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .header {
-    /*flex-direction: column;*/
+  /*.header {
+    flex-direction: column;
     align-items: flex-start;
-  }
+  }*/
   .search-box {
     width: 100%;
     margin: 10px 0;
@@ -607,9 +607,9 @@ fiedldset .demographic-feedback {
     margin-left: 0;
     margin-top: 10px;
   }
-  .sign-in-button {
+  /*.sign-in-button {
   	float: right;
-  }
+  }*/
 }
 
 
@@ -733,45 +733,6 @@ fiedldset .demographic-feedback {
   background-color: #a30000;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .header .container {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .header nav ul {
-    flex-direction: column;
-    margin-top: 10px;
-  }
-  
-  .header nav ul li {
-    margin-left: 0;
-    margin-bottom: 10px;
-  }
-  
-  .introduction {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .profile-pic {
-    margin: 0 0 15px 0;
-  }
-  
-  .intro-text {
-    margin: 0;
-  }
-  
-  .paper-details .container {
-    padding: 0 10px;
-  }
-  
-  #feedback-form {
-    padding: 15px;
-  }
-}
-
 /* Sign-Up Modal */
 .sign-up-container {
   display: none; /* Hidden by default */
@@ -859,17 +820,6 @@ fiedldset .demographic-feedback {
   cursor: pointer;
 }
 
-/* Responsive Adjustments for KGain Panel and Sticky Footer */
-@media (max-width: 768px) {
-  .kgain-panel {
-    width: 100%;
-  }
-
-  .sticky-footer {
-    padding: 10px;
-  }
-}
-
 
 /* Modal Styling */
 .sign-in-container,
@@ -929,126 +879,6 @@ fiedldset .demographic-feedback {
   background: none;
 }
 
-/* KGain Arrow Styling */
-.kgain-arrow {
-  position: fixed;
-  bottom: 50%;
-  right: 0;
-  transform: translateY(50%);
-  background-color: #8B0000;
-  color: white;
-  width: 40px;
-  height: 40px;
-  border-radius: 8px 0 0 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 1001;
-  box-shadow: -2px 2px 5px rgba(0,0,0,0.3);
-}
-
-.kgain-arrow:hover {
-  background-color: #a30000;
-}
-
-/* KGain Panel Styling */
-.kgain-panel {
-  display: none; /* Hidden by default */
-  position: fixed;
-  top: 50%;
-  right: 0;
-  transform: translateY(-50%);
-  width: 300px;
-  background-color: #f9f9f9;
-  box-shadow: -2px 0 5px rgba(0,0,0,0.3);
-  padding: 20px;
-  transition: transform 0.3s ease-in-out;
-  z-index: 1002;
-  overflow-y: auto;
-}
-
-.kgain-panel.active {
-  display: block; /* Show when active */
-  transform: translateY(-50%) translateX(-100%);
-}
-
-/* for low width screens */
-/* Optional: Add media queries for responsiveness 
-@media (max-width: 768px) {
-  .sign-in-box,
-  .sign-up-box,
-  .password-reset-box,
-  .kgain-panel {
-    width: 95%;
-  }
-
-  .kgain-panel {
-    width: 100%;
-    right: -100%;
-  }
-
-  .kgain-panel.active {
-    transform: translateY(-50%) translateX(-100%);
-  }
-}
-*/
-
-
-/* Tooltip Container */
-.tooltip-container {
-  position: relative;
-  display: inline-block;
-}
-
-/* Tooltip Button */
-.tooltip-button {
-  background: none;
-  border: none;
-  color: #555;
-  font-weight: bold;
-  cursor: pointer;
-  font-size: 16px;
-  padding: 0;
-  margin-left: 5px;
-}
-
-/* Tooltip Content */
-.tooltip-content {
-  visibility: hidden;
-  width: 250px;
-  background-color: #333;
-  color: #fff;
-  text-align: left;
-  border-radius: 6px;
-  padding: 10px;
-  position: absolute;
-  z-index: 1003;
-  bottom: 125%;
-  left: 50%;
-  margin-left: -125px;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-/* Tooltip Arrow */
-.tooltip-content::after {
-  content: "";
-  position: absolute;
-  top: 100%; /* At the bottom of the tooltip */
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #333 transparent transparent transparent;
-}
-
-/* Show Tooltip on Hover */
-.tooltip-container:hover .tooltip-content,
-.tooltip-container:focus-within .tooltip-content {
-  visibility: visible;
-  opacity: 1;
-}
 
 /* Submit New Paper Button */
 .submit-new-contribution {
@@ -1227,7 +1057,7 @@ fiedldset .demographic-feedback {
 
 /* User Actions Section */
 #user-actions {
-  margin: 20px 0; /* Adjust as needed */
+  margin: 20px 0;
 }
 
 /* Submit Paper Button */
@@ -1347,8 +1177,16 @@ fiedldset .demographic-feedback {
   background-color: #6A0000; /* Darker Blue */
 }
 
+.entity-image {
+    text-align: center;
+    display: block;
+    max-width: 80%;
+}
+.entity-image img {
+	max-width: 80%;
+}
 
-
-
-
+.entity-url-preview img {
+   max-width: 80%;
+}
 

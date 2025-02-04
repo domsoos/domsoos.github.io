@@ -8,11 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const toggleFeedbackBtn = document.getElementById('toggle-feedback-btn');
   const feedbackForm = document.getElementById('feedback-form');
 
-  // KGain Elements
-  const kgainArrow = document.getElementById('kgain-arrow');
-  const kgainPanel = document.getElementById('kgain-panel');
-  const kgainCloseBtn = document.getElementById('kgain-close');
-
   const submitNewPaperBtn = document.getElementById('submit-new-paper-btn');
 
   const paperTitle = document.getElementById('paper-title');
@@ -50,25 +45,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-    // Close Modals when clicking outside the box
+  // Close Modals when clicking outside the box
   window.addEventListener('click', (e) => {
     if (e.target.classList.contains('kgain-container')) {
       closeModalFn(kgainPanel);
     }
   });
 
-    /// KGain Panel Functionality
-  if (kgainArrow && kgainPanel && kgainCloseBtn) {
-    kgainArrow.addEventListener('click', () => {
-      kgainPanel.classList.add('active');
-    });
-
-    kgainCloseBtn.addEventListener('click', () => {
-      kgainPanel.classList.remove('active');
-    });
-  }
-
-    // Tab Functionality
+  // Tab Functionality
   const tabs = document.querySelectorAll('.tab');
   const tabContents = document.querySelectorAll('.tab-content');
 
