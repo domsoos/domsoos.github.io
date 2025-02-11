@@ -1,5 +1,3 @@
-// scisense/js/paper.js
-
 document.addEventListener('DOMContentLoaded', () => {
   const auth = window.auth;
   const db = window.db;
@@ -18,11 +16,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const kgainForm = document.getElementById('kgain-form'); // Ensure this exists
   const paperIdInput = document.getElementById('paper-id'); // Ensure this exists or remove if not needed
 
-
   const prevButton = document.getElementById('prev-paper-button');
   const nextButton = document.getElementById('next-paper-button');
 
   const kgainSection = document.getElementById('kgain-section');
+
+  // *** NEW: Swipe container element ***
+  // Make sure you have an element with id="swipe-container" in your HTML.
+  const swipeContainer = document.getElementById('swipe-container');
 
   // Function to open a modal
   const openModal = (modal) => {
@@ -136,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			embeddedTweetLi.innerHTML = paper.tweethtml;
 			tweetsList.appendChild(embeddedTweetLi);
 
-			  // Re-scan the newly inserted blockquote
+			// Re-scan the newly inserted blockquote
 			if (window.twttr) {
 			    window.twttr.widgets.load(tweetsList);
 			}
@@ -148,6 +149,9 @@ document.addEventListener('DOMContentLoaded', () => {
           }
           console.log(paperId);
           setupNavigation(paperId);
+
+          // *** NEW: Set up swipe navigation after loading the paper ***
+          setupSwipeNavigation(paperId);
 
           // Fetch and display KGain questions
           fetchKGainQuestions(paperId, category);
@@ -171,7 +175,80 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   }
 
-    // **Function to Fetch and Display KGain Questions**
+  // **Define Swipe Navigation Functionality**
+  function setupSwipeNavigation(currentPaperId) {
+    // If no swipe container is found, exit.
+    if (!swipeContainer) {
+      console.warn('Swipe container not found. Skipping swipe setup.');
+      return;
+    }
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+    let isSwiping = false;
+
+    // Create the swipe indicator element with instructional text
+    const swipeIndicator = document.createElement('div');
+    swipeIndicator.id = 'swipe-indicator';
+    swipeIndicator.textContent = 'Swipe for next article';
+    swipeIndicator.style.opacity = '1'; // Fully visible initially
+    swipeContainer.appendChild(swipeIndicator);
+
+    // Automatically fade out the indicator after 3 seconds
+    setTimeout(() => {
+      swipeIndicator.style.transition = 'opacity 0.5s ease';
+      swipeIndicator.style.opacity = '0';
+    }, 3000);
+
+    swipeContainer.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      isSwiping = true;
+      // Make indicator visible when the swipe starts
+      swipeIndicator.style.transition = 'opacity 0.2s ease';
+      swipeIndicator.style.opacity = '0.5';
+    });
+
+    swipeContainer.addEventListener('touchmove', (e) => {
+      if (!isSwiping) return;
+      touchEndX = e.changedTouches[0].screenX;
+      const swipeProgress = touchEndX - touchStartX;
+      swipeIndicator.style.transform = `translateX(${swipeProgress}px)`;
+    });
+
+    swipeContainer.addEventListener('touchend', () => {
+      const swipeDistance = touchEndX - touchStartX;
+      const swipeThreshold = 100; // Minimum distance for a valid swipe
+
+      // Reset indicator's styles
+      swipeIndicator.style.opacity = '0';
+      swipeIndicator.style.transform = 'translateX(0px)';
+      isSwiping = false;
+
+      if (Math.abs(swipeDistance) > swipeThreshold) {
+        if (swipeDistance > 0) {
+          console.log('Swipe Right detected');
+          document.body.classList.add('swiping-right');
+          setTimeout(() => {
+            document.body.classList.remove('swiping-right');
+            // Trigger previous paper navigation
+            if (prevButton) prevButton.click();
+          }, 300);
+        } else {
+          console.log('Swipe Left detected');
+          document.body.classList.add('swiping-left');
+          setTimeout(() => {
+            document.body.classList.remove('swiping-left');
+            // Trigger next paper navigation
+            if (nextButton) nextButton.click();
+          }, 300);
+        }
+      }
+      // Reset swipe values
+      touchStartX = 0;
+      touchEndX = 0;
+    });
+  }
+
   function fetchKGainQuestions(paperId, category) {
     if (!kgainSection) {
       console.error('KGain Section not found in the DOM.');
@@ -207,7 +284,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // We'll accumulate all question references here
     let allQuestions = [];
-
 
     // Fetch KGain questions from Firestore
     db.collection('papers').doc(paperId).collection('kgainQuestions').get()
@@ -282,100 +358,97 @@ document.addEventListener('DOMContentLoaded', () => {
       // Combine all questions in a single array for scoring
       allQuestions = [...typeA, ...typeB, ...typeC];
 
+      // Submit Button
+      const submitButton = document.createElement('button');
+      submitButton.type = 'submit';
+      submitButton.textContent = 'Submit Answers';
+      kgainForm.appendChild(submitButton);
 
-        // Submit Button
-        const submitButton = document.createElement('button');
-        submitButton.type = 'submit';
-        submitButton.textContent = 'Submit Answers';
-        kgainForm.appendChild(submitButton);
+      // Append the form to the container
+      kgainSection.appendChild(kgainForm);
 
-        // Append the form to the container
-        kgainSection.appendChild(kgainForm);
-
-        // Handle Form Submission
-        kgainForm.addEventListener('submit', (e) => {
-          e.preventDefault();
+      // Handle Form Submission
+      kgainForm.addEventListener('submit', (e) => {
+        e.preventDefault();
           
-          // Authenticate User
-          const user = auth.currentUser;
-          if (!user) {
-            alert("Please sign in to continue.");
-            return;
+        // Authenticate User
+        const user = auth.currentUser;
+        if (!user) {
+          alert("Please sign in to continue.");
+          return;
+        }
+
+        // Calculate Score
+        let score = 0;
+        const totalQuestions = snapshot.size;
+        const answers = {};
+
+        snapshot.forEach((doc) => {
+          const question = doc.data();
+          const selectedOption = kgainForm[`question-${doc.id}`].value;
+          if (selectedOption === question.correctAnswer) {
+            score += 10;
           }
-
-          // Calculate Score
-          let score = 0;
-          const totalQuestions = snapshot.size;
-          const answers = {};
-
-          snapshot.forEach((doc) => {
-            const question = doc.data();
-            const selectedOption = kgainForm[`question-${doc.id}`].value;
-            if (selectedOption === question.correctAnswer) {
-              score += 10;
-            }
-            answers[doc.id] = {
-              selected: selectedOption,
-              correct: question.correctAnswer
-            };
-          });
-
-          // Collect votes from checked boxes
-          const votedQuestions = [];
-          allQuestions.forEach((qObj) => {
-            const { id } = qObj;
-            const voteCheckEl = kgainForm[`vote-${id}`];
-            if (voteCheckEl && voteCheckEl.checked) {
-              votedQuestions.push(id);
-            }
-          });
-
-          // Update each voted question's "vote" field in Firestore
-          votedQuestions.forEach((questionId) => {
-            const docRef = db.collection('papers')
-                             .doc(paperId)
-                             .collection('kgainQuestions')
-                             .doc(questionId);
-            docRef.get().then(docSnap => {
-              if (!docSnap.exists) return;
-              const currentVote = docSnap.data().vote || 0;
-              docRef.update({ vote: currentVote + 1 });
-            }).catch(err => console.error('Vote update error:', err));
-          });
-
-          // Display Feedback
-          let feedbackHTML = `<p>You scored <strong>${score}</strong> out of <strong>${totalQuestions*10}</strong>.<br><strong>${score}</strong> points are added to the ${category} category</p>`;
-          snapshot.forEach((doc, index) => {
-            const question = doc.data();
-            const userAnswer = answers[doc.id].selected;
-            const correctAnswer = answers[doc.id].correct;
-            const isCorrect = userAnswer === correctAnswer;
-
-            const userAnswerText = question.options[userAnswer] || 'No answer selected';
-            const correctAnswerText = question.options[correctAnswer] || 'No correct answer';
-
-            
-            feedbackHTML += `
-              <div class="kgain-feedback">
-                <p><strong>${question.questionText}</strong></p>
-                <p>Your Answer: <strong>${userAnswerText}</strong> which is ${isCorrect ? '<span style="color: green;">Correct</span>' : '<span style="color: red;">Incorrect</span>'}</p>
-                ${!isCorrect ? `<p>Correct Answer: <strong>${correctAnswerText}</strong></p>` : ''}
-              </div>
-            `;
-          });
-
-          // Insert feedback into the container
-          kgainForm.innerHTML = feedbackHTML;
-
-          // Update User Points in Firestore
-          updateUserPoints(score, totalQuestions, answers, category);
+          answers[doc.id] = {
+            selected: selectedOption,
+            correct: question.correctAnswer
+          };
         });
-      })
-      .catch((error) => {
-        console.error('Error fetching KGain questions:', error);
-        //containerA.innerHTML = '<p>Sign in to load Knowledge Gain questions.</p>';
+
+        // Collect votes from checked boxes
+        const votedQuestions = [];
+        allQuestions.forEach((qObj) => {
+          const { id } = qObj;
+          const voteCheckEl = kgainForm[`vote-${id}`];
+          if (voteCheckEl && voteCheckEl.checked) {
+            votedQuestions.push(id);
+          }
+        });
+
+        // Update each voted question's "vote" field in Firestore
+        votedQuestions.forEach((questionId) => {
+          const docRef = db.collection('papers')
+                           .doc(paperId)
+                           .collection('kgainQuestions')
+                           .doc(questionId);
+          docRef.get().then(docSnap => {
+            if (!docSnap.exists) return;
+            const currentVote = docSnap.data().vote || 0;
+            docRef.update({ vote: currentVote + 1 });
+          }).catch(err => console.error('Vote update error:', err));
+        });
+
+        // Display Feedback
+        let feedbackHTML = `<p>You scored <strong>${score}</strong> out of <strong>${totalQuestions*10}</strong>.<br><strong>${score}</strong> points are added to the ${category} category</p>`;
+        snapshot.forEach((doc, index) => {
+          const question = doc.data();
+          const userAnswer = answers[doc.id].selected;
+          const correctAnswer = answers[doc.id].correct;
+          const isCorrect = userAnswer === correctAnswer;
+          const userAnswerText = question.options[userAnswer] || 'No answer selected';
+          const correctAnswerText = question.options[correctAnswer] || 'No correct answer';
+
+          feedbackHTML += `
+            <div class="kgain-feedback">
+              <p><strong>${question.questionText}</strong></p>
+              <p>Your Answer: <strong>${userAnswerText}</strong> which is ${isCorrect ? '<span style="color: green;">Correct</span>' : '<span style="color: red;">Incorrect</span>'}</p>
+              ${!isCorrect ? `<p>Correct Answer: <strong>${correctAnswerText}</strong></p>` : ''}
+            </div>
+            `;
+        });
+
+        // Insert feedback into the container
+        kgainForm.innerHTML = feedbackHTML;
+
+        // Update User Points in Firestore
+        updateUserPoints(score, totalQuestions, answers, category);
       });
-  }
+    })
+    .catch((error) => {
+      console.error('Error fetching KGain questions:', error);
+      //containerA.innerHTML = '<p>Sign in to load Knowledge Gain questions.</p>';
+    });
+}
 
   /**
    * Updates the user's points based on correct answers.
@@ -423,7 +496,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Call the function to load paper details
   loadPaperDetails();
-
 
   // **Define the setupNavigation Function**
   /**
@@ -534,5 +606,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Toggle Feedback Form Visibility on second click
   toggleFeedbackBtn.addEventListener('click', toggleFeedbackForm);
-  
 });
