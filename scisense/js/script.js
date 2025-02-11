@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const discoveryForm = document.getElementById('discovery-form');
   const discoveryLinkInput = document.getElementById('discovery-link');
 
-      // Admin and User Action Buttons
+  // Admin and User Action Buttons
   const submitNewPaperBtn = document.getElementById('submit-paper-btn');
   const addDiscoveryBtn = document.getElementById('add-discovery-btn');
 
@@ -34,7 +34,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const hamburger = document.getElementById('hamburger');
   const navLinks = document.getElementById('navLinks');
-      if (!hamburger || !navLinks) return;
+      if (!hamburger || !navLinks) {
+      	console.log();
+      	return;
+      } 
 
       function toggleNav() {
         navLinks.classList.toggle('open');
@@ -103,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then((doc) => {
           if (doc.exists) {
             const userData = doc.data();
-            signInButton.textContent = `Signed in as ${userData.name}`;
+            signInButton.textContent = `${userData.name}`;
 
             if (userData.isAdmin) {
               // Show "Submit New Paper" and "Add Discovery" buttons for admins
@@ -116,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           } else {
             // User document does not exist
-            signInButton.textContent = `Signed in as ${user.email}`;
+            signInButton.textContent = `Sign Out`; //`${user.email}`;
             // Hide both buttons
             if (submitNewPaperBtn) submitNewPaperBtn.style.display = 'none';
             if (addDiscoveryBtn) addDiscoveryBtn.style.display = 'none';

@@ -45,7 +45,7 @@ body {
 
 /* Hamburger */
 .hamburger {
-  font-size: 37px;
+  font-size: 25px;
   cursor: pointer;
   display: none; /* hidden on desktop by default */
 }
@@ -115,10 +115,11 @@ body {
     color:  #8B0000;
   }
 
-    .nav-links.open #create-account-button button:hover {
+    /*.nav-links.open #create-account-button button:hover {
     background-color: #8B0000;
     color:  white;
   }
+  */
 }
 
 /* Additional adjustments 

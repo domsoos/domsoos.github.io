@@ -23,29 +23,46 @@
 
 </head>
 <body>
-
   <!-- Header -->
   <header class="header">
-  	<!-- Wrapper for Logo, Navigation, and Menu Toggle -->
+  	    <div class="header-row">
+      <div class="logo">
+        <a href="index.html">SciSense</a>
+      </div>
+    <br>
+    <br>
+    <!-- --><div id="hamburger" class="hamburger" aria-label="Menu" aria-expanded="false" tabindex="0">&#9776;</div>
+    <nav id="navLinks" class="nav-links">
+	     
+	    <button class="tab active" data-tab="trending">Trending</button>
+	    <button class="tab" data-tab="most-discussed">Most Discussed</button>
+	    <button class="tab" data-tab="leaderboard">Leaderboard</button>
+	     
+	    <button class="tab" data-tab="create-account" id="create-account-button">Create Account</button>
+	    <button id="sign-in-button">Login</button>
+
+    <!-- Wrapper for Logo, Navigation, and Menu Toggle 
     <div class="header-row">
       <div class="logo">
         <a href="index.html">SciSense</a>
       </div>
+       -->
   
-      <!-- Navigation Buttons (Visible on Desktop) -->
-      <nav class="desktop-nav">
+      <!-- Navigation Buttons (Visible on Desktop)
+      <nav class="navLinks" id=nav-links>
         <button class="tab active" data-tab="trending">Trending</button>
         <button class="tab" data-tab="most-discussed">Most Discussed</button>
         <button class="tab" data-tab="leaderboard">Leaderboard</button>
-        <!-- Sidebar Sign In Button -->
-        <button id="sign-in-button">Sign In</button>
+        Sidebar Sign In Button 
+        <button id="sign-in-button">Sign In</button> -->
       </nav>
+
   
-      <!-- Menu Toggle for Mobile -->
+      <!-- Menu Toggle for Mobile 
       <button class="menu-toggle" id="menu-toggle">&#9776;</button>
     </div>
   
-    <!-- Sidebar for Mobile -->
+     Sidebar for Mobile 
     <nav class="sidebar" id="sidebar">
       <button class="close-btn" id="close-btn">&times;</button>
       <ul class="sidebar-menu">
@@ -57,9 +74,12 @@
         </li>
       </ul>
     </nav>
+    -->
   </header>
-    
+  
+  
   <script src="js/components/SideBar/sidebar.js" defer></script>
+
 
   <!-- Banner -->
   <section class="banner">
