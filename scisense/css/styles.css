@@ -588,39 +588,7 @@ sign-in-button,
   line-height: 2; /* Double spacing for each tweet in the list */
 }
 
-/*<<<<<<< HEAD
-.paper-title a {
-  text-decoration: none;
-  color: inherit;
-}
-
-.paper-info {
-  grid-area: metadata;
-  color: grey;
-  font-size: 14px;
-  margin: 5px 0 0 0;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.category-tag {
-  color: grey;
-  margin-left: 50px;
-  font-size: 14px;
-  white-space: nowrap;  
-}
-.engagement {
-  color: grey;
-  margin-left: 250px;
-  font-size: 12px;
-  white-space: nowrap; 
-}
-
-/*
-======= 
->>>>>>> origin/dev
-Container for Navigation Buttons */
+/* Container for Navigation Buttons */
 .navigation-buttons {
   display: flex; /* Arrange items in a row */
   justify-content: space-between; /* Push buttons apart */
@@ -918,47 +886,6 @@ button:hover {
   font-size: 24px;
   cursor: pointer;
 }
-
-/*
-<<<<<<< HEAD
-#google-sign-in, .sign-in-box button {
-  background-color: #8B0000;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin: 10px 0;
-  width: 100%;
-  font-size: 16px;
-}
-
-.sign-in-box input {
-  width: 100%;
-  padding: 10px;
-  margin: 5px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-}
-
-.sign-in-box a {
-  display: block;
-  margin: 10px 0;
-  color: #8B0000;
-  text-decoration: none;
-  font-size: 14px;
-}
-
-
-.toggle-div {
-  display: flex;
-  justify-content: center;
-}
-/*
-=======
->>>>>>> origin/dev
-*/
 
 /* Up Arrow Button Styles */
 #toggle-feedback-btn {
