@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Discovery Modal Elements
   const signInButton = document.getElementById('sign-in-button');
-
   const discoveryModal = document.getElementById('discovery-modal');
   const closeModalSpan = discoveryModal.querySelector('.close-modal');
   const discoveryForm = document.getElementById('discovery-form');
