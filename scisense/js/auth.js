@@ -286,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
             */
           } else {
             // User document does not exist
-            signInButton.textContent = `Signed in as ${user.email}`;
+            signInButton.textContent = `${user.email}`;
             // Hide both buttons
             //if (submitNewPaperBtn) submitNewPaperBtn.style.display = 'none';
             //if (addDiscoveryBtn) addDiscoveryBtn.style.display = 'none';

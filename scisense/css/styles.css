@@ -91,6 +91,11 @@ body {
   border: none;
 }
 
+.navlink.open #create-account-button:hover {
+    background-color: #8B0000;
+    color:  white;
+}
+
 /* Responsive: Show hamburger below 768px, hide nav by default */
 @media screen and (max-width: 800px) {
   .hamburger {
@@ -114,12 +119,10 @@ body {
     background-color: white;
     color:  #8B0000;
   }
-
-    /*.nav-links.open #create-account-button button:hover {
+  .nav-links.open #create-account-button:hover {
     background-color: #8B0000;
     color:  white;
   }
-  */
 }
 
 /* Additional adjustments 
