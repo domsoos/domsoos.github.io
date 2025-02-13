@@ -419,11 +419,11 @@ function fetchKGainQuestions(paperId, category) {
         // Remove Submit Answers button so that only vote submission remains
         submitAnswersButton.remove();
 
-        /* BEGIN: Reveal voting options after answers are submitted */
+        /* Reveal voting options after answers are submitted */
         kgainForm.querySelectorAll('.kgain-vote-label').forEach(label => {
           label.style.display = 'block';
         });
-        /* END: Reveal voting options after answers are submitted */
+        /* Reveal voting options after answers are submitted */
 
         // Add a button for vote submission after feedback is shown.
         const voteButton = document.createElement('button');
