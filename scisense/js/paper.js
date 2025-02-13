@@ -248,99 +248,91 @@ document.addEventListener('DOMContentLoaded', () => {
       touchEndX = 0;
     });
   }
+function fetchKGainQuestions(paperId, category) {
+  if (!kgainSection) {
+    console.error('KGain Section not found in the DOM.');
+    return;
+  }
+  kgainSection.style.display = 'block';
 
-  function fetchKGainQuestions(paperId, category) {
-    if (!kgainSection) {
-      console.error('KGain Section not found in the DOM.');
-      return;
-    }
+  // Create a single form and three type-specific containers
+  const kgainForm = document.createElement('form');
+  kgainForm.id = 'kgain-questions-form';
 
-    // Show the KGain section
-    kgainSection.style.display = 'block';
-  
-    // Create a single form to hold all types' questions and the submit button
-    const kgainForm = document.createElement('form');
-    kgainForm.id = 'kgain-questions-form';
+  const containerA = document.createElement('div');
+  containerA.id = 'kgain-container-a';
+  containerA.innerHTML = '<h1>True or False</h1>';
+  const containerB = document.createElement('div');
+  containerB.id = 'kgain-container-b';
+  containerB.innerHTML = '<h1>Easy Multiple Choice</h1>';
+  const containerC = document.createElement('div');
+  containerC.id = 'kgain-container-c';
+  containerC.innerHTML = '<h1>Hard Multiple Choice</h1>';
 
-    // Create separate containers for each question type inside the form
-    const containerA = document.createElement('div');
-    containerA.id = 'kgain-container-a';
-    const containerB = document.createElement('div');
-    containerB.id = 'kgain-container-b';
-    const containerC = document.createElement('div');
-    containerC.id = 'kgain-container-c';
+  kgainForm.appendChild(containerA);
+  kgainForm.appendChild(document.createElement('hr'));
+  kgainForm.appendChild(containerB);
+  kgainForm.appendChild(document.createElement('hr'));
+  kgainForm.appendChild(containerC);
 
-    // Clear them or set them empty initially
-    containerA.innerHTML = '<h1>True or False<h1>';
-    containerB.innerHTML = '<h1>Easy Multiple Choice<h1>';
-    containerC.innerHTML = '<h1>Hard Multiple Choice<h1>';
+  let allQuestions = [];
+  let typeA = [];
+  let typeB = [];
+  let typeC = [];
 
-    // Append containers to the form (plus separation lines)
-    kgainForm.appendChild(containerA);
-    kgainForm.appendChild(document.createElement('hr'));
-    kgainForm.appendChild(containerB);
-    kgainForm.appendChild(document.createElement('hr'));
-    kgainForm.appendChild(containerC);
-
-    // We'll accumulate all question references here
-    let allQuestions = [];
-
-    // Fetch KGain questions from Firestore
-    db.collection('papers').doc(paperId).collection('kgainQuestions').get()
-      .then((snapshot) => {
-        if (snapshot.empty) {
-          containerA.innerHTML = '<p>No Knowledge Gain questions available for Type 1.</p>';
-          containerB.innerHTML = '<p>No Knowledge Gain questions available for Type 2.</p>';
-          containerC.innerHTML = '<p>No Knowledge Gain questions available for Type 3.</p>';
-          return;
-        }
+  db.collection('papers').doc(paperId).collection('kgainQuestions').get()
+    .then((snapshot) => {
+      if (snapshot.empty) {
+        containerA.innerHTML += '<p>No Knowledge Gain questions available for Type 1.</p>';
+        containerB.innerHTML += '<p>No Knowledge Gain questions available for Type 2.</p>';
+        containerC.innerHTML += '<p>No Knowledge Gain questions available for Type 3.</p>';
+        return;
+      }
 
       // Separate questions by type
-      const typeA = [];
-      const typeB = [];
-      const typeC = [];
-
       snapshot.forEach((doc) => {
         const data = doc.data();
-        if (data.type === 'a') typeA.push({ id: doc.id, data });
-        else if (data.type === 'b') typeB.push({ id: doc.id, data });
-        else if (data.type === 'c') typeC.push({ id: doc.id, data });
+        const qObj = { id: doc.id, data };
+        if (data.type === 'a') typeA.push(qObj);
+        else if (data.type === 'b') typeB.push(qObj);
+        else if (data.type === 'c') typeC.push(qObj);
       });
 
-      // Rendering helper
+      // Helper: Render questions with answer options & vote checkbox that are initially hidden.
       function renderQuestions(qArr, parentDiv, typeKey) {
         qArr.forEach((qObj) => {
           const { id, data } = qObj;
-
           const questionDiv = document.createElement('div');
           questionDiv.classList.add('kgain-question');
+          questionDiv.id = 'kgain-question-' + id; // For later feedback insertion
 
           const questionText = document.createElement('p');
           questionText.textContent = data.questionText;
           questionDiv.appendChild(questionText);
 
           const optionsDiv = document.createElement('div');
-          questionDiv.classList.add('kgain-options');
+          optionsDiv.classList.add('kgain-options');
           for (const [optKey, optValue] of Object.entries(data.options)) {
             const label = document.createElement('label');
             label.textContent = optValue;
-
             const radio = document.createElement('input');
             radio.type = 'radio';
             radio.name = `question-${id}`;
             radio.value = optKey;
-
             label.prepend(radio);
             optionsDiv.appendChild(label);
           }
           questionDiv.appendChild(optionsDiv);
 
-          // Voting (checkbox)
+          // Voting checkbox (remains invisible after answer submission)
           const voteLabel = document.createElement('label');
           voteLabel.textContent = ' Vote for this question';
+          voteLabel.classList.add('kgain-vote-label');
+          voteLabel.style.display = 'none';  // HIDDEN until answers are submitted
           const voteCheck = document.createElement('input');
+          
+          //const voteCheck = document.createElement('input');
           voteCheck.type = 'checkbox';
-          // name each vote uniquely so we can locate it later
           voteCheck.name = `vote-${id}`;
           voteCheck.classList.add(`vote-${typeKey}`);
           voteLabel.prepend(voteCheck);
@@ -350,35 +342,32 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
 
-      // Render in separate containers
       renderQuestions(typeA, containerA, 'a');
       renderQuestions(typeB, containerB, 'b');
       renderQuestions(typeC, containerC, 'c');
 
-      // Combine all questions in a single array for scoring
       allQuestions = [...typeA, ...typeB, ...typeC];
 
-      // Submit Button
-      const submitButton = document.createElement('button');
-      submitButton.type = 'submit';
-      submitButton.textContent = 'Submit Answers';
-      kgainForm.appendChild(submitButton);
+      // Submit Answers button (voting is separate)
+      const submitAnswersButton = document.createElement('button');
+      submitAnswersButton.type = 'submit';
+      submitAnswersButton.textContent = 'Submit Answers';
+      kgainForm.appendChild(document.createElement('hr'));
+      kgainForm.appendChild(submitAnswersButton);
 
-      // Append the form to the container
       kgainSection.appendChild(kgainForm);
 
-      // Handle Form Submission
+      let answersSubmitted = false;
       kgainForm.addEventListener('submit', (e) => {
         e.preventDefault();
-          
-        // Authenticate User
+        if (answersSubmitted) return;
+        
         const user = auth.currentUser;
         if (!user) {
           alert("Please sign in to continue.");
           return;
         }
-
-        // Calculate Score
+        
         let score = 0;
         const totalQuestions = snapshot.size;
         const answers = {};
@@ -386,67 +375,114 @@ document.addEventListener('DOMContentLoaded', () => {
         snapshot.forEach((doc) => {
           const question = doc.data();
           const selectedOption = kgainForm[`question-${doc.id}`].value;
-          if (selectedOption === question.correctAnswer) {
-            score += 10;
-          }
+          if (selectedOption === question.correctAnswer) score += 10;
           answers[doc.id] = {
             selected: selectedOption,
-            correct: question.correctAnswer
+            correct: question.correctAnswer,
+            options: question.options
           };
         });
 
-        // Collect votes from checked boxes
-        const votedQuestions = [];
-        allQuestions.forEach((qObj) => {
-          const { id } = qObj;
-          const voteCheckEl = kgainForm[`vote-${id}`];
-          if (voteCheckEl && voteCheckEl.checked) {
-            votedQuestions.push(id);
+        // Display overall score at the top
+        const scoreDiv = document.createElement('div');
+        scoreDiv.innerHTML = `<p>You scored <strong>${score}</strong> out of <strong>${totalQuestions*10}</strong>.<br>
+                              <strong>${score}</strong> points are added to the ${category} category</p>`;
+        kgainForm.insertBefore(scoreDiv, containerA.nextSibling);
+
+        // Append feedback for each question (grouped by type)
+        function appendFeedback(qArr) {
+          qArr.forEach((qObj) => {
+            const { id } = qObj;
+            const qDiv = document.getElementById('kgain-question-' + id);
+            if (qDiv) {
+              const feedbackP = document.createElement('p');
+              const userAnswer = answers[id].selected;
+              const correctAnswer = answers[id].correct;
+              const isCorrect = userAnswer === correctAnswer;
+              const userAnswerText = answers[id].options[userAnswer] || 'No answer selected';
+              const correctAnswerText = answers[id].options[correctAnswer] || 'No correct answer';
+              feedbackP.innerHTML = `Your Answer: <strong>${userAnswerText}</strong> is 
+                                     ${isCorrect ? '<span style="color: green;">Correct</span>' : '<span style="color: red;">Incorrect</span>'}
+                                     ${!isCorrect ? `<br>Correct Answer: <strong>${correctAnswerText}</strong>` : ''}`;
+              qDiv.appendChild(feedbackP);
+              // Disable answer inputs
+              qDiv.querySelectorAll('input[type="radio"]').forEach(radio => radio.disabled = true);
+            }
+          });
+        }
+        appendFeedback(typeA);
+        appendFeedback(typeB);
+        appendFeedback(typeC);
+
+        answersSubmitted = true;
+
+        // Remove Submit Answers button so that only vote submission remains
+        submitAnswersButton.remove();
+
+        /* BEGIN: Reveal voting options after answers are submitted */
+        kgainForm.querySelectorAll('.kgain-vote-label').forEach(label => {
+          label.style.display = 'block';
+        });
+        /* END: Reveal voting options after answers are submitted */
+
+        // Add a button for vote submission after feedback is shown.
+        const voteButton = document.createElement('button');
+        voteButton.type = 'button';
+        voteButton.textContent = 'Submit Votes';
+        voteButton.style.marginTop = '20px';
+        kgainForm.appendChild(document.createElement('hr'));
+        kgainForm.appendChild(voteButton);
+
+        voteButton.addEventListener('click', () => {
+          // Count checked votes
+          let voteCount = 0;
+          allQuestions.forEach((qObj) => {
+            const { id } = qObj;
+            const voteEl = kgainForm[`vote-${id}`];
+            if (voteEl && voteEl.checked) voteCount++;
+          });
+          if (voteCount > 6) {
+            alert('You voted for more than 6 questions. Please try again!');
+            // Reset all vote checkboxes
+            allQuestions.forEach((qObj) => {
+              const { id } = qObj;
+              const voteEl = kgainForm[`vote-${id}`];
+              if (voteEl) voteEl.checked = false;
+            });
+            return;
           }
+          // Process and update votes in Firestore
+          allQuestions.forEach((qObj) => {
+            const { id } = qObj;
+            const voteEl = kgainForm[`vote-${id}`];
+            if (voteEl && voteEl.checked) {
+              const docRef = db.collection('papers')
+                               .doc(paperId)
+                               .collection('kgainQuestions')
+                               .doc(id);
+              docRef.get().then(docSnap => {
+                if (!docSnap.exists) return;
+                const currentVote = docSnap.data().vote || 0;
+                docRef.update({ vote: currentVote + 1 });
+              }).catch(err => console.error('Vote update error:', err));
+            }
+          });
+          alert('Votes submitted successfully!');
+          // Optionally disable voting after submission
+          allQuestions.forEach((qObj) => {
+            const { id } = qObj;
+            const voteEl = kgainForm[`vote-${id}`];
+            if (voteEl) voteEl.disabled = true;
+          });
+          voteButton.disabled = true;
         });
 
-        // Update each voted question's "vote" field in Firestore
-        votedQuestions.forEach((questionId) => {
-          const docRef = db.collection('papers')
-                           .doc(paperId)
-                           .collection('kgainQuestions')
-                           .doc(questionId);
-          docRef.get().then(docSnap => {
-            if (!docSnap.exists) return;
-            const currentVote = docSnap.data().vote || 0;
-            docRef.update({ vote: currentVote + 1 });
-          }).catch(err => console.error('Vote update error:', err));
-        });
-
-        // Display Feedback
-        let feedbackHTML = `<p>You scored <strong>${score}</strong> out of <strong>${totalQuestions*10}</strong>.<br><strong>${score}</strong> points are added to the ${category} category</p>`;
-        snapshot.forEach((doc, index) => {
-          const question = doc.data();
-          const userAnswer = answers[doc.id].selected;
-          const correctAnswer = answers[doc.id].correct;
-          const isCorrect = userAnswer === correctAnswer;
-          const userAnswerText = question.options[userAnswer] || 'No answer selected';
-          const correctAnswerText = question.options[correctAnswer] || 'No correct answer';
-
-          feedbackHTML += `
-            <div class="kgain-feedback">
-              <p><strong>${question.questionText}</strong></p>
-              <p>Your Answer: <strong>${userAnswerText}</strong> which is ${isCorrect ? '<span style="color: green;">Correct</span>' : '<span style="color: red;">Incorrect</span>'}</p>
-              ${!isCorrect ? `<p>Correct Answer: <strong>${correctAnswerText}</strong></p>` : ''}
-            </div>
-            `;
-        });
-
-        // Insert feedback into the container
-        kgainForm.innerHTML = feedbackHTML;
-
-        // Update User Points in Firestore
+        // Update user points in Firestore
         updateUserPoints(score, totalQuestions, answers, category);
       });
     })
     .catch((error) => {
       console.error('Error fetching KGain questions:', error);
-      //containerA.innerHTML = '<p>Sign in to load Knowledge Gain questions.</p>';
     });
 }
 
