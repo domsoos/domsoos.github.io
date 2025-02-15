@@ -292,6 +292,22 @@ function fetchKGainQuestions(paperId, category) {
       // Separate questions by type
       snapshot.forEach((doc) => {
         const data = doc.data();
+        // Task 2: Add "I do not know the answer." option if missing.
+        if (!Object.values(data.options).includes("I do not know the answer.")) {
+          let newKey = "DK";
+          let i = 0;
+          while(data.options[newKey]) {
+            newKey = "DK" + i;
+            i++;
+          }
+          // Update Firestore and local data
+          db.collection('papers').doc(paperId)
+            .collection('kgainQuestions').doc(doc.id)
+            .update({ [`options.${newKey}`]: "I do not know the answer." })
+            .catch(err => console.error('Error updating options:', err));
+          data.options[newKey] = "I do not know the answer.";
+        }
+
         const qObj = { id: doc.id, data };
         if (data.type === 'a') typeA.push(qObj);
         else if (data.type === 'b') typeB.push(qObj);
@@ -312,16 +328,48 @@ function fetchKGainQuestions(paperId, category) {
 
           const optionsDiv = document.createElement('div');
           optionsDiv.classList.add('kgain-options');
+
+          let normalOptions = [];
+          let dkOptions = [];
           for (const [optKey, optValue] of Object.entries(data.options)) {
-            const label = document.createElement('label');
+          	if (optKey.startsWith('DK')) {
+              dkOptions.push({ optKey, optValue });
+            } else {
+              normalOptions.push({ optKey, optValue });
+            }
+          }
+           // Render normal options first.
+		    normalOptions.forEach(({ optKey, optValue }) => {
+		      const label = document.createElement('label');
+		      label.textContent = optValue;
+		      const radio = document.createElement('input');
+		      radio.type = 'radio';
+		      radio.name = `question-${id}`;
+		      radio.value = optKey;
+		      label.prepend(radio);
+		      optionsDiv.appendChild(label);
+		    });
+
+		    // Render DK options last.
+		    dkOptions.forEach(({ optKey, optValue }) => {
+		      const label = document.createElement('label');
+		      label.textContent = optValue;
+		      const radio = document.createElement('input');
+		      radio.type = 'radio';
+		      radio.name = `question-${id}`;
+		      radio.value = optKey;
+		      label.prepend(radio);
+		      optionsDiv.appendChild(label);
+		    });
+            /*const label = document.createElement('label');
             label.textContent = optValue;
             const radio = document.createElement('input');
             radio.type = 'radio';
             radio.name = `question-${id}`;
             radio.value = optKey;
             label.prepend(radio);
-            optionsDiv.appendChild(label);
-          }
+            optionsDiv.appendChild(label);*/
+            //          }
           questionDiv.appendChild(optionsDiv);
 
           // Voting checkbox (remains invisible after answer submission)
@@ -430,7 +478,7 @@ function fetchKGainQuestions(paperId, category) {
         voteButton.type = 'button';
         voteButton.textContent = 'Submit Votes';
         voteButton.style.marginTop = '20px';
-        kgainForm.appendChild(document.createElement('hr'));
+        //kgainForm.appendChild(document.createElement('hr'));
         kgainForm.appendChild(voteButton);
 
         voteButton.addEventListener('click', () => {
@@ -463,7 +511,17 @@ function fetchKGainQuestions(paperId, category) {
               docRef.get().then(docSnap => {
                 if (!docSnap.exists) return;
                 const currentVote = docSnap.data().vote || 0;
-                docRef.update({ vote: currentVote + 1 });
+                // save user details in an array
+                const userDetails = {
+                  uid: user.uid,
+                  displayName: user.displayName || '',
+                  email: user.email || ''
+                };
+                docRef.update({
+                	vote: currentVote + 1,
+                	// store the userid of the voter
+                	voters: firebase.firestore.FieldValue.arrayUnion(userDetails)
+                });
               }).catch(err => console.error('Vote update error:', err));
             }
           });
@@ -484,7 +542,7 @@ function fetchKGainQuestions(paperId, category) {
     .catch((error) => {
       console.error('Error fetching KGain questions:', error);
     });
-}
+  }
 
   /**
    * Updates the user's points based on correct answers.
