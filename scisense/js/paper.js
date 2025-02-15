@@ -435,7 +435,7 @@ function fetchKGainQuestions(paperId, category) {
         const scoreDiv = document.createElement('div');
         scoreDiv.innerHTML = `<p>You scored <strong>${score}</strong> out of <strong>${totalQuestions*10}</strong>.<br>
                               <strong>${score}</strong> points are added to the ${category} category</p>`;
-        kgainForm.insertBefore(scoreDiv, containerA.nextSibling);
+        kgainForm.prepend(scoreDiv);//, containerA.nextSibling);
 
         // Append feedback for each question (grouped by type)
         function appendFeedback(qArr) {
