@@ -512,9 +512,10 @@ function fetchKGainQuestions(paperId, category) {
                 if (!docSnap.exists) return;
                 const currentVote = docSnap.data().vote || 0;
                 // save user details in an array
+                console.log(user);
                 const userDetails = {
                   uid: user.uid,
-                  displayName: user.displayName || '',
+                  //name: user.name || '',
                   email: user.email || ''
                 };
                 docRef.update({
