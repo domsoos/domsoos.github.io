@@ -500,9 +500,9 @@ const infoSection = document.createElement('p');
 infoSection.classList.add('paper-info');
 const authorsText = paper.authors ? paper.authors : 'Unknown Authors';
 let formattedDate = 'N/A';
-if (paper.date && paper.date.toDate) {
+if (paper.submittedAt && paper.submittedAt.toDate) {
   try {
-    formattedDate = paper.date.toDate().toLocaleDateString();
+    formattedDate = paper.submittedAt.toDate().toLocaleDateString();
   } catch (error) {
     console.error('Error formatting date:', error);
   }
