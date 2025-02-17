@@ -23,7 +23,7 @@ body {
   display: flex;
   align-items: center;
   padding: 10px 20px;
-  background-color: #8B0000;
+  background-color: #f8f8f8;/*#8B9922;*/
   border-bottom: 1px solid #e0e0e0;
 }
 
@@ -533,7 +533,7 @@ sign-in-button,
 }
 
 .tab:hover {
-  color: #8B0000; /* Highlight text color on hover */
+  color: white; /* Highlight text color on hover */
 }
 
 .tab.active {
