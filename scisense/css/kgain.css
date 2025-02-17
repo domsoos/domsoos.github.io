@@ -17,7 +17,7 @@
 }
 
 .kgain-question {
-  margin-bottom: 2px;
+  margin-bottom: 10px;
   display:block;
 }
 
@@ -31,8 +31,22 @@
   cursor: pointer;
 }
 
-.kgain-options input[type="radio"] {
+.kgain-options label input[type="radio"] {
   margin-right: 10px;
+  position: relative;
+  top: 17px; /* Adjust this value to vertically align the radio with the text */
+}
+
+.kgain-vote-label {
+  display: block;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.kgain-vote-label input[type="checkbox"] {
+  margin-right: 10px;
+  position: relative;
+  top: 17px; /* Adjust to match the radio alignment */
 }
 
 .kgain-questions-form button[type="submit"] {

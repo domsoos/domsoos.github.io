@@ -248,301 +248,300 @@ document.addEventListener('DOMContentLoaded', () => {
       touchEndX = 0;
     });
   }
-function fetchKGainQuestions(paperId, category) {
-  if (!kgainSection) {
-    console.error('KGain Section not found in the DOM.');
-    return;
-  }
-  kgainSection.style.display = 'block';
+  function fetchKGainQuestions(paperId, category) {
+	  if (!kgainSection) {
+	    console.error('KGain Section not found in the DOM.');
+	    return;
+	  }
+	  kgainSection.style.display = 'block';
 
-  // Create a single form and three type-specific containers
-  const kgainForm = document.createElement('form');
-  kgainForm.id = 'kgain-questions-form';
+	  // Create a single form and three type-specific containers
+	  const kgainForm = document.createElement('form');
+	  kgainForm.id = 'kgain-questions-form';
 
-  const containerA = document.createElement('div');
-  containerA.id = 'kgain-container-a';
-  containerA.innerHTML = '<h1>True or False</h1>';
-  const containerB = document.createElement('div');
-  containerB.id = 'kgain-container-b';
-  containerB.innerHTML = '<h1>Easy Multiple Choice</h1>';
-  const containerC = document.createElement('div');
-  containerC.id = 'kgain-container-c';
-  containerC.innerHTML = '<h1>Hard Multiple Choice</h1>';
+	  const containerA = document.createElement('div');
+	  containerA.id = 'kgain-container-a';
+	  containerA.innerHTML = '<h1>True or False</h1>';
+	  const containerB = document.createElement('div');
+	  containerB.id = 'kgain-container-b';
+	  containerB.innerHTML = '<h1>Easy Multiple Choice</h1>';
+	  const containerC = document.createElement('div');
+	  containerC.id = 'kgain-container-c';
+	  containerC.innerHTML = '<h1>Hard Multiple Choice</h1>';
 
-  kgainForm.appendChild(containerA);
-  kgainForm.appendChild(document.createElement('hr'));
-  kgainForm.appendChild(containerB);
-  kgainForm.appendChild(document.createElement('hr'));
-  kgainForm.appendChild(containerC);
+	  kgainForm.appendChild(containerA);
+	  kgainForm.appendChild(document.createElement('hr'));
+	  kgainForm.appendChild(containerB);
+	  kgainForm.appendChild(document.createElement('hr'));
+	  kgainForm.appendChild(containerC);
 
-  let allQuestions = [];
-  let typeA = [];
-  let typeB = [];
-  let typeC = [];
+	  let allQuestions = [];
+	  let typeA = [];
+	  let typeB = [];
+	  let typeC = [];
 
-  db.collection('papers').doc(paperId).collection('kgainQuestions').get()
-    .then((snapshot) => {
-      if (snapshot.empty) {
-        containerA.innerHTML += '<p>No Knowledge Gain questions available for Type 1.</p>';
-        containerB.innerHTML += '<p>No Knowledge Gain questions available for Type 2.</p>';
-        containerC.innerHTML += '<p>No Knowledge Gain questions available for Type 3.</p>';
-        return;
-      }
+	  db.collection('papers').doc(paperId).collection('kgainQuestions').get()
+	    .then((snapshot) => {
+	      if (snapshot.empty) {
+	        containerA.innerHTML += '<p>No Knowledge Gain questions available for Type 1.</p>';
+	        containerB.innerHTML += '<p>No Knowledge Gain questions available for Type 2.</p>';
+	        containerC.innerHTML += '<p>No Knowledge Gain questions available for Type 3.</p>';
+	        return;
+	      }
 
-      // Separate questions by type
-      snapshot.forEach((doc) => {
-        const data = doc.data();
-        // Task 2: Add "I do not know the answer." option if missing.
-        if (!Object.values(data.options).includes("I do not know the answer.")) {
-          let newKey = "DK";
-          let i = 0;
-          while(data.options[newKey]) {
-            newKey = "DK" + i;
-            i++;
-          }
-          // Update Firestore and local data
-          db.collection('papers').doc(paperId)
-            .collection('kgainQuestions').doc(doc.id)
-            .update({ [`options.${newKey}`]: "I do not know the answer." })
-            .catch(err => console.error('Error updating options:', err));
-          data.options[newKey] = "I do not know the answer.";
-        }
+	      // Separate questions by type
+	      snapshot.forEach((doc) => {
+	        const data = doc.data();
+	        // Task 2: Add "I do not know the answer." option if missing.
+	        if (!Object.values(data.options).includes("I do not know the answer.")) {
+	          let newKey = "DK";
+	          let i = 0;
+	          while(data.options[newKey]) {
+	            newKey = "DK" + i;
+	            i++;
+	          }
+	          // Update Firestore and local data
+	          db.collection('papers').doc(paperId)
+	            .collection('kgainQuestions').doc(doc.id)
+	            .update({ [`options.${newKey}`]: "I do not know the answer." })
+	            .catch(err => console.error('Error updating options:', err));
+	          data.options[newKey] = "I do not know the answer.";
+	        }
 
-        const qObj = { id: doc.id, data };
-        if (data.type === 'a') typeA.push(qObj);
-        else if (data.type === 'b') typeB.push(qObj);
-        else if (data.type === 'c') typeC.push(qObj);
-      });
+	        const qObj = { id: doc.id, data };
+	        if (data.type === 'a') typeA.push(qObj);
+	        else if (data.type === 'b') typeB.push(qObj);
+	        else if (data.type === 'c') typeC.push(qObj);
+	      });
 
-      // Helper: Render questions with answer options & vote checkbox that are initially hidden.
-      function renderQuestions(qArr, parentDiv, typeKey) {
-        qArr.forEach((qObj) => {
-          const { id, data } = qObj;
-          const questionDiv = document.createElement('div');
-          questionDiv.classList.add('kgain-question');
-          questionDiv.id = 'kgain-question-' + id; // For later feedback insertion
+	      // Helper: Render questions with answer options & vote checkbox that are initially hidden.
+	      function renderQuestions(qArr, parentDiv, typeKey) {
+	        qArr.forEach((qObj) => {
+	          const { id, data } = qObj;
+	          const questionDiv = document.createElement('div');
+	          questionDiv.classList.add('kgain-question');
+	          questionDiv.id = 'kgain-question-' + id; // For later feedback insertion
 
-          const questionText = document.createElement('p');
-          questionText.textContent = data.questionText;
-          questionDiv.appendChild(questionText);
+	          const questionText = document.createElement('p');
+	          questionText.textContent = data.questionText;
+	          questionDiv.appendChild(questionText);
 
-          const optionsDiv = document.createElement('div');
-          optionsDiv.classList.add('kgain-options');
+	          const optionsDiv = document.createElement('div');
+	          optionsDiv.classList.add('kgain-options');
 
-          let normalOptions = [];
-          let dkOptions = [];
-          for (const [optKey, optValue] of Object.entries(data.options)) {
-          	if (optKey.startsWith('DK')) {
-              dkOptions.push({ optKey, optValue });
-            } else {
-              normalOptions.push({ optKey, optValue });
-            }
-          }
-           // Render normal options first.
-		    normalOptions.forEach(({ optKey, optValue }) => {
-		      const label = document.createElement('label');
-		      label.textContent = optValue;
-		      const radio = document.createElement('input');
-		      radio.type = 'radio';
-		      radio.name = `question-${id}`;
-		      radio.value = optKey;
-		      label.prepend(radio);
-		      optionsDiv.appendChild(label);
-		    });
+	          let normalOptions = [];
+	          let dkOptions = [];
+	          for (const [optKey, optValue] of Object.entries(data.options)) {
+	          	if (optKey.startsWith('DK')) {
+	              dkOptions.push({ optKey, optValue });
+	            } else {
+	              normalOptions.push({ optKey, optValue });
+	            }
+	          }
+	           // Render normal options first.
+			    normalOptions.forEach(({ optKey, optValue }) => {
+			      const label = document.createElement('label');
+			      label.textContent = optValue;
+			      const radio = document.createElement('input');
+			      radio.type = 'radio';
+			      radio.name = `question-${id}`;
+			      radio.value = optKey;
+			      label.prepend(radio);
+			      optionsDiv.appendChild(label);
+			    });
 
-		    // Render DK options last.
-		    dkOptions.forEach(({ optKey, optValue }) => {
-		      const label = document.createElement('label');
-		      label.textContent = optValue;
-		      const radio = document.createElement('input');
-		      radio.type = 'radio';
-		      radio.name = `question-${id}`;
-		      radio.value = optKey;
-		      label.prepend(radio);
-		      optionsDiv.appendChild(label);
-		    });
-            /*const label = document.createElement('label');
-            label.textContent = optValue;
-            const radio = document.createElement('input');
-            radio.type = 'radio';
-            radio.name = `question-${id}`;
-            radio.value = optKey;
-            label.prepend(radio);
-            optionsDiv.appendChild(label);*/
-            //          }
-          questionDiv.appendChild(optionsDiv);
+			    // Render DK options last.
+			    dkOptions.forEach(({ optKey, optValue }) => {
+			      const label = document.createElement('label');
+			      label.textContent = optValue;
+			      const radio = document.createElement('input');
+			      radio.type = 'radio';
+			      radio.name = `question-${id}`;
+			      radio.value = optKey;
+			      label.prepend(radio);
+			      optionsDiv.appendChild(label);
+			    });
+	            /*const label = document.createElement('label');
+	            label.textContent = optValue;
+	            const radio = document.createElement('input');
+	            radio.type = 'radio';
+	            radio.name = `question-${id}`;
+	            radio.value = optKey;
+	            label.prepend(radio);
+	            optionsDiv.appendChild(label);*/
+	            //          }
+	          questionDiv.appendChild(optionsDiv);
 
-          // Voting checkbox (remains invisible after answer submission)
-          const voteLabel = document.createElement('label');
-          voteLabel.textContent = ' Vote for this question';
-          voteLabel.classList.add('kgain-vote-label');
-          voteLabel.style.display = 'none';  // HIDDEN until answers are submitted
-          const voteCheck = document.createElement('input');
-          
-          //const voteCheck = document.createElement('input');
-          voteCheck.type = 'checkbox';
-          voteCheck.name = `vote-${id}`;
-          voteCheck.classList.add(`vote-${typeKey}`);
-          voteLabel.prepend(voteCheck);
-          questionDiv.appendChild(voteLabel);
+	          // Voting checkbox (remains invisible after answer submission)
+	          const voteLabel = document.createElement('label');
+	          voteLabel.textContent = ' Vote for this question';
+	          voteLabel.classList.add('kgain-vote-label');
+	          voteLabel.style.display = 'none';  // HIDDEN until answers are submitted
+	          const voteCheck = document.createElement('input');
+	          
+	          //const voteCheck = document.createElement('input');
+	          voteCheck.type = 'checkbox';
+	          voteCheck.name = `vote-${id}`;
+	          voteCheck.classList.add(`vote-${typeKey}`);
+	          voteLabel.prepend(voteCheck);
+	          questionDiv.appendChild(voteLabel);
 
-          parentDiv.appendChild(questionDiv);
-        });
-      }
+	          parentDiv.appendChild(questionDiv);
+	        });
+	      }
 
-      renderQuestions(typeA, containerA, 'a');
-      renderQuestions(typeB, containerB, 'b');
-      renderQuestions(typeC, containerC, 'c');
+	      renderQuestions(typeA, containerA, 'a');
+	      renderQuestions(typeB, containerB, 'b');
+	      renderQuestions(typeC, containerC, 'c');
 
-      allQuestions = [...typeA, ...typeB, ...typeC];
+	      allQuestions = [...typeA, ...typeB, ...typeC];
 
-      // Submit Answers button (voting is separate)
-      const submitAnswersButton = document.createElement('button');
-      submitAnswersButton.type = 'submit';
-      submitAnswersButton.textContent = 'Submit Answers';
-      kgainForm.appendChild(document.createElement('hr'));
-      kgainForm.appendChild(submitAnswersButton);
+	      // Submit Answers button (voting is separate)
+	      const submitAnswersButton = document.createElement('button');
+	      submitAnswersButton.type = 'submit';
+	      submitAnswersButton.textContent = 'Submit Answers';
+	      kgainForm.appendChild(document.createElement('hr'));
+	      kgainForm.appendChild(submitAnswersButton);
 
-      kgainSection.appendChild(kgainForm);
+	      kgainSection.appendChild(kgainForm);
 
-      let answersSubmitted = false;
-      kgainForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        if (answersSubmitted) return;
-        
-        const user = auth.currentUser;
-        if (!user) {
-          alert("Please sign in to continue.");
-          return;
-        }
-        
-        let score = 0;
-        const totalQuestions = snapshot.size;
-        const answers = {};
+	      let answersSubmitted = false;
+	      kgainForm.addEventListener('submit', (e) => {
+	        e.preventDefault();
+	        if (answersSubmitted) return;
+	        
+	        const user = auth.currentUser;
+	        if (!user) {
+	          alert("Please sign in to continue.");
+	          return;
+	        }
+	        
+	        let score = 0;
+	        const totalQuestions = snapshot.size;
+	        const answers = {};
 
-        snapshot.forEach((doc) => {
-          const question = doc.data();
-          const selectedOption = kgainForm[`question-${doc.id}`].value;
-          if (selectedOption === question.correctAnswer) score += 10;
-          answers[doc.id] = {
-            selected: selectedOption,
-            correct: question.correctAnswer,
-            options: question.options
-          };
-        });
+	        snapshot.forEach((doc) => {
+	          const question = doc.data();
+	          const selectedOption = kgainForm[`question-${doc.id}`].value;
+	          if (selectedOption === question.correctAnswer) score += 10;
+	          answers[doc.id] = {
+	            selected: selectedOption,
+	            correct: question.correctAnswer,
+	            options: question.options
+	          };
+	        });
 
-        // Display overall score at the top
-        const scoreDiv = document.createElement('div');
-        scoreDiv.innerHTML = `<p>You scored <strong>${score}</strong> out of <strong>${totalQuestions*10}</strong>.<br>
-                              <strong>${score}</strong> points are added to the ${category} category</p>`;
-        kgainForm.prepend(scoreDiv);//, containerA.nextSibling);
+	        // Display overall score at the top
+	        const scoreDiv = document.createElement('div');
+	        scoreDiv.innerHTML = `<p>You scored <strong>${score}</strong> out of <strong>${totalQuestions*10}</strong>.<br>
+	                              <strong>${score}</strong> points are added to the ${category} category</p>`;
+	        kgainForm.prepend(scoreDiv);//, containerA.nextSibling);
 
-        // Append feedback for each question (grouped by type)
-        function appendFeedback(qArr) {
-          qArr.forEach((qObj) => {
-            const { id } = qObj;
-            const qDiv = document.getElementById('kgain-question-' + id);
-            if (qDiv) {
-              const feedbackP = document.createElement('p');
-              const userAnswer = answers[id].selected;
-              const correctAnswer = answers[id].correct;
-              const isCorrect = userAnswer === correctAnswer;
-              const userAnswerText = answers[id].options[userAnswer] || 'No answer selected';
-              const correctAnswerText = answers[id].options[correctAnswer] || 'No correct answer';
-              feedbackP.innerHTML = `Your Answer: <strong>${userAnswerText}</strong> is 
-                                     ${isCorrect ? '<span style="color: green;">Correct</span>' : '<span style="color: red;">Incorrect</span>'}
-                                     ${!isCorrect ? `<br>Correct Answer: <strong>${correctAnswerText}</strong>` : ''}`;
-              qDiv.appendChild(feedbackP);
-              // Disable answer inputs
-              qDiv.querySelectorAll('input[type="radio"]').forEach(radio => radio.disabled = true);
-            }
-          });
-        }
-        appendFeedback(typeA);
-        appendFeedback(typeB);
-        appendFeedback(typeC);
+	        // Append feedback for each question (grouped by type)
+	        function appendFeedback(qArr) {
+	          qArr.forEach((qObj) => {
+	            const { id } = qObj;
+	            const qDiv = document.getElementById('kgain-question-' + id);
+	            if (qDiv) {
+	              const feedbackP = document.createElement('p');
+	              const userAnswer = answers[id].selected;
+	              const correctAnswer = answers[id].correct;
+	              const isCorrect = userAnswer === correctAnswer;
+	              const userAnswerText = answers[id].options[userAnswer] || 'No answer selected';
+	              const correctAnswerText = answers[id].options[correctAnswer] || 'No correct answer';
+	              feedbackP.innerHTML = `Your Answer: <strong>${userAnswerText}</strong> is 
+	                                     ${isCorrect ? '<span style="color: green;">Correct</span>' : '<span style="color: red;">Incorrect</span>'}
+	                                     ${!isCorrect ? `<br>Correct Answer: <strong>${correctAnswerText}</strong>` : ''}`;
+	              qDiv.appendChild(feedbackP);
+	              // Disable answer inputs
+	              qDiv.querySelectorAll('input[type="radio"]').forEach(radio => radio.disabled = true);
+	            }
+	          });
+	        }
+	        appendFeedback(typeA);
+	        appendFeedback(typeB);
+	        appendFeedback(typeC);
 
-        answersSubmitted = true;
+	        answersSubmitted = true;
 
-        // Remove Submit Answers button so that only vote submission remains
-        submitAnswersButton.remove();
+	        // Remove Submit Answers button so that only vote submission remains
+	        submitAnswersButton.remove();
 
-        /* Reveal voting options after answers are submitted */
-        kgainForm.querySelectorAll('.kgain-vote-label').forEach(label => {
-          label.style.display = 'block';
-        });
-        /* Reveal voting options after answers are submitted */
+	        /* Reveal voting options after answers are submitted */
+	        kgainForm.querySelectorAll('.kgain-vote-label').forEach(label => {
+	          label.style.display = 'block';
+	        });
+	        /* Reveal voting options after answers are submitted */
 
-        // Add a button for vote submission after feedback is shown.
-        const voteButton = document.createElement('button');
-        voteButton.type = 'button';
-        voteButton.textContent = 'Submit Votes';
-        voteButton.style.marginTop = '20px';
-        //kgainForm.appendChild(document.createElement('hr'));
-        kgainForm.appendChild(voteButton);
+	        // Add a button for vote submission after feedback is shown.
+	        const voteButton = document.createElement('button');
+	        voteButton.type = 'button';
+	        voteButton.textContent = 'Submit Votes';
+	        voteButton.style.marginTop = '20px';
+	        //kgainForm.appendChild(document.createElement('hr'));
+	        kgainForm.appendChild(voteButton);
+            voteButton.addEventListener('click', () => {
+	          const typeLimits = { a: 2, b: 2, c: 2 };
+			  let validVotes = true;
 
-        voteButton.addEventListener('click', () => {
-          // Count checked votes
-          let voteCount = 0;
-          allQuestions.forEach((qObj) => {
-            const { id } = qObj;
-            const voteEl = kgainForm[`vote-${id}`];
-            if (voteEl && voteEl.checked) voteCount++;
-          });
-          if (voteCount > 6) {
-            alert('You voted for more than 6 questions. Please try again!');
-            // Reset all vote checkboxes
-            allQuestions.forEach((qObj) => {
-              const { id } = qObj;
-              const voteEl = kgainForm[`vote-${id}`];
-              if (voteEl) voteEl.checked = false;
-            });
-            return;
-          }
-          // Process and update votes in Firestore
-          allQuestions.forEach((qObj) => {
-            const { id } = qObj;
-            const voteEl = kgainForm[`vote-${id}`];
-            if (voteEl && voteEl.checked) {
-              const docRef = db.collection('papers')
-                               .doc(paperId)
-                               .collection('kgainQuestions')
-                               .doc(id);
-              docRef.get().then(docSnap => {
-                if (!docSnap.exists) return;
-                const currentVote = docSnap.data().vote || 0;
-                // save user details in an array
-                console.log(user);
-                const userDetails = {
-                  uid: user.uid,
-                  //name: user.name || '',
-                  email: user.email || ''
-                };
-                docRef.update({
-                	vote: currentVote + 1,
-                	// store the userid of the voter
-                	voters: firebase.firestore.FieldValue.arrayUnion(userDetails)
-                });
-              }).catch(err => console.error('Vote update error:', err));
-            }
-          });
-          alert('Votes submitted successfully!');
-          // Optionally disable voting after submission
-          allQuestions.forEach((qObj) => {
-            const { id } = qObj;
-            const voteEl = kgainForm[`vote-${id}`];
-            if (voteEl) voteEl.disabled = true;
-          });
-          voteButton.disabled = true;
-        });
+			  // Check votes per type (using class names: vote-a, vote-b, vote-c)
+			  ['a', 'b', 'c'].forEach((typeKey) => {
+	            const voteCount = Array.from(kgainForm.querySelectorAll(`.vote-${typeKey}`))
+		          .filter(voteEl => voteEl.checked).length;
+   		        if (voteCount > typeLimits[typeKey]) {
+			      validVotes = false;
+			      alert(`You have selected more than ${typeLimits[typeKey]} votes for Type ${typeKey.toUpperCase()}! Please try again.`);
+			      // Reset checkboxes for this type
+			      kgainForm.querySelectorAll(`.vote-${typeKey}`).forEach(voteEl => voteEl.checked = false);
+			    }
+			});
 
-        // Update user points in Firestore
-        updateUserPoints(score, totalQuestions, answers, category);
-      });
-    })
-    .catch((error) => {
-      console.error('Error fetching KGain questions:', error);
-    });
+			if (!validVotes) return;
+
+	          // Process and update votes in Firestore
+	          allQuestions.forEach((qObj) => {
+	            const { id } = qObj;
+	            const voteEl = kgainForm[`vote-${id}`];
+	            if (voteEl && voteEl.checked) {
+	              const docRef = db.collection('papers')
+	                               .doc(paperId)
+	                               .collection('kgainQuestions')
+	                               .doc(id);
+	              docRef.get().then(docSnap => {
+	                if (!docSnap.exists) return;
+	                const currentVote = docSnap.data().vote || 0;
+	                // save user details in an array
+	                console.log(user);
+	                const userDetails = {
+	                  uid: user.uid,
+	                  //name: user.name || '',
+	                  email: user.email || ''
+	                };
+	                docRef.update({
+	                	vote: currentVote + 1,
+	                	// store the userid of the voter
+	                	voters: firebase.firestore.FieldValue.arrayUnion(userDetails)
+	                });
+	              }).catch(err => console.error('Vote update error:', err));
+	            }
+	          });
+	          alert('Votes submitted successfully!');
+	          // Optionally disable voting after submission
+	          allQuestions.forEach((qObj) => {
+	            const { id } = qObj;
+	            const voteEl = kgainForm[`vote-${id}`];
+	            if (voteEl) voteEl.disabled = true;
+	          });
+	          voteButton.disabled = true;
+	        });
+
+	        // Update user points in Firestore
+	        updateUserPoints(score, totalQuestions, answers, category);
+	      });
+	    })
+	    .catch((error) => {
+	      console.error('Error fetching KGain questions:', error);
+	    });
   }
 
   /**
