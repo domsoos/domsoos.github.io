@@ -122,8 +122,8 @@ document.addEventListener('DOMContentLoaded', () => {
           paperInfo.textContent = `${authors} • ${formattedDate}`;
 
           // Populate Abstract
-          const abstractContent = paper.abstract && paper.abstract !== '-' ? paper.abstract : 'N/A';
-          document.getElementById('paper-abstract').textContent = abstractContent;
+          const abstractContent = paper.abstracthtml && paper.abstracthtml !== '-' ? paper.abstracthtml : 'N/A';
+          document.getElementById('paper-abstract').innerHTML = abstractContent;
 
           // Populate News Summary
           const newsContent = paper.newshtml && paper.newshtml !== '-' ? paper.newshtml : 'N/A';
