@@ -110,17 +110,16 @@ document.addEventListener('DOMContentLoaded', () => {
           console.log('Paper Category:', category);
           
           // Handle the 'date' field as a string
-          let submissionDate = 'N/A';
-          if (paper.date && typeof paper.date === 'string') {
-            const dateObj = new Date(paper.date);
-            if (!isNaN(dateObj)) {
-              submissionDate = dateObj.toLocaleDateString();
-            } else {
-              submissionDate = paper.date;
-            }
-          }
+		  let formattedDate = 'N/A';
+		  if (paper.submittedAt && paper.submittedAt.toDate) {
+		    try {
+		      formattedDate = paper.submittedAt.toDate().toLocaleDateString();
+		    } catch (error) {
+		      console.error('Error formatting date:', error);
+		    }
+		  }
           const authors = paper.authors ? paper.authors : 'Unknown Authors';
-          paperInfo.textContent = `${authors} • ${submissionDate}`;
+          paperInfo.textContent = `${authors} • ${formattedDate}`;
 
           // Populate Abstract
           const abstractContent = paper.abstract && paper.abstract !== '-' ? paper.abstract : 'N/A';
