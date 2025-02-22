@@ -121,11 +121,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		  // Inside the doc.exists block, after retrieving the paper details:
 		  if (paper.paperurl) {
-		    const linkButton = document.getElementById('link2paper');
-	  	    linkButton.style.display = 'inline-block';  // ensure it's visible
-		    linkButton.addEventListener('click', function() {
-	  	    window.location.href = paper.paperurl;
-  		    });
+			const linkButton = document.getElementById('link2paper');
+		    linkButton.style.display = 'block'; // Ensures block-level for centering
+	  	    linkButton.style.margin = '20px auto'; // Center the button
+			linkButton.addEventListener('click', function() {
+	          //window.location.href = paper.paperurl;
+	          window.open(paper.paperurl, '_blank');
+			});
 		  } else {
 	  	    // Hide the button if no paperurl is provided
 		    document.getElementById('link2paper').style.display = 'none';
@@ -454,7 +456,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	        // Append feedback for each question (grouped by type)
 	        function appendFeedback(qArr) {
 	          qArr.forEach((qObj) => {
-	            const { id } = qObj;
+	            //const { id } = qObj;
+	            const { id, data } = qObj;
 	            const qDiv = document.getElementById('kgain-question-' + id);
 	            if (qDiv) {
 	              const feedbackP = document.createElement('p');
@@ -466,6 +469,11 @@ document.addEventListener('DOMContentLoaded', () => {
 	              feedbackP.innerHTML = `Your Answer: <strong>${userAnswerText}</strong> is 
 	                                     ${isCorrect ? '<span style="color: green;">Correct</span>' : '<span style="color: red;">Incorrect</span>'}
 	                                     ${!isCorrect ? `<br>Correct Answer: <strong>${correctAnswerText}</strong>` : ''}`;
+	              
+	              // Append evidence if it exists in the db for this question.
+			      if (data.evidence) {
+			        feedbackP.innerHTML += `<br>because of: ${data.evidence}<br><br>`;
+			      }
 	              qDiv.appendChild(feedbackP);
 	              // Disable answer inputs
 	              qDiv.querySelectorAll('input[type="radio"]').forEach(radio => radio.disabled = true);
