@@ -118,8 +118,23 @@ document.addEventListener('DOMContentLoaded', () => {
 		      console.error('Error formatting date:', error);
 		    }
 		  }
+
+		  // Inside the doc.exists block, after retrieving the paper details:
+		  if (paper.paperurl) {
+		    const linkButton = document.getElementById('link2paper');
+	  	    linkButton.style.display = 'inline-block';  // ensure it's visible
+		    linkButton.addEventListener('click', function() {
+	  	    window.location.href = paper.paperurl;
+  		    });
+		  } else {
+	  	    // Hide the button if no paperurl is provided
+		    document.getElementById('link2paper').style.display = 'none';
+		  }
           const authors = paper.authors ? paper.authors : 'Unknown Authors';
           paperInfo.textContent = `${authors} • ${formattedDate}`;
+
+          // if paper.paperurl exist for this paper than display that button with the reference to take the user to paper.paperurl
+          // !!!!
 
           // Populate Abstract
           const abstractContent = paper.abstracthtml && paper.abstracthtml !== '-' ? paper.abstracthtml : 'N/A';
