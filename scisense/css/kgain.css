@@ -6,6 +6,12 @@
   transition: background-color 0.3s ease;
 }
 
+.evidence-display {
+  font-size: 0.9em;
+  color: #555;
+  margin-top: 8px;
+}
+
 /* KGain Section Styles */
 .kgain-section {
   /*margin-top: 40px;*/

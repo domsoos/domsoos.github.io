@@ -265,6 +265,29 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Tokenize and build frequency map for a text
+  function getFrequencyMap(text) {
+	  const tokens = text.toLowerCase().match(/\w+/g) || [];
+	  return tokens.reduce((freq, token) => {
+	    freq[token] = (freq[token] || 0) + 1;
+	    return freq;
+	  }, {});
+  }
+
+  // Compute cosine similarity between two frequency maps
+  function cosineSimilarity(mapA, mapB) {
+	  let dot = 0, normA = 0, normB = 0;
+	  const allTokens = new Set([...Object.keys(mapA), ...Object.keys(mapB)]);
+	  allTokens.forEach(token => {
+	    const a = mapA[token] || 0;
+	    const b = mapB[token] || 0;
+	    dot += a * b;
+	    normA += a * a;
+	    normB += b * b;
+	  });
+	  return dot / (Math.sqrt(normA) * Math.sqrt(normB) || 1);
+  }
+
   // Compute Jaccard similarity between two strings
   function computeJaccardSimilarity(str1, str2) {
 	  const words1 = new Set(str1.toLowerCase().match(/\w+/g));
@@ -279,18 +302,26 @@ document.addEventListener('DOMContentLoaded', () => {
 	  if (!container) return;
 
 	  // Remove any previous highlights
-	  container.querySelectorAll('.highlight').forEach(el => {
+	  /*container.querySelectorAll('.highlight').forEach(el => {
 	    el.classList.remove('highlight');
-	  });
+	  });*/
+	  if (container.dataset.original) {
+        container.innerHTML = container.dataset.original;
+  	  } else {
+    	container.dataset.original = container.innerHTML;
+      }
 
+      const evidenceMap = getFrequencyMap(evidence);
 	  // Get text and split into sentences
 	  const text = container.innerText;
-	  const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+	  const sentences = text.match(/[^.!?]+[.!?]+/g) || [text]; // by punctuation
 
 	  let bestSentence = '';
 	  let bestScore = 0;
 	  
 	  sentences.forEach(sentence => {
+	  	const sentenceMap = getFrequencyMap(sentence);
+        //const score = cosineSimilarity(sentenceMap, evidenceMap);
 	    const score = computeJaccardSimilarity(sentence, evidence);
 	    if (score > bestScore) {
 	      bestScore = score;
@@ -302,8 +333,11 @@ document.addEventListener('DOMContentLoaded', () => {
 	  const escapedSentence = bestSentence.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 	  const regex = new RegExp(escapedSentence, 'i');
 	  container.innerHTML = container.innerHTML.replace(regex, '<span class="highlight">$&</span>');
-	  
-	  container.scrollIntoView({ behavior: 'smooth' });
+	  const highlighted = container.querySelector('.highlight');
+      if (highlighted) {
+        highlighted.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+	  //container.scrollIntoView({ behavior: 'smooth' });
   }
 
   function fetchKGainQuestions(paperId, category) {
@@ -510,61 +544,29 @@ document.addEventListener('DOMContentLoaded', () => {
 	              const correctAnswerText = answers[id].options[correctAnswer] || 'No correct answer';
 	              feedbackP.innerHTML = `Your Answer: <strong>${userAnswerText}</strong> is 
 	                                     ${isCorrect ? '<span style="color: green;">Correct</span>' : '<span style="color: red;">Incorrect</span>'}
-	                                     ${!isCorrect ? `<br>Correct Answer: <strong>${correctAnswerText}</strong>` : ''}`;
+	                                     ${!isCorrect ? `<br>Correct Answer: <strong>${correctAnswerText}</strong><br>` : ''}`;
 	              
 	              // Append evidence if it exists in the db for this question.
 			      /*if (data.evidence) {
 			        feedbackP.innerHTML += `<br>because of: ${data.evidence}<br><br>`;
 			      }*/
 	              if (data.evidence) {
-
 					  const explainBtn = document.createElement('button');
 					  explainBtn.textContent = 'Explain Answer';
 					  explainBtn.addEventListener('click', () => {
 					    // Call our sentence-level highlighting using Jaccard similarity.
-					    feedbackP.innerHTML += `<br>because of: ${data.evidence}<br><br>`;
+					    //feedbackP.innerHTML += `<br>because of: ${data.evidence}<br><br>`;
 					    highlightRelevantSentence(data.evidence, 'paper-abstract');
-
+					    let evidenceDisplay = feedbackP.querySelector('.evidence-display');
+					    if (!evidenceDisplay) {
+					      evidenceDisplay = document.createElement('p');
+					      evidenceDisplay.classList.add('evidence-display');
+					      feedbackP.appendChild(evidenceDisplay);
+					    }
+					    evidenceDisplay.textContent = `Evidence: ${data.evidence}`;
 					  });
 					  feedbackP.appendChild(explainBtn);
 				  }
-				  /*if (data.evidence) {
-					  const explainBtn = document.createElement('button');
-					  explainBtn.textContent = 'Explain Answer';
-					  explainBtn.addEventListener('click', () => {
-					    const abstractEl = document.getElementById('paper-abstract');
-					    if (abstractEl) {
-					      // Restore original text if already highlighted
-					      if (!abstractEl.dataset.original) {
-					        abstractEl.dataset.original = abstractEl.innerHTML;
-					      } else {
-					        abstractEl.innerHTML = abstractEl.dataset.original;
-					      }
-					      // Escape regex special characters in evidence text
-					      const evidenceText = data.evidence;
-					      console.log(`evidenceText: ${evidenceText}`);
-					      const escapedEvidence = evidenceText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-					      console.log(`escapedEvidence: ${escapedEvidence}`);
-					      const regex = new RegExp(escapedEvidence, 'i');
-					      const newHTML = abstractEl.innerHTML.replace(regex, '<span class="highlight">$&</span>');
-					      // Highlight only if found; else fallback
-
-					      if (newHTML !== abstractEl.innerHTML) {
-					        abstractEl.innerHTML = newHTML;
-					        console.log("couldn't find answer in abstract");
-					      } else {
-					        abstractEl.classList.add('highlight');
-					      }
-					      abstractEl.scrollIntoView({ behavior: 'smooth' });
-					    } else if (data.fullPaperLink) {
-					      window.location.href = data.fullPaperLink;
-					    }
-					  });
-  					  feedbackP.appendChild(explainBtn);
-                  }*/
-
-
-
 	              qDiv.appendChild(feedbackP);
 	              // Disable answer inputs
 	              qDiv.querySelectorAll('input[type="radio"]').forEach(radio => radio.disabled = true);
