@@ -289,57 +289,104 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Compute Jaccard similarity between two strings
-  function computeJaccardSimilarity(str1, str2) {
+  function jaccardSimilarity(str1, str2) {
 	  const words1 = new Set(str1.toLowerCase().match(/\w+/g));
 	  const words2 = new Set(str2.toLowerCase().match(/\w+/g));
 	  const intersection = new Set([...words1].filter(word => words2.has(word)));
 	  const union = new Set([...words1, ...words2]);
 	  return intersection.size / union.size;
   }
+  function tokenjaccardSimilarity(tokensA, tokensB) {
+    // Ensure all tokens are strings
+    tokensA = tokensA.map(token => String(token));
+    tokensB = tokensB.map(token => String(token));
+    const setA = new Set(tokensA);
+    const setB = new Set(tokensB);
+    const intersection = [...setA].filter(x => setB.has(x));
+    const union = new Set([...setA, ...setB]);
+    return intersection.length / union.size;
+  }
+
   // Highlight the sentence with the highest similarity to the evidence
+  // we computes the best segment based on token similarity and then
+  //   map the token positions back into the original text, so we can
+  //   highlight the exact continuous substring. 
+  // We use a regex to record the start/end indices of each token in the abstract and then
+  //  use those positions to splice in a highlight span.
   function highlightRelevantSentence(evidence, containerId) {
 	  const container = document.getElementById(containerId);
 	  if (!container) return;
 
-	  // Remove any previous highlights
-	  /*container.querySelectorAll('.highlight').forEach(el => {
-	    el.classList.remove('highlight');
-	  });*/
 	  if (container.dataset.original) {
         container.innerHTML = container.dataset.original;
   	  } else {
     	container.dataset.original = container.innerHTML;
       }
 
-      const evidenceMap = getFrequencyMap(evidence);
-	  // Get text and split into sentences
+	  // Get the original text from the container.
 	  const text = container.innerText;
-	  const sentences = text.match(/[^.!?]+[.!?]+/g) || [text]; // by punctuation
 
-	  let bestSentence = '';
+	  // Build an array of tokens with their positions in the text.
+	  // This regex finds word tokens (alphanumeric sequences).
+	  const tokensWithIndex = [];
+	  const tokenRegex = /\w+/g;
+	  let match;
+	  while ((match = tokenRegex.exec(text)) !== null) {
+	    tokensWithIndex.push({
+	      token: match[0].toLowerCase(),
+	      start: match.index,
+	      end: tokenRegex.lastIndex
+	    });
+	  }
+
+	  // Extract just the tokens for similarity calculations.
+	  const tokens = tokensWithIndex.map(obj => obj.token);
+	  // Tokenize the evidence (lowercase, word tokens)
+	  const evidenceTokens = evidence.toLowerCase().match(/\w+/g) || [];
+
 	  let bestScore = 0;
-	  
-	  sentences.forEach(sentence => {
-	  	const sentenceMap = getFrequencyMap(sentence);
-        //const score = cosineSimilarity(sentenceMap, evidenceMap);
-	    const score = computeJaccardSimilarity(sentence, evidence);
-	    if (score > bestScore) {
-	      bestScore = score;
-	      bestSentence = sentence;
-	    }
-	  });
+	  let bestStart = 0;
+	  let bestWindowSize = 0;
 
-	  // Escape special regex characters in the sentence
-	  const escapedSentence = bestSentence.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-	  const regex = new RegExp(escapedSentence, 'i');
-	  container.innerHTML = container.innerHTML.replace(regex, '<span class="highlight">$&</span>');
+	  // Set the window size range relative to evidenceTokens length.
+	  const minWindow = Math.max(3, evidenceTokens.length - 3);
+	  const maxWindow = evidenceTokens.length + 3;
+
+	  // Iterate over possible continuous segments (by token indices) to find the best match.
+	  for (let windowSize = minWindow; windowSize <= maxWindow; windowSize++) {
+	    for (let i = 0; i <= tokens.length - windowSize; i++) {
+	      const windowTokens = tokens.slice(i, i + windowSize);
+	      const score = tokenjaccardSimilarity(windowTokens, evidenceTokens);
+	      if (score > bestScore) {
+	        bestScore = score;
+	        bestStart = i;
+	        bestWindowSize = windowSize;
+	      }
+	    }
+	  }
+
+	  // If no segment was found, do nothing.
+	  if (bestWindowSize === 0) return;
+
+	  // Determine the start and end character positions in the original text.
+	  const startChar = tokensWithIndex[bestStart].start;
+	  const endChar = tokensWithIndex[bestStart + bestWindowSize - 1].end;
+
+	  // Build the new HTML by splicing in a span with class 'highlight' around the best segment.
+	  const before = text.slice(0, startChar);
+	  const segment = text.slice(startChar, endChar);
+	  const after = text.slice(endChar);
+
+	  container.innerHTML = before + "<span class='highlight'>" + segment + "</span>" + after;
+
+	  // Scroll the highlighted segment into view.
 	  const highlighted = container.querySelector('.highlight');
-      if (highlighted) {
-        highlighted.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-	  //container.scrollIntoView({ behavior: 'smooth' });
+	  if (highlighted) {
+	    highlighted.scrollIntoView({ behavior: 'smooth', block: 'center' });
+	  }
   }
 
+  // The Main Fetch knowledge Gain questions with voting 
   function fetchKGainQuestions(paperId, category) {
 	  if (!kgainSection) {
 	    console.error('KGain Section not found in the DOM.');
