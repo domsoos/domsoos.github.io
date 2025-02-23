@@ -610,8 +610,13 @@ document.addEventListener('DOMContentLoaded', () => {
 					      evidenceDisplay.classList.add('evidence-display');
 					      feedbackP.appendChild(evidenceDisplay);
 					    }
-					    evidenceDisplay.textContent = `Evidence: ${data.evidence}`;
-					  });
+					    //evidenceDisplay.textContent = `Evidence: ${data.evidence}`;
+					    if (data.source) {
+					    	evidenceDisplay.innerHTML = `Evidence: ${data.evidence}<br>Source: ${data.source}`;
+					    } else {
+					    	evidenceDisplay.textContent = `Evidence: ${data.evidence}`;
+					    }
+					  }); 
 					  feedbackP.appendChild(explainBtn);
 				  }
 	              qDiv.appendChild(feedbackP);
