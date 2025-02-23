@@ -1,5 +1,11 @@
 /* scisense/css/styles.css */
 
+
+.highlight {
+  background-color: yellow;
+  transition: background-color 0.3s ease;
+}
+
 /* KGain Section Styles */
 .kgain-section {
   /*margin-top: 40px;*/

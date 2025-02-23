@@ -264,6 +264,48 @@ document.addEventListener('DOMContentLoaded', () => {
       touchEndX = 0;
     });
   }
+
+  // Compute Jaccard similarity between two strings
+  function computeJaccardSimilarity(str1, str2) {
+	  const words1 = new Set(str1.toLowerCase().match(/\w+/g));
+	  const words2 = new Set(str2.toLowerCase().match(/\w+/g));
+	  const intersection = new Set([...words1].filter(word => words2.has(word)));
+	  const union = new Set([...words1, ...words2]);
+	  return intersection.size / union.size;
+  }
+  // Highlight the sentence with the highest similarity to the evidence
+  function highlightRelevantSentence(evidence, containerId) {
+	  const container = document.getElementById(containerId);
+	  if (!container) return;
+
+	  // Remove any previous highlights
+	  container.querySelectorAll('.highlight').forEach(el => {
+	    el.classList.remove('highlight');
+	  });
+
+	  // Get text and split into sentences
+	  const text = container.innerText;
+	  const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+
+	  let bestSentence = '';
+	  let bestScore = 0;
+	  
+	  sentences.forEach(sentence => {
+	    const score = computeJaccardSimilarity(sentence, evidence);
+	    if (score > bestScore) {
+	      bestScore = score;
+	      bestSentence = sentence;
+	    }
+	  });
+
+	  // Escape special regex characters in the sentence
+	  const escapedSentence = bestSentence.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+	  const regex = new RegExp(escapedSentence, 'i');
+	  container.innerHTML = container.innerHTML.replace(regex, '<span class="highlight">$&</span>');
+	  
+	  container.scrollIntoView({ behavior: 'smooth' });
+  }
+
   function fetchKGainQuestions(paperId, category) {
 	  if (!kgainSection) {
 	    console.error('KGain Section not found in the DOM.');
@@ -471,9 +513,58 @@ document.addEventListener('DOMContentLoaded', () => {
 	                                     ${!isCorrect ? `<br>Correct Answer: <strong>${correctAnswerText}</strong>` : ''}`;
 	              
 	              // Append evidence if it exists in the db for this question.
-			      if (data.evidence) {
+			      /*if (data.evidence) {
 			        feedbackP.innerHTML += `<br>because of: ${data.evidence}<br><br>`;
-			      }
+			      }*/
+	              if (data.evidence) {
+
+					  const explainBtn = document.createElement('button');
+					  explainBtn.textContent = 'Explain Answer';
+					  explainBtn.addEventListener('click', () => {
+					    // Call our sentence-level highlighting using Jaccard similarity.
+					    feedbackP.innerHTML += `<br>because of: ${data.evidence}<br><br>`;
+					    highlightRelevantSentence(data.evidence, 'paper-abstract');
+
+					  });
+					  feedbackP.appendChild(explainBtn);
+				  }
+				  /*if (data.evidence) {
+					  const explainBtn = document.createElement('button');
+					  explainBtn.textContent = 'Explain Answer';
+					  explainBtn.addEventListener('click', () => {
+					    const abstractEl = document.getElementById('paper-abstract');
+					    if (abstractEl) {
+					      // Restore original text if already highlighted
+					      if (!abstractEl.dataset.original) {
+					        abstractEl.dataset.original = abstractEl.innerHTML;
+					      } else {
+					        abstractEl.innerHTML = abstractEl.dataset.original;
+					      }
+					      // Escape regex special characters in evidence text
+					      const evidenceText = data.evidence;
+					      console.log(`evidenceText: ${evidenceText}`);
+					      const escapedEvidence = evidenceText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+					      console.log(`escapedEvidence: ${escapedEvidence}`);
+					      const regex = new RegExp(escapedEvidence, 'i');
+					      const newHTML = abstractEl.innerHTML.replace(regex, '<span class="highlight">$&</span>');
+					      // Highlight only if found; else fallback
+
+					      if (newHTML !== abstractEl.innerHTML) {
+					        abstractEl.innerHTML = newHTML;
+					        console.log("couldn't find answer in abstract");
+					      } else {
+					        abstractEl.classList.add('highlight');
+					      }
+					      abstractEl.scrollIntoView({ behavior: 'smooth' });
+					    } else if (data.fullPaperLink) {
+					      window.location.href = data.fullPaperLink;
+					    }
+					  });
+  					  feedbackP.appendChild(explainBtn);
+                  }*/
+
+
+
 	              qDiv.appendChild(feedbackP);
 	              // Disable answer inputs
 	              qDiv.querySelectorAll('input[type="radio"]').forEach(radio => radio.disabled = true);
