@@ -590,7 +590,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	              const userAnswerText = answers[id].options[userAnswer] || 'No answer selected';
 	              const correctAnswerText = answers[id].options[correctAnswer] || 'No correct answer';
 	              feedbackP.innerHTML = `Your Answer: <strong>${userAnswerText}</strong> is 
-	                                     ${isCorrect ? '<span style="color: green;">Correct</span>' : '<span style="color: red;">Incorrect</span>'}
+	                                     ${isCorrect ? '<span style="color: green;">Correct</span><br>' : '<span style="color: red;">Incorrect</span>'}
 	                                     ${!isCorrect ? `<br>Correct Answer: <strong>${correctAnswerText}</strong><br>` : ''}`;
 	              
 	              // Append evidence if it exists in the db for this question.
