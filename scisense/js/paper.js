@@ -265,29 +265,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Tokenize and build frequency map for a text
-  function getFrequencyMap(text) {
-	  const tokens = text.toLowerCase().match(/\w+/g) || [];
-	  return tokens.reduce((freq, token) => {
-	    freq[token] = (freq[token] || 0) + 1;
-	    return freq;
-	  }, {});
-  }
-
-  // Compute cosine similarity between two frequency maps
-  function cosineSimilarity(mapA, mapB) {
-	  let dot = 0, normA = 0, normB = 0;
-	  const allTokens = new Set([...Object.keys(mapA), ...Object.keys(mapB)]);
-	  allTokens.forEach(token => {
-	    const a = mapA[token] || 0;
-	    const b = mapB[token] || 0;
-	    dot += a * b;
-	    normA += a * a;
-	    normB += b * b;
-	  });
-	  return dot / (Math.sqrt(normA) * Math.sqrt(normB) || 1);
-  }
-
   // Compute Jaccard similarity between two strings
   function jaccardSimilarity(str1, str2) {
 	  const words1 = new Set(str1.toLowerCase().match(/\w+/g));
@@ -296,6 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	  const union = new Set([...words1, ...words2]);
 	  return intersection.size / union.size;
   }
+  // Calculate Jaccard similarity for two sets of tokens
   function tokenjaccardSimilarity(tokensA, tokensB) {
     // Ensure all tokens are strings
     tokensA = tokensA.map(token => String(token));
@@ -313,7 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
   //   highlight the exact continuous substring. 
   // We use a regex to record the start/end indices of each token in the abstract and then
   //  use those positions to splice in a highlight span.
-  function highlightRelevantSentence(evidence, containerId) {
+  function highlightRelevantText(evidence, containerId) {
 	  const container = document.getElementById(containerId);
 	  if (!container) return;
 
@@ -365,6 +343,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	    }
 	  }
 
+	  if (bestScore <= 0.75) return;
+
 	  // If no segment was found, do nothing.
 	  if (bestWindowSize === 0) return;
 
@@ -376,6 +356,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	  const before = text.slice(0, startChar);
 	  const segment = text.slice(startChar, endChar);
 	  const after = text.slice(endChar);
+      
+      console.log(`bestScore: ${bestScore} bestsegment: ${segment}`);
 
 	  container.innerHTML = before + "<span class='highlight'>" + segment + "</span>" + after;
 
@@ -384,7 +366,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	  if (highlighted) {
 	    highlighted.scrollIntoView({ behavior: 'smooth', block: 'center' });
 	  }
-  }
+  }// end highlightRelevantText
 
   // The Main Fetch knowledge Gain questions with voting 
   function fetchKGainQuestions(paperId, category) {
@@ -601,9 +583,9 @@ document.addEventListener('DOMContentLoaded', () => {
 					  const explainBtn = document.createElement('button');
 					  explainBtn.textContent = 'Explain Answer';
 					  explainBtn.addEventListener('click', () => {
-					    // Call our sentence-level highlighting using Jaccard similarity.
+					    // Call our token-level highlighting using Jaccard similarity.
 					    //feedbackP.innerHTML += `<br>because of: ${data.evidence}<br><br>`;
-					    highlightRelevantSentence(data.evidence, 'paper-abstract');
+					    highlightRelevantText(data.evidence, 'paper-abstract');
 					    let evidenceDisplay = feedbackP.querySelector('.evidence-display');
 					    if (!evidenceDisplay) {
 					      evidenceDisplay = document.createElement('p');
@@ -612,9 +594,9 @@ document.addEventListener('DOMContentLoaded', () => {
 					    }
 					    //evidenceDisplay.textContent = `Evidence: ${data.evidence}`;
 					    if (data.source) {
-					    	evidenceDisplay.innerHTML = `Evidence: ${data.evidence}<br>Source: ${data.source}`;
+					    	evidenceDisplay.innerHTML = `Explanation: ${data.evidence}<br>Source: ${data.source}`;
 					    } else {
-					    	evidenceDisplay.textContent = `Evidence: ${data.evidence}`;
+					    	evidenceDisplay.textContent = `Explanation: ${data.evidence}`;
 					    }
 					  }); 
 					  feedbackP.appendChild(explainBtn);
