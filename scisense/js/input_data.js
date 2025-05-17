@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const optionsContainer = document.getElementById('options-container');
   const correctAnswerSelect = document.getElementById('correct-answer');
 
-
   const addKGainBtn = document.getElementById('add-kgain-btn');
   const addKGainModal = document.getElementById('add-kgain-modal');
   const addKGainForm = document.getElementById('add-kgain-form');
@@ -390,6 +389,8 @@ function createQuestionBlock(index) {
     const tweetHTML= document.getElementById('tweethtml').value.trim();
     const tagsRaw = document.getElementById('tags').value.trim();
     const category = document.getElementById('category');//.value.trim();
+
+    console.log("category of document: ", category);
 
     // Validate required fields
     if (!paperTitle || !scienceAbstract || !scienceNews || !tweetsRaw || !tagsRaw || !tweetHTML) {

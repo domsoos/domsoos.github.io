@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Fetch the paper document from Firestore
-    db.collection('papers').doc(paperId).get()
+    db.collection('papers2').doc(paperId).get()
       .then((doc) => {
         if (doc.exists) {
           const paper = doc.data();
@@ -401,7 +401,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	  let typeB = [];
 	  let typeC = [];
 
-	  db.collection('papers').doc(paperId).collection('kgainQuestions').get()
+	  db.collection('papers2').doc(paperId).collection('kgainQuestions').get()
 	    .then((snapshot) => {
 	      if (snapshot.empty) {
 	        containerA.innerHTML += '<p>No Knowledge Gain questions available for Type 1.</p>';

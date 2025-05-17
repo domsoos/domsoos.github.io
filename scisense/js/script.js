@@ -334,7 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
       displayPapers.unsubscribe();
     }
 
-    let queryRef = db.collection('papers').orderBy('submittedAt', 'desc');
+    let queryRef = db.collection('papers2').orderBy('submittedAt', 'desc');
 
     // Apply category filter if not 'all'
     if (category !== 'all') {
@@ -409,7 +409,7 @@ document.addEventListener('DOMContentLoaded', () => {
       displayMostDiscussed.unsubscribe();
     }
 
-    let queryRef = db.collection('papers').orderBy('commentsCount', 'desc');
+    let queryRef = db.collection('papers2').orderBy('commentsCount', 'desc');
 
     // Apply category filter if not 'all'
     if (category !== 'all') {
