@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Fetch and populate papers in the select dropdown
   const populatePapersDropdown = () => {
-    db.collection('papers').get()
+    db.collection('papers2').get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
           const option = document.createElement('option');
@@ -245,7 +245,7 @@ function createQuestionBlock(index) {
             }
 
             // Add the question to Firestore
-            db.collection('papers').doc(paperId).collection('kgainQuestions').add({
+            db.collection('papers2').doc(paperId).collection('kgainQuestions').add({
               questionText: questionText,
               type: questionType,
               options: options,
@@ -416,7 +416,7 @@ function createQuestionBlock(index) {
     };
 
     // Save to Firestore
-    db.collection('papers').add(paperData)
+    db.collection('papers2').add(paperData)
       .then(() => {
         alert('Paper submitted successfully!');
         submitPaperForm.reset();
