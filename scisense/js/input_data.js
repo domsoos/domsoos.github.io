@@ -388,13 +388,18 @@ function createQuestionBlock(index) {
     const tweetsRaw = document.getElementById('tweets').value.trim();
     const tweetHTML= document.getElementById('tweethtml').value.trim();
     const tagsRaw = document.getElementById('tags').value.trim();
-    const category = document.getElementById('category');//.value.trim();
+    const category = document.getElementById('select-category').value;//.value.trim();
+    const paperURL = document.getElementById('paper-url').value.trim();
 
     console.log("category of document: ", category);
 
     // Validate required fields
     if (!paperTitle || !scienceAbstract || !scienceNews || !tweetsRaw || !tagsRaw || !tweetHTML) {
       alert('Please fill in all required fields.');
+      return;
+    }
+    if (paperURL && !/^https?:\/\//i.test(paperURL)) {
+      alert('Please enter a valid URL (starting with http:// or https://).');
       return;
     }
 
@@ -406,7 +411,8 @@ function createQuestionBlock(index) {
     const paperData = {
       title: paperTitle,
       authors: authors,
-      abstract: scienceAbstract,
+      abstracthtml: scienceAbstract,
+      paperurl:     paperURL || null,
       newshtml: scienceNews,
       tweets: tweets,
       tags: tags,
