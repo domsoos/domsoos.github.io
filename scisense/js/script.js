@@ -323,7 +323,7 @@ document.addEventListener('DOMContentLoaded', () => {
    * Fetches and displays Trending papers based on category and search query.
    * @param {string} category - Selected category filter.
    * @param {string} query - Search query.
-   */
+   *
   function displayPapers(category = 'all', query = '') {
     console.log('Fetching Trending papers from Firestore...');
     const contentList = document.getElementById('content-list');
@@ -393,6 +393,71 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+  */
+  const ONLY_PAPERS2 = false;
+  let unsubscribeA, unsubscribeB;
+  let papersA = [], papersB = [];
+  let unsubscribeHandles = [];
+  let papersArrays     = [];
+
+  function displayPapers(category = 'all', query = '') {
+	  const contentList = document.getElementById('content-list');
+	  let loadingMessage = document.getElementById('loading-message');
+
+	  // Tear down old listeners
+	  unsubscribeHandles.forEach(u => u && u());
+	  unsubscribeHandles = [];
+	  papersArrays     = [];
+
+	  // Build the array of collections to watch:
+	  const collections = ONLY_PAPERS2
+	    ? ['papers2']
+	    : ['papers', 'papers2'];
+
+	  // Helper to merge & render both arrays
+	  function mergeAndRender() {
+	    // flatten all docs
+	    const allDocs = papersArrays.flat();
+	    if (!allDocs.length) {
+	      contentList.innerHTML = '';
+	      if (!loadingMessage) {
+	        loadingMessage = document.createElement('p');
+	        loadingMessage.id = 'loading-message';
+	        contentList.appendChild(loadingMessage);
+	      }
+	      loadingMessage.textContent = 'No papers matched that criteria.';
+	      loadingMessage.style.display = 'block';
+	      return;
+	    }
+	    if (loadingMessage) loadingMessage.style.display = 'none';
+
+	    // sort by submittedAt descending
+	    allDocs.sort((a, b) =>
+	      b.data().submittedAt.toDate() - a.data().submittedAt.toDate()
+	    );
+	    updatePaperList(allDocs, query, category, contentList, 'trending');
+
+	    // 2) extract & store the current ordering of IDs:
+       const ids = allDocs.map(doc => doc.id);
+       localStorage.setItem('displayedPapers', JSON.stringify(ids));
+	  }
+
+	  // Attach one listener per collection
+	  collections.forEach((collName, idx) => {
+	    let q = db.collection(collName).orderBy('submittedAt', 'desc');
+	    if (category !== 'all') q = q.where('category', '==', category);
+
+	    unsubscribeHandles[idx] = q.onSnapshot(snap => {
+	      papersArrays[idx] = snap.docs;
+	      mergeAndRender();
+	    }, err => {
+	      console.error(`Error fetching from ${collName}:`, err);
+	    });
+	  });
+  }
+
+
+
 
   /**
    * Fetches and displays Most Discussed papers based on category and search query.
@@ -479,63 +544,63 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Display filtered papers
     filteredDocs.forEach((doc, index) => {
-      const paper = doc.data();
-      const paperId = doc.id;
+        const paper = doc.data();
+        const paperId = doc.id;
 
-     // Create a new paper-item div
-const paperItem = document.createElement('div');
-paperItem.classList.add('paper-item');
+        // Create a new paper-item div
+		const paperItem = document.createElement('div');
+		paperItem.classList.add('paper-item');
 
-// Title Section
-const titleSection = document.createElement('h3');
-titleSection.classList.add('paper-title');
-const titleLink = document.createElement('a');
-titleLink.href = `paper.html?id=${paperId}`;
-titleLink.textContent = paper.title ? paper.title : 'Untitled Paper';
-titleSection.appendChild(titleLink);
-paperItem.appendChild(titleSection);
+		// Title Section
+		const titleSection = document.createElement('h3');
+		titleSection.classList.add('paper-title');
+		const titleLink = document.createElement('a');
+		titleLink.href = `paper.html?id=${paperId}`;
+		titleLink.textContent = paper.title ? paper.title : 'Untitled Paper';
+		titleSection.appendChild(titleLink);
+		paperItem.appendChild(titleSection);
 
-// Info Section
-const infoSection = document.createElement('p');
-infoSection.classList.add('paper-info');
-const authorsText = paper.authors ? paper.authors : 'Unknown Authors';
-let formattedDate = 'N/A';
-if (paper.submittedAt && paper.submittedAt.toDate) {
-  try {
-    formattedDate = paper.submittedAt.toDate().toLocaleDateString();
-  } catch (error) {
-    console.error('Error formatting date:', error);
-  }
-}
-infoSection.textContent = `${authorsText} • ${formattedDate}`;
-paperItem.appendChild(infoSection);
+		// Info Section
+		const infoSection = document.createElement('p');
+		infoSection.classList.add('paper-info');
+		const authorsText = paper.authors ? paper.authors : 'Unknown Authors';
+		let formattedDate = 'N/A';
+		if (paper.submittedAt && paper.submittedAt.toDate) {
+		  try {
+		    formattedDate = paper.submittedAt.toDate().toLocaleDateString();
+		  } catch (error) {
+		    console.error('Error formatting date:', error);
+		  }
+		}
+		infoSection.textContent = `${authorsText} • ${formattedDate}`;
+		paperItem.appendChild(infoSection);
 
-// Category and Engagement Row
-const rowSection = document.createElement('div');
-rowSection.classList.add('info-row');
+		// Category and Engagement Row
+		const rowSection = document.createElement('div');
+		rowSection.classList.add('info-row');
 
-// Category Tag
-const categorySpan = document.createElement('span');
-categorySpan.classList.add('category-tag');
-categorySpan.textContent =
-  paper.tags && paper.tags.length > 0
-    ? paper.tags.join(', ')
-    : 'No Category';
-rowSection.appendChild(categorySpan);
+		// Category Tag
+		const categorySpan = document.createElement('span');
+		categorySpan.classList.add('category-tag');
+		categorySpan.textContent =
+		  paper.tags && paper.tags.length > 0
+		    ? paper.tags.join(', ')
+		    : 'No Category';
+		rowSection.appendChild(categorySpan);
 
-// Engagement (Comments Count)
-const engagementSpan = document.createElement('span');
-engagementSpan.classList.add('engagement');
-const commentsCount =
-  typeof paper.commentsCount === 'number' ? paper.commentsCount : 0;
-engagementSpan.textContent = `${commentsCount} Comments`;
-rowSection.appendChild(engagementSpan);
+		// Engagement (Comments Count)
+		const engagementSpan = document.createElement('span');
+		engagementSpan.classList.add('engagement');
+		const commentsCount =
+		  typeof paper.commentsCount === 'number' ? paper.commentsCount : 0;
+		engagementSpan.textContent = `${commentsCount} Comments`;
+		rowSection.appendChild(engagementSpan);
 
-// Add the rowSection to paperItem
-paperItem.appendChild(rowSection);
+		// Add the rowSection to paperItem
+		paperItem.appendChild(rowSection);
 
-// Append the paperItem to contentList
-contentList.appendChild(paperItem);
+		// Append the paperItem to contentList
+		contentList.appendChild(paperItem);
 
     });
 

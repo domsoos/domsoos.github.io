@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return urlParams.get('id');
   };
 
-  // Function to load paper details from Firestore
+  /* Function to load paper details from Firestore
   function loadPaperDetails() {
     const paperId = getPaperIdFromURL();
     if (!paperId) {
@@ -189,7 +189,112 @@ document.addEventListener('DOMContentLoaded', () => {
         tweetsList.innerHTML = '<li>N/A</li>';
         kgainSection.style.display = 'none';
       });
+  }*/
+  function loadPaperDetails() {
+  const paperId = getPaperIdFromURL();
+  if (!paperId) {
+    paperTitle.textContent = 'Invalid Paper ID.';
+    paperInfo.textContent = '';
+    document.getElementById('abstract').innerHTML = 'N/A';
+    document.getElementById('news-summary-text').textContent = 'N/A';
+    tweetsList.innerHTML = '<li>N/A</li>';
+    return;
   }
+
+  // Try papers2 first, then fallback to papers
+  let parentCollection = 'papers2';
+  db.collection(parentCollection).doc(paperId).get()
+    .then(docSnap => {
+      if (docSnap.exists) {
+        return { docSnap, parentCollection };
+      }
+      parentCollection = 'papers';
+      return db.collection(parentCollection).doc(paperId).get()
+        .then(docSnap2 => {
+          if (!docSnap2.exists) {
+            throw new Error('Paper not found in either collection');
+          }
+          return { docSnap: docSnap2, parentCollection };
+        });
+    })
+    .then(({ docSnap, parentCollection }) => {
+      const paper = docSnap.data();
+
+      // --- Your existing code below, exactly as before ---
+
+      // Populate Title
+      paperTitle.textContent = paper.title ? paper.title : 'Untitled Paper';
+
+      // Category & Date
+      const category = paper.category || 'general';
+      console.log('Paper Category:', category);
+
+      let formattedDate = 'N/A';
+      if (paper.submittedAt && paper.submittedAt.toDate) {
+        try {
+          formattedDate = paper.submittedAt.toDate().toLocaleDateString();
+        } catch (error) {
+          console.error('Error formatting date:', error);
+        }
+      }
+
+      // Paper URL button
+      if (paper.paperurl) {
+        const linkButton = document.getElementById('link2paper');
+        linkButton.style.display = 'block';
+        linkButton.style.margin = '20px auto';
+        linkButton.onclick = () => window.open(paper.paperurl, '_blank');
+      } else {
+        document.getElementById('link2paper').style.display = 'none';
+      }
+
+      // Authors + Date line
+      const authors = paper.authors ? paper.authors : 'Unknown Authors';
+      paperInfo.textContent = `${authors} • ${formattedDate}`;
+
+      // Abstract
+      const abstractContent = paper.abstracthtml && paper.abstracthtml !== '-'
+        ? paper.abstracthtml
+        : 'N/A';
+      document.getElementById('paper-abstract').innerHTML = abstractContent;
+
+      // News summary
+      const newsContent = paper.newshtml && paper.newshtml !== '-'
+        ? paper.newshtml
+        : 'N/A';
+      document.getElementById('news-summary-text').innerHTML = newsContent;
+
+      // Tweets
+      tweetsList.innerHTML = '';
+      if (paper.tweethtml) {
+        const embeddedTweetLi = document.createElement('p');
+        embeddedTweetLi.innerHTML = paper.tweethtml;
+        tweetsList.appendChild(embeddedTweetLi);
+        if (window.twttr) window.twttr.widgets.load(tweetsList);
+      }
+
+      // Hidden input if used
+      if (paperIdInput) {
+        paperIdInput.value = paperId;
+      }
+
+      // Prev/Next + Swipe
+      setupNavigation(paperId);
+      setupSwipeNavigation(paperId);
+
+      // pass actual collection into KGain fetch ---
+      fetchKGainQuestions(paperId, category, parentCollection);
+    })
+    .catch(error => {
+      console.error('Error fetching paper:', error);
+      paperTitle.textContent = 'Paper Not Found.';
+      paperInfo.textContent = '';
+      document.getElementById('abstract').textContent = 'N/A';
+      document.getElementById('news-summary-text').textContent = 'N/A';
+      tweetsList.innerHTML = '<li>N/A</li>';
+      kgainSection.style.display = 'none';
+    });
+}
 
   // **Define Swipe Navigation Functionality**
   function setupSwipeNavigation(currentPaperId) {
@@ -368,80 +473,82 @@ document.addEventListener('DOMContentLoaded', () => {
 	  }
   }// end highlightRelevantText
 
-  // The Main Fetch knowledge Gain questions with voting 
-  function fetchKGainQuestions(paperId, category) {
+  // The Main Fetch Knowledge Gain questions with voting
+  function fetchKGainQuestions(paperId, category, parentCollection) {
 	  if (!kgainSection) {
 	    console.error('KGain Section not found in the DOM.');
 	    return;
 	  }
 	  kgainSection.style.display = 'block';
 
-	  // Create a single form and three type-specific containers
-	  const kgainForm = document.createElement('form');
-	  kgainForm.id = 'kgain-questions-form';
+	  // Build the correct subcollection ref
+	  const kgainCol = db
+	    .collection(parentCollection)
+	    .doc(paperId)
+	    .collection('kgainQuestions');
 
-	  const containerA = document.createElement('div');
-	  containerA.id = 'kgain-container-a';
-	  containerA.innerHTML = '<h1>True or False</h1>';
-	  const containerB = document.createElement('div');
-	  containerB.id = 'kgain-container-b';
-	  containerB.innerHTML = '<h1>Easy Multiple Choice</h1>';
-	  const containerC = document.createElement('div');
-	  containerC.id = 'kgain-container-c';
-	  containerC.innerHTML = '<h1>Hard Multiple Choice</h1>';
-
-	  kgainForm.appendChild(containerA);
-	  kgainForm.appendChild(document.createElement('hr'));
-	  kgainForm.appendChild(containerB);
-	  kgainForm.appendChild(document.createElement('hr'));
-	  kgainForm.appendChild(containerC);
-
-	  let allQuestions = [];
-	  let typeA = [];
-	  let typeB = [];
-	  let typeC = [];
-
-	  db.collection('papers2').doc(paperId).collection('kgainQuestions').get()
+	  kgainCol.get()
 	    .then((snapshot) => {
+	      // Create the form and containers
+	      const kgainForm = document.createElement('form');
+	      kgainForm.id = 'kgain-questions-form';
+
+	      const containerA = document.createElement('div');
+	      containerA.id = 'kgain-container-a';
+	      containerA.innerHTML = '<h1>True or False</h1>';
+	      const containerB = document.createElement('div');
+	      containerB.id = 'kgain-container-b';
+	      containerB.innerHTML = '<h1>Easy Multiple Choice</h1>';
+	      const containerC = document.createElement('div');
+	      containerC.id = 'kgain-container-c';
+	      containerC.innerHTML = '<h1>Hard Multiple Choice</h1>';
+
+	      kgainForm.appendChild(containerA);
+	      kgainForm.appendChild(document.createElement('hr'));
+	      kgainForm.appendChild(containerB);
+	      kgainForm.appendChild(document.createElement('hr'));
+	      kgainForm.appendChild(containerC);
+
+	      let typeA = [], typeB = [], typeC = [];
+
+	      // Populate questions from snapshot
 	      if (snapshot.empty) {
 	        containerA.innerHTML += '<p>No Knowledge Gain questions available for Type 1.</p>';
 	        containerB.innerHTML += '<p>No Knowledge Gain questions available for Type 2.</p>';
 	        containerC.innerHTML += '<p>No Knowledge Gain questions available for Type 3.</p>';
-	        return;
+	      } else {
+	        snapshot.forEach((doc) => {
+	          const data = doc.data();
+
+	          // Ensure "I do not know the answer." exists
+	          if (!Object.values(data.options).includes("I do not know the answer.")) {
+	            let newKey = "DK", i = 0;
+	            while (data.options[newKey]) {
+	              newKey = "DK" + (i++);
+	            }
+	            // Update Firestore in the correct parentCollection
+	            db.collection(parentCollection)
+	              .doc(paperId)
+	              .collection('kgainQuestions')
+	              .doc(doc.id)
+	              .update({ [`options.${newKey}`]: "I do not know the answer." })
+	              .catch(err => console.error('Error updating options:', err));
+	            data.options[newKey] = "I do not know the answer.";
+	          }
+
+	          const qObj = { id: doc.id, data };
+	          if (data.type === 'a') typeA.push(qObj);
+	          else if (data.type === 'b') typeB.push(qObj);
+	          else if (data.type === 'c') typeC.push(qObj);
+	        });
 	      }
 
-	      // Separate questions by type
-	      snapshot.forEach((doc) => {
-	        const data = doc.data();
-	        // Task 2: Add "I do not know the answer." option if missing.
-	        if (!Object.values(data.options).includes("I do not know the answer.")) {
-	          let newKey = "DK";
-	          let i = 0;
-	          while(data.options[newKey]) {
-	            newKey = "DK" + i;
-	            i++;
-	          }
-	          // Update Firestore and local data
-	          db.collection('papers').doc(paperId)
-	            .collection('kgainQuestions').doc(doc.id)
-	            .update({ [`options.${newKey}`]: "I do not know the answer." })
-	            .catch(err => console.error('Error updating options:', err));
-	          data.options[newKey] = "I do not know the answer.";
-	        }
-
-	        const qObj = { id: doc.id, data };
-	        if (data.type === 'a') typeA.push(qObj);
-	        else if (data.type === 'b') typeB.push(qObj);
-	        else if (data.type === 'c') typeC.push(qObj);
-	      });
-
-	      // Helper: Render questions with answer options & vote checkbox that are initially hidden.
+	      // Helper to render each type’s questions
 	      function renderQuestions(qArr, parentDiv, typeKey) {
-	        qArr.forEach((qObj) => {
-	          const { id, data } = qObj;
+	        qArr.forEach(({ id, data }) => {
 	          const questionDiv = document.createElement('div');
 	          questionDiv.classList.add('kgain-question');
-	          questionDiv.id = 'kgain-question-' + id; // For later feedback insertion
+	          questionDiv.id = 'kgain-question-' + id;
 
 	          const questionText = document.createElement('p');
 	          questionText.textContent = data.questionText;
@@ -450,63 +557,35 @@ document.addEventListener('DOMContentLoaded', () => {
 	          const optionsDiv = document.createElement('div');
 	          optionsDiv.classList.add('kgain-options');
 
-	          let normalOptions = [];
-	          let dkOptions = [];
-	          for (const [optKey, optValue] of Object.entries(data.options)) {
-	          	if (optKey.startsWith('DK')) {
-	              dkOptions.push({ optKey, optValue });
-	            } else {
-	              normalOptions.push({ optKey, optValue });
-	            }
+	          const normal = [], dk = [];
+	          for (let [optKey, optValue] of Object.entries(data.options)) {
+	            if (optKey.startsWith('DK')) dk.push({ optKey, optValue });
+	            else normal.push({ optKey, optValue });
 	          }
-	           // Render normal options first.
-			    normalOptions.forEach(({ optKey, optValue }) => {
-			      const label = document.createElement('label');
-			      label.textContent = optValue;
-			      const radio = document.createElement('input');
-			      radio.type = 'radio';
-			      radio.name = `question-${id}`;
-			      radio.value = optKey;
-			      label.prepend(radio);
-			      optionsDiv.appendChild(label);
-			    });
-
-			    // Render DK options last.
-			    dkOptions.forEach(({ optKey, optValue }) => {
-			      const label = document.createElement('label');
-			      label.textContent = optValue;
-			      const radio = document.createElement('input');
-			      radio.type = 'radio';
-			      radio.name = `question-${id}`;
-			      radio.value = optKey;
-			      label.prepend(radio);
-			      optionsDiv.appendChild(label);
-			    });
-	            /*const label = document.createElement('label');
+	          normal.concat(dk).forEach(({ optKey, optValue }) => {
+	            const label = document.createElement('label');
 	            label.textContent = optValue;
 	            const radio = document.createElement('input');
 	            radio.type = 'radio';
 	            radio.name = `question-${id}`;
 	            radio.value = optKey;
 	            label.prepend(radio);
-	            optionsDiv.appendChild(label);*/
-	            //          }
-	          questionDiv.appendChild(optionsDiv);
+	            optionsDiv.appendChild(label);
+	          });
 
-	          // Voting checkbox (remains invisible after answer submission)
+	          // Voting checkbox (hidden until after submit)
 	          const voteLabel = document.createElement('label');
 	          voteLabel.textContent = ' Vote for this question';
 	          voteLabel.classList.add('kgain-vote-label');
-	          voteLabel.style.display = 'none';  // HIDDEN until answers are submitted
+	          voteLabel.style.display = 'none';
 	          const voteCheck = document.createElement('input');
-	          
-	          //const voteCheck = document.createElement('input');
 	          voteCheck.type = 'checkbox';
 	          voteCheck.name = `vote-${id}`;
 	          voteCheck.classList.add(`vote-${typeKey}`);
 	          voteLabel.prepend(voteCheck);
-	          questionDiv.appendChild(voteLabel);
 
+	          questionDiv.appendChild(optionsDiv);
+	          questionDiv.appendChild(voteLabel);
 	          parentDiv.appendChild(questionDiv);
 	        });
 	      }
@@ -515,183 +594,138 @@ document.addEventListener('DOMContentLoaded', () => {
 	      renderQuestions(typeB, containerB, 'b');
 	      renderQuestions(typeC, containerC, 'c');
 
-	      allQuestions = [...typeA, ...typeB, ...typeC];
-
-	      // Submit Answers button (voting is separate)
-	      const submitAnswersButton = document.createElement('button');
-	      submitAnswersButton.type = 'submit';
-	      submitAnswersButton.textContent = 'Submit Answers';
-	      kgainForm.appendChild(document.createElement('hr'));
-	      kgainForm.appendChild(submitAnswersButton);
-
 	      kgainSection.appendChild(kgainForm);
 
-	      let answersSubmitted = false;
+	      // Submit Answers button
+	      const submitBtn = document.createElement('button');
+	      submitBtn.type = 'submit';
+	      submitBtn.textContent = 'Submit Answers';
+	      kgainForm.appendChild(document.createElement('hr'));
+	      kgainForm.appendChild(submitBtn);
+
+	      let answered = false;
 	      kgainForm.addEventListener('submit', (e) => {
 	        e.preventDefault();
-	        if (answersSubmitted) return;
-	        
+	        if (answered) return;
 	        const user = auth.currentUser;
 	        if (!user) {
 	          alert("Please sign in to continue.");
 	          return;
 	        }
-	        
-	        let score = 0;
-	        const totalQuestions = snapshot.size;
-	        const answers = {};
 
-	        snapshot.forEach((doc) => {
-	          const question = doc.data();
-	          const selectedOption = kgainForm[`question-${doc.id}`].value;
-	          if (selectedOption === question.correctAnswer) score += 10;
-	          answers[doc.id] = {
-	            selected: selectedOption,
-	            correct: question.correctAnswer,
-	            options: question.options
-	          };
+	        let score = 0, answers = {};
+	        snapshot.forEach(doc => {
+	          const q = doc.data();
+	          const sel = kgainForm[`question-${doc.id}`].value;
+	          if (sel === q.correctAnswer) score += 10;
+	          answers[doc.id] = { selected: sel, correct: q.correctAnswer, options: q.options };
 	        });
 
-	        // Display overall score at the top
+	        // Show score
 	        const scoreDiv = document.createElement('div');
-	        scoreDiv.innerHTML = `<p>You scored <strong>${score}</strong> out of <strong>${totalQuestions*10}</strong>.<br>
-	                              <strong>${score}</strong> points are added to the ${category} category</p>`;
-	        kgainForm.prepend(scoreDiv);//, containerA.nextSibling);
+	        scoreDiv.innerHTML = `
+	          <p>You scored <strong>${score}</strong> out of <strong>${snapshot.size * 10}</strong>.<br>
+	             <strong>${score}</strong> points are added to the ${category} category
+	          </p>`;
+	        kgainForm.prepend(scoreDiv);
 
-	        // Append feedback for each question (grouped by type)
-	        function appendFeedback(qArr) {
-	          qArr.forEach((qObj) => {
-	            //const { id } = qObj;
-	            const { id, data } = qObj;
+	        // Feedback per question
+	        function appendFeedback(arr) {
+	          arr.forEach(({ id, data }) => {
 	            const qDiv = document.getElementById('kgain-question-' + id);
-	            if (qDiv) {
-	              const feedbackP = document.createElement('p');
-	              const userAnswer = answers[id].selected;
-	              const correctAnswer = answers[id].correct;
-	              const isCorrect = userAnswer === correctAnswer;
-	              const userAnswerText = answers[id].options[userAnswer] || 'No answer selected';
-	              const correctAnswerText = answers[id].options[correctAnswer] || 'No correct answer';
-	              feedbackP.innerHTML = `Your Answer: <strong>${userAnswerText}</strong> is 
-	                                     ${isCorrect ? '<span style="color: green;">Correct</span><br>' : '<span style="color: red;">Incorrect</span>'}
-	                                     ${!isCorrect ? `<br>Correct Answer: <strong>${correctAnswerText}</strong><br>` : ''}`;
-	              
-	              // Append evidence if it exists in the db for this question.
-			      /*if (data.evidence) {
-			        feedbackP.innerHTML += `<br>because of: ${data.evidence}<br><br>`;
-			      }*/
-	              if (data.evidence) {
-					  const explainBtn = document.createElement('button');
-					  explainBtn.textContent = 'Explain Answer';
-					  explainBtn.addEventListener('click', () => {
-					    // Call our token-level highlighting using Jaccard similarity.
-					    //feedbackP.innerHTML += `<br>because of: ${data.evidence}<br><br>`;
-					    highlightRelevantText(data.evidence, 'paper-abstract');
-					    let evidenceDisplay = feedbackP.querySelector('.evidence-display');
-					    if (!evidenceDisplay) {
-					      evidenceDisplay = document.createElement('p');
-					      evidenceDisplay.classList.add('evidence-display');
-					      feedbackP.appendChild(evidenceDisplay);
-					    }
-					    //evidenceDisplay.textContent = `Evidence: ${data.evidence}`;
-					    if (data.source) {
-					    	evidenceDisplay.innerHTML = `Explanation: ${data.evidence}<br>Source: ${data.source}`;
-					    } else {
-					    	evidenceDisplay.textContent = `Explanation: ${data.evidence}`;
-					    }
-					  }); 
-					  feedbackP.appendChild(explainBtn);
-				  }
-	              qDiv.appendChild(feedbackP);
-	              // Disable answer inputs
-	              qDiv.querySelectorAll('input[type="radio"]').forEach(radio => radio.disabled = true);
+	            const fb = document.createElement('p');
+	            const userAns = answers[id].selected;
+	            const correctAns = answers[id].correct;
+	            const isCorr = userAns === correctAns;
+	            fb.innerHTML = `
+	              Your Answer: <strong>${answers[id].options[userAns] || 'None'}</strong> is
+	              ${isCorr ? '<span style="color:green">Correct</span>' 
+	                       : `<span style="color:red">Incorrect</span><br>
+	                          Correct: <strong>${answers[id].options[correctAns] || '—'}</strong>`}
+	            `;
+	            if (data.evidence) {
+	              const btn = document.createElement('button');
+	              btn.textContent = 'Explain Answer';
+	              btn.addEventListener('click', () => {
+	                highlightRelevantText(data.evidence, 'paper-abstract');
+	                let ev = qDiv.querySelector('.evidence-display');
+	                if (!ev) {
+	                  ev = document.createElement('p');
+	                  ev.classList.add('evidence-display');
+	                  qDiv.appendChild(ev);
+	                }
+	                ev.innerHTML = data.source 
+	                  ? `Explanation: ${data.evidence}<br>Source: ${data.source}`
+	                  : `Explanation: ${data.evidence}`;
+	              });
+	              fb.appendChild(btn);
 	            }
+	            qDiv.appendChild(fb);
+	            qDiv.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
 	          });
 	        }
 	        appendFeedback(typeA);
 	        appendFeedback(typeB);
 	        appendFeedback(typeC);
 
-	        answersSubmitted = true;
+	        answered = true;
+	        submitBtn.remove();
 
-	        // Remove Submit Answers button so that only vote submission remains
-	        submitAnswersButton.remove();
+	        // Reveal voting checkboxes
+	        kgainForm.querySelectorAll('.kgain-vote-label').forEach(l => l.style.display = 'block');
 
-	        /* Reveal voting options after answers are submitted */
-	        kgainForm.querySelectorAll('.kgain-vote-label').forEach(label => {
-	          label.style.display = 'block';
-	        });
-	        /* Reveal voting options after answers are submitted */
+	        // Add Vote button
+	        const voteBtn = document.createElement('button');
+	        voteBtn.type = 'button';
+	        voteBtn.textContent = 'Submit Votes';
+	        kgainForm.appendChild(voteBtn);
 
-	        // Add a button for vote submission after feedback is shown.
-	        const voteButton = document.createElement('button');
-	        voteButton.type = 'button';
-	        voteButton.textContent = 'Submit Votes';
-	        voteButton.style.marginTop = '20px';
-	        //kgainForm.appendChild(document.createElement('hr'));
-	        kgainForm.appendChild(voteButton);
-            voteButton.addEventListener('click', () => {
-	          const typeLimits = { a: 2, b: 2, c: 2 };
-			  let validVotes = true;
-
-			  // Check votes per type (using class names: vote-a, vote-b, vote-c)
-			  ['a', 'b', 'c'].forEach((typeKey) => {
-	            const voteCount = Array.from(kgainForm.querySelectorAll(`.vote-${typeKey}`))
-		          .filter(voteEl => voteEl.checked).length;
-   		        if (voteCount > typeLimits[typeKey]) {
-			      validVotes = false;
-			      alert(`You have selected more than ${typeLimits[typeKey]} votes for Type ${typeKey.toUpperCase()}! Please try again.`);
-			      // Reset checkboxes for this type
-			      kgainForm.querySelectorAll(`.vote-${typeKey}`).forEach(voteEl => voteEl.checked = false);
-			    }
-			});
-
-			if (!validVotes) return;
-
-	          // Process and update votes in Firestore
-	          allQuestions.forEach((qObj) => {
-	            const { id } = qObj;
-	            const voteEl = kgainForm[`vote-${id}`];
-	            if (voteEl && voteEl.checked) {
-	              const docRef = db.collection('papers')
-	                               .doc(paperId)
-	                               .collection('kgainQuestions')
-	                               .doc(id);
-	              docRef.get().then(docSnap => {
-	                if (!docSnap.exists) return;
-	                const currentVote = docSnap.data().vote || 0;
-	                // save user details in an array
-	                console.log(user);
-	                const userDetails = {
-	                  uid: user.uid,
-	                  //name: user.name || '',
-	                  email: user.email || ''
-	                };
-	                docRef.update({
-	                	vote: currentVote + 1,
-	                	// store the userid of the voter
-	                	voters: firebase.firestore.FieldValue.arrayUnion(userDetails)
-	                });
-	              }).catch(err => console.error('Vote update error:', err));
+	        voteBtn.addEventListener('click', () => {
+	          const limits = { a:2, b:2, c:2 };
+	          let valid = true;
+	          ['a','b','c'].forEach(t => {
+	            const cnt = Array.from(kgainForm.querySelectorAll(`.vote-${t}`))
+	                             .filter(i => i.checked).length;
+	            if (cnt > limits[t]) {
+	              valid = false;
+	              alert(`Max ${limits[t]} votes for Type ${t.toUpperCase()}.`);
+	              kgainForm.querySelectorAll(`.vote-${t}`).forEach(i => i.checked = false);
 	            }
 	          });
-	          alert('Votes submitted successfully!');
-	          // Optionally disable voting after submission
-	          allQuestions.forEach((qObj) => {
-	            const { id } = qObj;
-	            const voteEl = kgainForm[`vote-${id}`];
-	            if (voteEl) voteEl.disabled = true;
+	          if (!valid) return;
+
+	          // Persist votes under correct parentCollection
+	          [...typeA, ...typeB, ...typeC].forEach(({ id }) => {
+	            const box = kgainForm[`vote-${id}`];
+	            if (box && box.checked) {
+	              const ref = db.collection(parentCollection)
+	                            .doc(paperId)
+	                            .collection('kgainQuestions')
+	                            .doc(id);
+	              ref.get().then(ds => {
+	                if (!ds.exists) return;
+	                const curr = ds.data().vote || 0;
+	                ref.update({
+	                  vote: curr + 1,
+	                  voters: firebase.firestore.FieldValue.arrayUnion({
+	                    uid: user.uid, email: user.email
+	                  })
+	                });
+	              });
+	            }
 	          });
-	          voteButton.disabled = true;
+	          alert('Votes submitted!');
+	          voteBtn.disabled = true;
 	        });
 
-	        // Update user points in Firestore
-	        updateUserPoints(score, totalQuestions, answers, category);
+	        updateUserPoints(score, snapshot.size * 10, answers, category);
 	      });
-	    })
-	    .catch((error) => {
-	      console.error('Error fetching KGain questions:', error);
-	    });
+	  })
+	  .catch((err) => {
+	    console.error('Error fetching KGain questions:', err);
+	  });
   }
+
 
   /**
    * Updates the user's points based on correct answers.
