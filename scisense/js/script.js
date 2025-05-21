@@ -323,78 +323,8 @@ document.addEventListener('DOMContentLoaded', () => {
    * Fetches and displays Trending papers based on category and search query.
    * @param {string} category - Selected category filter.
    * @param {string} query - Search query.
-   *
-  function displayPapers(category = 'all', query = '') {
-    console.log('Fetching Trending papers from Firestore...');
-    const contentList = document.getElementById('content-list');
-    let loadingMessage = document.getElementById('loading-message');
-
-    // Clear existing listener to prevent multiple listeners
-    if (displayPapers.unsubscribe) {
-      displayPapers.unsubscribe();
-    }
-
-    let queryRef = db.collection('papers2').orderBy('submittedAt', 'desc');
-
-    // Apply category filter if not 'all'
-    if (category !== 'all') {
-      queryRef = queryRef.where('category', '==', category);
-    }
-
-  	displayPapers.unsubscribe = queryRef.onSnapshot((snapshot) => {
-    if (snapshot.empty) {
-    	contentList.innerHTML = '';
-      // If loadingMessage exists, update its content
-      if (loadingMessage) {
-        loadingMessage.textContent = 'No papers matched that criteria.';
-        loadingMessage.style.display = 'block';
-      } else if (contentList) {
-        // If loadingMessage doesn't exist, create it
-        loadingMessage = document.createElement('p');
-        loadingMessage.id = 'loading-message';
-        loadingMessage.textContent = 'No papers matched that criteria.';
-        loadingMessage.style.display = 'block';
-        loadingMessage.style.textAlign = 'center'; // Optional: Center the message
-        loadingMessage.style.marginTop = '20px'; // Optional: Add top margin
-        contentList.appendChild(loadingMessage);
-
-      }
-      // Clear any previously stored list since there are no papers
-      localStorage.removeItem('displayedPapers');
-      
-      return;
-    }
-
-      if (loadingMessage) {
-        loadingMessage.style.display = 'none';
-      }
-
-      // Initial rendering of the papers
-      updatePaperList(snapshot.docs, query, category, contentList, 'trending');
-
-      // After updating the paper list, extract the displayed paper IDs
-      // We'll assume that each paper item has a link to `paper.html?id=paperId`
-      const paperLinks = contentList.querySelectorAll('.paper-item a');
-
-      // Extract the 'id' parameter from each link's href
-      const displayedPaperIds = Array.from(paperLinks).map(link => {
-        const url = new URL(link.href, window.location.origin);
-        return url.searchParams.get('id');
-      }).filter(id => id !== null); // Ensure no null values
-      console.log('Displayed Paper IDs Stored:', displayedPaperIds);
-      // Store the list of displayed paper IDs in localStorage
-      // This list will be used by paper.js to determine Previous and Next articles
-      localStorage.setItem('displayedPapers', JSON.stringify(displayedPaperIds));
-
-    }, (error) => {
-      console.error('Error fetching Trending papers:', error);
-      if (contentList) {
-        contentList.innerHTML = '<p>Error loading papers.</p>';
-      }
-    });
-  }
-  */
-  const ONLY_PAPERS2 = false;
+   */
+  const ONLY_PAPERS2 = true;
   let unsubscribeA, unsubscribeB;
   let papersA = [], papersB = [];
   let unsubscribeHandles = [];
@@ -455,9 +385,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	    });
 	  });
   }
-
-
-
 
   /**
    * Fetches and displays Most Discussed papers based on category and search query.
