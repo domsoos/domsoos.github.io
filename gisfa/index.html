@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>gisfa — find your agent</title>
+  <meta name="description" content="gisfa — a simple gateway to product-selling agents." />
+  <link rel="preload" href="./styles.css" as="style" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">🧭</div>
+      <h1 class="brand-name" aria-label="gisfa">gisfa</h1>
+    </div>
+    <p class="tagline">Search → meet an agent → get what you need.</p>
+  </header>
+
+  <!-- Search / Router -->
+  <main id="router" class="container" aria-live="polite">
+    <section class="card search-card">
+      <form id="searchForm" autocomplete="off" aria-label="Search products or needs">
+        <label for="query" class="sr-only">Search</label>
+        <input id="query" name="query" type="search" placeholder="e.g., gaming laptop, summer dress, espresso machine…" required />
+        <button type="submit" class="btn">Find my agent</button>
+      </form>
+
+      <div class="quick-chips" aria-label="Quick categories">
+        <button class="chip" data-demo="tech">Tech</button>
+        <button class="chip" data-demo="fashion">Fashion</button>
+        <button class="chip" data-demo="home">Home</button>
+        <button class="chip" data-demo="fitness">Fitness</button>
+      </div>
+
+      <p class="hint">Tip: Type anything. We’ll route you to the right character.</p>
+    </section>
+  </main>
+
+  <!-- Agent Panel + Chat -->
+  <section id="agentPanel" class="agent-panel hidden" aria-live="polite">
+    <div class="agent-card">
+      <div class="agent-avatar" id="agentAvatar" aria-hidden="true"></div>
+      <div class="agent-meta">
+        <h2 id="agentName"></h2>
+        <p id="agentTagline" class="muted"></p>
+        <div class="badges" id="agentBadges"></div>
+      </div>
+    </div>
+
+    <div class="chat" role="region" aria-label="Chat with agent">
+      <div id="chatStream" class="chat-stream" aria-live="polite"></div>
+
+      <form id="chatForm" class="chat-input" autocomplete="off">
+        <label for="userMsg" class="sr-only">Your message</label>
+        <input id="userMsg" name="userMsg" type="text" placeholder="Ask me anything about this purchase…" />
+        <button type="submit" class="btn">Send</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <small>© <span id="year"></span> gisfa • demo site</small>
+  </footer>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
+
