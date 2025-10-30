@@ -1,8 +1,15 @@
-  	* {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+
+    #news ul li { margin-bottom: 20px; }
+    #publications ul { padding-left: 22px; }
+    #publications li { margin-bottom: 20px; }
+    #publications .pub-title { font-weight: bold; }
+    #publications .pub-authors { font-style: italic; }
+    #publications .pub-links a { margin-right: 8px; }
     /* General Styles */
     body {
       font-family: Arial, sans-serif;
@@ -113,7 +120,7 @@
 
     /* Content Sections */
     .section {
-      padding: 40px 0;
+      padding: 20px 0;
       /*text-align: center;*/
     }
 

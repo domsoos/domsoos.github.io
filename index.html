@@ -1,4 +1,3 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,14 +12,11 @@
     <div class="container">
       <h1>Dominik Soós</h1>
       <nav>
-        <!-- Hamburger -->
-        <div class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false" tabindex="0">
-          &#9776;
-        </div>
-        <!-- Nav Links -->
+        <div class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false" tabindex="0">&#9776;</div>
         <ul class="nav-links" id="navLinks">
           <li><a href="#about">About Me</a></li>
-          <li><a href="#research">Research</a></li>
+          <li><a href="#news">News</a></li>
+          <li><a href="#publications">Publications</a></li>
           <li><a href="#contact">Contact</a></li>
           <li><a href="scisense/index.html" class="button">SciSense Page</a></li>
         </ul>
@@ -28,17 +24,82 @@
     </div>
   </header>
 
-  <!-- Introduction Section -->
   <section class="introduction" id="about">
     <div class="container">
       <img src="imgs/profile.jpg" alt="Dominik Soós" class="profile-pic">
       <div class="intro-text">
         <h2>Welcome!</h2>
-        <p>I'm Dominik Soós, a PhD student in Computer Science at Old Dominion University. My research focuses on utilizing LLMs to generate and evaluate science news. I love applying machine learning and deep learning techniques into real-world problems. I am passionate about playing soccer, kayaking and being outside in nature.</p>
+        <p>
+          I'm Dominik Soós, a PhD student in Computer Science at Old Dominion University.<br>
+         My dissertation focuses on applying generative AI and machine learning for advancing scientific knowledge production and dissemination.
+        </p>
       </div>
     </div>
   </section>
-  
+
+  <section class="section" id="news">
+    <div class="container">
+      <h2>News</h2>
+      <ul>
+        <li><strong>September 2025:</strong> Presented my work at HT 2025 in Chicago</li>
+        <li><strong>September 2025:</strong> Paper accepted to HiPC 2025!</li>
+        <li><strong>August 2025:</strong> Paper accepted to CBMI 2025! </li>
+        <li><strong>June 2025:</strong> Awarded OLCF Compute Proposal on Frontier supercomputer</li>
+        <li><strong>June 2025:</strong> Paper accepted to Hypertext 2025!</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Publications Section -->
+  <section class="section" id="publications">
+    <div class="container">
+      <h2>Publications</h2>
+      <ul>
+        <li>
+          <span class="pub-authors"><strong>Dominik Soós</strong>, Marc Paterno, Desh Ranjan, Mohammad Zubair (2025).</span><br>
+          <span class="pub-title">“Zeus: An Efficient GPU Optimization Method Integrating PSO, BFGS, and Automatic Differentiation.”</span><br>
+          <em>HiPC 2025: IEEE 32nd International Conference on High Performance Computing, Data, and Analytics</em>, Hyderabad, India, December 17-20, 2025. <strong>[accepted]</strong>
+        </li>
+        <li>
+          <span class="pub-authors">Sandeep Kalari, Mohan Krishna Sunkara, <strong>Dominik Soós</strong>, Vikas Ashok, Ravi Mukkamala (2025).</span><br>
+          <span class="pub-title">“ReViewQwen: An Explainable Vision-Language Model for Discrepancy Detection in Multimodal E-Commerce Reviews.”</span><br>
+          <em>IEEE CBMI 2025: IEEE International Conference on Content-Based Multimedia Indexing</em>, Dublin, Ireland, October 22-24, 2025. <br> [<a href="https://www.cbmi2025.org/papers/133/">link</a>]
+        </li>
+        <li>
+          <span class="pub-authors"><strong>Dominik Soós</strong>, Meng Jiang, Jian Wu (2025).</span><br>
+          <span class="pub-title">“Can LLMs Beat Humans on Discerning Human-written and LLM-generated Science News?”</span><br>
+          <em>Proceedings of the 36th ACM Conference on Hypertext and Social Media (Hypertext ’25)</em>, Chicago, USA, September 15-18, 2025.<br>
+          DOI: <a href="https://doi.org/10.1145/3720553.3746674" target="_blank">10.1145/3720553.3746674</a>.
+            [<a href="https://dl.acm.org/doi/10.1145/3720553.3746674" target="_blank">link</a>,
+            <a href="https://dl.acm.org/doi/pdf/10.1145/3720553.3746674" target="_blank">pdf</a>]
+        </li>
+        <li>
+          <span class="pub-authors"><strong>Dominik Soós</strong> (2024).</span><br>
+          <span class="pub-title">“Who Wrote the Scientific News? Improving the Discernibility of LLMs to Human-Written Scientific News.”</span><br>
+          Master of Science Thesis, Computer Science, Old Dominion University.<br>
+          DOI: <a href="https://doi.org/10.25777/perk-7b13" target="_blank">10.25777/perk-7b13</a>.
+            [<a href="https://digitalcommons.odu.edu/computerscience_etds/178" target="_blank">link</a>]
+        </li>
+        <li>
+          <span class="pub-authors">Michael Evans, <strong>Dominik Soós</strong>, Ethan Landers, Jian Wu (2023).</span><br>
+          <span class="pub-title">“MSVEC: A Multidomain Testing Dataset for Scientific Claim Verification.”</span><br>
+          <em>MobiHoc ’23: Proceedings of the 24th International Symposium on Theory, Algorithmic Foundations, and Protocol Design for Mobile Networks and Mobile Computing</em>, Washington, DC, USA, October 23–26, 2023. ACM.<br>
+          DOI: <a href="https://doi.org/10.1145/3565287.3617630" target="_blank">10.1145/3565287.3617630</a>.
+            [<a href="https://dl.acm.org/doi/10.1145/3565287.3617630" target="_blank">link</a>,
+            <a href="https://dl.acm.org/doi/pdf/10.1145/3565287.3617630" target="_blank">pdf</a>]
+        </li>
+        <li>
+          <span class="pub-authors">Jian Wu, Ryan Hiltabrand, <strong>Dominik Soós</strong>, C. Lee Giles (2022).</span><br>
+          <span class="pub-title">“Scholarly Big Data Quality Assessment: A Case Study of Document Linking and Conflation with S2ORC.”</span><br>
+          <em>DocEng ’22: Proceedings of the 22nd ACM Symposium on Document Engineering</em>, 2022. Association for Computing Machinery (ACM).<br>
+          DOI: <a href="https://doi.org/10.1145/3558100.3563850" target="_blank">10.1145/3558100.3563850</a>.
+            [<a href="https://dl.acm.org/doi/10.1145/3558100.3563850" target="_blank">link</a>,
+            <a href="https://dl.acm.org/doi/pdf/10.1145/3558100.3563850" target="_blank">pdf</a>]
+        </li>
+      </ul>
+    </div>
+  </section>
+
   <!-- Research Interests -->
   <section class="research" id="research">
     <div class="container">
@@ -51,20 +112,33 @@
     </div>
   </section>
 
-  <!-- Contact Information -->
+  <!-- Contact & Social Media -->
   <section class="contact" id="contact">
     <div class="container">
-      <h2>Contact Me</h2>
+      <h2>Contact & Social Media</h2>
       <p>Email: <a href="mailto:dsoos001@odu.edu">dsoos001@odu.edu</a></p>
-      <p>LinkedIn: <a href="https://www.linkedin.com/in/dominik-so%C3%B3s-7525aa1b0/" target="_blank">linkedin.com/in/dominik-soos</a></p>
-      <p>GitHub: <a href="https://github.com/domsoos" target="_blank">github.com/domsoos</a></p>
+      <p>
+        LinkedIn:
+        <a href="https://www.linkedin.com/in/dominik-so%C3%B3s-7525aa1b0/" target="_blank">linkedin.com/in/dominik-soos</a>
+      </p>
+      <p>
+        GitHub:
+        <a href="https://github.com/domsoos" target="_blank">github.com/domsoos</a>
+      </p>
+      <p>
+        X/Twitter:
+        <a href="https://twitter.com/" target="_blank">twitter.com/yourhandle</a>
+      </p>
+      <p>
+        Google Scholar:
+        <a href="https://scholar.google.com/" target="_blank">scholar.google.com/yourprofile</a>
+      </p>
     </div>
   </section>
 
-  <!-- Footer -->
   <footer class="footer">
     <div class="container">
-      <p>&copy; 2024 Dominik Soós. All rights reserved.</p>
+      <p>&copy; 2025 Dominik Soós. All rights reserved.</p>
     </div>
   </footer>
 </body>
