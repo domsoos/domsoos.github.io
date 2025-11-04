@@ -65,20 +65,37 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // Fetch and populate papers in the select dropdown
-  const populatePapersDropdown = () => {
-    db.collection('papers2').get()
-      .then((snapshot) => {
-        snapshot.forEach((doc) => {
-          const option = document.createElement('option');
-          option.value = doc.id;
-          option.textContent = doc.data().title || doc.id;
-          selectPaper.appendChild(option);
-        });
-      })
-      .catch((error) => {
-        console.error('Error fetching papers:', error);
-      });
+// Fetch and populate papers from both 'papers2' and 'papers'
+  const populatePapersDropdown = async () => {
+    try {
+      const [snap2, snap1] = await Promise.all([
+        db.collection('papers2').get(),
+        db.collection('papers').get()
+      ]);
+
+      const toOption = (doc, collectionName) => {
+        const opt = document.createElement('option');
+        // encode collection + doc id so we can route writes correctly later
+        opt.value = `${collectionName}|${doc.id}`;
+        const title = (doc.data().title || doc.id).toString();
+        opt.textContent = title;
+        // optional: store the collection as a data-attr too
+        opt.dataset.collection = collectionName;
+        return opt;
+      };
+
+      const options = [
+        ...snap2.docs.map(d => toOption(d, 'papers2')),
+        ...snap1.docs.map(d => toOption(d, 'papers'))
+      ];
+
+      // optional: sort alphabetically by label
+      options.sort((a, b) => a.textContent.localeCompare(b.textContent));
+
+      options.forEach(opt => selectPaper.appendChild(opt));
+    } catch (err) {
+      console.error('Error fetching papers:', err);
+    }
   };
 
   // Populate the dropdown on load
