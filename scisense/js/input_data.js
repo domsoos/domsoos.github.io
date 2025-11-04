@@ -235,8 +235,9 @@ function createQuestionBlock(index) {
       db.collection('users').doc(user.uid).get()
         .then((doc) => {
           if (doc.exists && doc.data().isAdmin) {
-            // Proceed with adding KGain question
-            const paperId = selectPaper.value;
+            // selectPaper.value is in the format "collection|docId" (set by populatePapersDropdown)
+            const selected = selectPaper.value;
+            const [collectionName, paperId] = (selected || '').split('|');
             const questionText = document.getElementById('kgain-question-text').value.trim();
             const questionType = document.querySelector('input[name="questionType"]:checked')?.value;
             const correctAnswer = document.getElementById('correct-answer').value;
@@ -255,13 +256,13 @@ function createQuestionBlock(index) {
               return;
             }
 
-            if (!paperId || !questionType || !questionText || !correctAnswer) {
+            if (!collectionName || !paperId || !questionType || !questionText || !correctAnswer) {
               alert('Please fill in all required fields.');
               return;
             }
 
             // Add the question to Firestore
-            db.collection('papers2').doc(paperId).collection('kgainQuestions').add({
+            db.collection(collectionName).doc(paperId).collection('kgainQuestions').add({
               questionText: questionText,
               type: questionType,
               options: options,
