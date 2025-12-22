@@ -1,12 +1,12 @@
-    document.addEventListener('DOMContentLoaded', function() {
-      const hamburger = document.getElementById('hamburger');
-      const navLinks = document.getElementById('navLinks');
+document.addEventListener('DOMContentLoaded', function() {
+   const hamburger = document.getElementById('hamburger');
+   const navLinks = document.getElementById('navLinks');
 
-      // Ensure all elements are present
-      if (!hamburger || !navLinks) {
-        console.error('Hamburger menu or navigation links are missing in the DOM.');
-        return;
-      }
+   // Ensure all elements are present
+   if (!hamburger || !navLinks) {
+     console.error('Hamburger menu or navigation links are missing in the DOM.');
+     return;
+   }
 
       // Function to toggle navigation links
       function toggleNav() {
@@ -44,6 +44,16 @@
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           toggleNav();
-        }
-      });
-    });
+    }
+  });
+});
+
+const toggleBtn = document.getElementById("toggle-news");
+const moreNews = document.getElementById("more-news");
+
+toggleBtn.addEventListener("click", () => {
+  const isHidden = moreNews.classList.contains("hidden");
+
+  moreNews.classList.toggle("hidden");
+  toggleBtn.textContent = isHidden ? "Show less" : "Show more";
+});

@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+.hidden {
+  display: none;
+}
+
     #news ul li { margin-bottom: 20px; }
     #publications ul { padding-left: 22px; }
     #publications li { margin-bottom: 20px; }

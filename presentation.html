@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Efficient Training of Optical Neural Networks</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --accent-color: #00d4ff; /* Cyan for Optics */
+            --accent-secondary: #ff007a; /* Magenta for Digital */
+            --code-bg: #1e1e1e;
+            --slide-width: 1280px;
+            --slide-height: 720px;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #000;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .slide {
+            width: var(--slide-width);
+            height: var(--slide-height);
+            background-color: var(--bg-color);
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 60px;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Typography */
+        h1 { font-size: 64px; font-weight: 800; margin: 0 0 20px 0; line-height: 1.1; background: linear-gradient(90deg, #fff, #aaa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        h2 { font-size: 42px; font-weight: 600; margin: 0 0 40px 0; color: var(--accent-color); border-bottom: 2px solid #333; padding-bottom: 10px; }
+        h3 { font-size: 28px; font-weight: 600; margin: 0 0 15px 0; color: #fff; }
+        p, li { font-size: 20px; line-height: 1.6; color: #ccc; margin-bottom: 12px; }
+        ul { padding-left: 25px; }
+
+        /* Layouts */
+        .title-slide { justify-content: center; text-align: center; background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%); }
+        .title-slide h1 { font-size: 80px; margin-bottom: 30px; }
+        .subtitle { font-size: 32px; color: var(--accent-color); margin-bottom: 60px; }
+        .authors { font-size: 24px; color: #888; }
+
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; height: 100%; }
+        .col { display: flex; flex-direction: column; }
+        .center-content { align-items: center; justify-content: center; text-align: center; }
+
+        /* Components */
+        .code-block {
+            font-family: 'JetBrains Mono', monospace;
+            background-color: var(--code-bg);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-secondary);
+            font-size: 16px;
+            color: #a9b7c6;
+            white-space: pre-wrap;
+            margin-bottom: 20px;
+        }
+        .keyword { color: #cc7832; }
+        .string { color: #6a8759; }
+        .number { color: #6897bb; }
+
+        .placeholder-img {
+            width: 100%;
+            height: 100%;
+            background-color: #222;
+            border: 2px dashed #444;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-family: 'JetBrains Mono', monospace;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .metric-box {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-val { font-size: 48px; font-weight: 800; color: #fff; margin: 10px 0; }
+        .metric-val.good { color: #00ff88; }
+        .metric-val.bad { color: #ff4444; }
+        .metric-label { font-size: 16px; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Footer */
+        .footer {
+            position: absolute;
+            bottom: 30px;
+            left: 60px;
+            font-size: 14px;
+            color: #444;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .slide-number {
+            position: absolute;
+            bottom: 30px;
+            right: 60px;
+            font-size: 14px;
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Slide 1: Title -->
+    <div class="slide title-slide">
+        <h1>Efficient Training of<br>Optical Neural Networks</h1>
+        <div class="subtitle">Diffractive (Real-Space) vs. Fourier-Space Architectures</div>
+        <div class="authors">Dominik Soós & Chris Maguschak<br>Computer Vision Research • Fall 2025</div>
+    </div>
+
+    <!-- Slide 2: Motivation & Problem -->
+    <div class="slide">
+        <h2>1. Motivation: The Electronic Bottleneck</h2>
+        <div class="two-col">
+            <div class="col">
+                <h3>The Problem</h3>
+                <ul>
+                    <li><strong>Moore's Law is slowing:</strong> Transistor scaling is hitting physical thermal limits.</li>
+                    <li><strong>AI Energy Cost:</strong> Large models consume GWh of electricity.</li>
+                    <li><strong>Latency:</strong> Electronic inference is bound by clock cycles and memory bandwidth.</li>
+                </ul>
+            </div>
+            <div class="col">
+                <h3>The Optical Solution</h3>
+                <ul>
+                    <li><strong>Speed of Light:</strong> Propagation performs calculations instantly.</li>
+                    <li><strong>Zero Energy:</strong> Passive diffraction requires no power consumption for the computation itself.</li>
+                    <li><strong>Parallelism:</strong> Optics naturally handles massive parallelism (millions of pixels at once).</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer">Proposal Context: Why we are doing this simulation.</div>
+        <div class="slide-number">02</div>
+    </div>
+
+    <!-- Slide 3: Simulation Methods (Proposal) -->
+    <div class="slide">
+        <h2>2. Simulation Methods (Proposed)</h2>
+        <div class="two-col">
+            <div class="col">
+                <h3>Real-Space (D²NN)</h3>
+                <p>Based on <em>Lin et al. (Science, 2018)</em>.</p>
+                <ul>
+                    <li>Models light propagation between physical planes.</li>
+                    <li><strong>Math:</strong> Fresnel Propagation (Convolution with free-space kernel).</li>
+                    <li><strong>Pros:</strong> Physically intuitive (stacked lenses).</li>
+                    <li><strong>Cons:</strong> Computationally heavy (large convolutions).</li>
+                </ul>
+            </div>
+            <div class="col">
+                <h3>Fourier-Space (F-D²NN)</h3>
+                <p>Based on <em>Yan et al. (PRL, 2019)</em>.</p>
+                <ul>
+                    <li>Operates directly in the frequency domain using 4f systems.</li>
+                    <li><strong>Math:</strong> FFT &rarr; Mask &rarr; IFFT.</li>
+                    <li><strong>Pros:</strong> Global receptive field (frequency mixing).</li>
+                    <li><strong>Cons:</strong> Harder to build physically.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer">We implemented both architectures in PyTorch to compare them.</div>
+        <div class="slide-number">03</div>
+    </div>
+
+    <!-- Slide 4: The "Weights" in Optics (Code Analysis) -->
+    <div class="slide">
+        <h2>3. Where are the Parameters?</h2>
+        <p>In digital networks, weights are dense matrices ($N^2$). In optics, they are diagonal ($N$).</p>
+        <div class="two-col">
+            <div class="col">
+                <h3>Digital Layer (Dense)</h3>
+                <div class="code-block">
+y = W @ x  <span class="keyword"># Matrix Mult</span>
+<span class="keyword"># Params:</span> N * N
+<span class="keyword"># Mixing:</span> Global
+                </div>
+                <p>Every input pixel connects to every output pixel via a weight value.</p>
+            </div>
+            <div class="col">
+                <h3>Optical Layer (Diffractive)</h3>
+                <div class="code-block">
+y = Mask * x  <span class="keyword"># Element-wise</span>
+<span class="keyword"># Params:</span> N (Diagonal)
+<span class="keyword"># Mixing:</span> Via Propagation
+                </div>
+                <p><strong>The "Weight" is the Mask:</strong></p>
+                <ul>
+                    <li><strong>Phase:</strong> Thickness/Refractive Index (Delays light).</li>
+                    <li><strong>Amplitude:</strong> Opacity (Blocks light).</li>
+                </ul>
+            </div>
+        </div>
+        <div class="slide-number">04</div>
+    </div>
+
+    <!-- Slide 5: Visualizing Learned Physics -->
+    <div class="slide">
+        <h2>4. Visualizing Learned Physics</h2>
+        <p>What do these "Diagonal Weights" look like after training?</p>
+        <div class="two-col">
+            <div class="col">
+                <div class="placeholder-img">
+                    [INSERT: FD2NN_Opt_phase_masks.png]<br>
+                    (Learned Frequency Filters)
+                </div>
+                <p style="text-align: center; font-size: 14px;">FD2NN learns to block/pass specific spatial frequencies.</p>
+            </div>
+            <div class="col">
+                <div class="placeholder-img">
+                    [INSERT: D2NN_NonLin_phase_masks.png]<br>
+                    (Learned Spatial Lenses)
+                </div>
+                <p style="text-align: center; font-size: 14px;">D2NN learns refractive structures (lenses) to focus light.</p>
+            </div>
+        </div>
+        <div class="slide-number">05</div>
+    </div>
+
+    <!-- Slide 6: The Curriculum Failure (Code Insight) -->
+    <div class="slide">
+        <h2>5. The Curriculum Failure</h2>
+        <div class="two-col">
+            <div class="col">
+                <h3>The Hypothesis</h3>
+                <p>Training on blurry images first (Curriculum Learning) should help convergence, as seen in digital Super-Resolution tasks.</p>
+                <h3>The Result</h3>
+                <div class="metric-box" style="background: #300; border-color: #f00;">
+                    <div class="metric-label">Validation Accuracy</div>
+                    <div class="metric-val bad">~10%</div>
+                    <div class="metric-label">With Curriculum</div>
+                </div>
+            </div>
+            <div class="col">
+                <h3>Why it Failed (Physics)</h3>
+                <p><strong>Diffraction is Frequency-Dependent.</strong></p>
+                <ul>
+                    <li>A lens ground to focus "blobs" (low freq) will scatter "edges" (high freq) incorrectly.</li>
+                    <li>By training on blurry images, we trained the physics simulator in a different "universe" than the test set.</li>
+                    <li><strong>Fix:</strong> Train on sharp images from Epoch 0.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="slide-number">06</div>
+    </div>
+
+    <!-- Slide 7: Experiment A - Hybrid Architecture -->
+    <div class="slide">
+        <h2>6. Experiment A: The Hybrid Model</h2>
+        <p><strong>Hypothesis:</strong> Use optics for "heavy lifting" (feature extraction) and a tiny digital CNN for classification.</p>
+        <div class="two-col">
+            <div class="col center-content">
+                <div class="placeholder-img" style="height: 300px;">
+                    [DIAGRAM: Input -> FD2NN (Fixed/Learned) -> Tiny CNN -> Output]
+                </div>
+            </div>
+            <div class="col">
+                <h3>Ablation Study</h3>
+                <p>Does the optics actually learn?</p>
+                <table style="width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 18px;">
+                    <tr style="border-bottom: 1px solid #444;">
+                        <th style="text-align: left; padding: 10px;">Model Config</th>
+                        <th style="text-align: right; padding: 10px;">Accuracy</th>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #333;">
+                        <td style="padding: 10px;">Hybrid (Frozen Optics)</td>
+                        <td style="padding: 10px; text-align: right; color: #aaa;">~75%</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px;"><strong>Hybrid (Learned Optics)</strong></td>
+                        <td style="padding: 10px; text-align: right; color: #00ff88; font-weight: bold;">87.2%</td>
+                    </tr>
+                </table>
+                <p style="margin-top: 20px;"><strong>Conclusion:</strong> The optical layer actively learns useful features (e.g., edge detection) that boost the CNN.</p>
+            </div>
+        </div>
+        <div class="slide-number">07</div>
+    </div>
+
+    <!-- Slide 8: Experiment B - Nonlinearity -->
+    <div class="slide">
+        <h2>7. Experiment B: Linearity vs. Nonlinearity</h2>
+        <p><strong>Proposal Experiment:</strong> Can we train a purely linear optical network?</p>
+        <div class="two-col">
+            <div class="col">
+                <h3>Linear D2NN</h3>
+                <div class="code-block">y = M3 * P * M2 * P * M1 * x</div>
+                <p>Mathematically collapses to a single linear transformation $y = W_{eff} x$. Capacity is limited to a linear classifier.</p>
+                <div class="metric-box">
+                    <div class="metric-val bad">~12%</div>
+                    <div class="metric-label">Accuracy (Linear)</div>
+                </div>
+            </div>
+            <div class="col">
+                <h3>Nonlinear D2NN</h3>
+                <div class="code-block">y = | M3 * P * | M2 * P * | M1 * x | |</div>
+                <p>We introduce "Optical ReLU" by measuring intensity ($|x|^2$) or magnitude ($|x|$) at each plane.</p>
+                <div class="metric-box">
+                    <div class="metric-val good">73.0%</div>
+                    <div class="metric-label">Accuracy (Nonlinear)</div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-number">08</div>
+    </div>
+
+    <!-- Slide 9: Training Dynamics (Metrics) -->
+    <div class="slide">
+        <h2>8. Training Dynamics</h2>
+        <p>Comparing convergence speed and stability across all models.</p>
+        <div class="placeholder-img" style="height: 450px;">
+            [INSERT: benchmark_curves.png]<br>
+            (Validation Accuracy & Loss vs Epochs)
+        </div>
+        <p style="text-align: center; margin-top: 20px;">Note: The Hybrid model (Orange line) converges faster and higher than the Baseline CNN (Blue).</p>
+        <div class="slide-number">09</div>
+    </div>
+
+    <!-- Slide 10: Confusion Analysis -->
+    <div class="slide">
+        <h2>9. Error Analysis (Confusion Matrices)</h2>
+        <div class="two-col">
+            <div class="col">
+                <div class="placeholder-img">
+                    [INSERT: CNN_Baseline_confusion.png]
+                </div>
+                <p style="text-align: center;"><strong>CNN Baseline</strong><br>Struggles with Shirt vs. Coat</p>
+            </div>
+            <div class="col">
+                <div class="placeholder-img">
+                    [INSERT: Hybrid_confusion.png]
+                </div>
+                <p style="text-align: center;"><strong>Hybrid Model</strong><br>Reduced inter-class confusion</p>
+            </div>
+        </div>
+        <div class="slide-number">10</div>
+    </div>
+
+    <!-- Slide 11: Final Benchmarks -->
+    <div class="slide">
+        <h2>10. Final Results Summary</h2>
+        <table style="width: 100%; border-collapse: collapse; font-size: 24px; margin-top: 40px;">
+            <thead>
+                <tr style="background-color: #222; border-bottom: 2px solid #444;">
+                    <th style="text-align: left; padding: 20px;">Model Architecture</th>
+                    <th style="text-align: center; padding: 20px;">Test Accuracy</th>
+                    <th style="text-align: center; padding: 20px;">Sim Speed</th>
+                    <th style="text-align: center; padding: 20px;">Digital Params</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 20px;">D2NN (Linear)</td>
+                    <td style="text-align: center; padding: 20px; color: #ff4444;">12.7%</td>
+                    <td style="text-align: center; padding: 20px;">6488 img/s</td>
+                    <td style="text-align: center; padding: 20px;">0</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 20px;">D2NN (Nonlinear)</td>
+                    <td style="text-align: center; padding: 20px;">73.0%</td>
+                    <td style="text-align: center; padding: 20px;">6471 img/s</td>
+                    <td style="text-align: center; padding: 20px;">0</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 20px;">FD2NN (Fourier)</td>
+                    <td style="text-align: center; padding: 20px;">82.2%</td>
+                    <td style="text-align: center; padding: 20px;">6409 img/s</td>
+                    <td style="text-align: center; padding: 20px;">0</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 20px;">CNN Baseline</td>
+                    <td style="text-align: center; padding: 20px;">83.8%</td>
+                    <td style="text-align: center; padding: 20px;">6459 img/s</td>
+                    <td style="text-align: center; padding: 20px;">16,698</td>
+                </tr>
+                <tr style="background-color: rgba(0, 212, 255, 0.1);">
+                    <td style="padding: 20px;"><strong>Hybrid (Ours)</strong></td>
+                    <td style="text-align: center; padding: 20px; color: #00ff88; font-weight: bold;">87.2%</td>
+                    <td style="text-align: center; padding: 20px;">6432 img/s</td>
+                    <td style="text-align: center; padding: 20px;">16,698</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="slide-number">11</div>
+    </div>
+
+    <!-- Slide 12: Conclusion -->
+    <div class="slide">
+        <h2>11. Conclusion & Future Work</h2>
+        <div class="two-col">
+            <div class="col">
+                <h3>Conclusions</h3>
+                <ul>
+                    <li><strong>Hybrid is King:</strong> Offloading feature extraction to passive optics boosts accuracy (+3.4%) without increasing digital compute load.</li>
+                    <li><strong>Curriculum Trap:</strong> Optical training requires sharp inputs; domain shift in frequency space is fatal.</li>
+                    <li><strong>Fourier vs. Real:</strong> Fourier-space models (FD2NN) are more expressive per layer than Real-space (D2NN).</li>
+                </ul>
+            </div>
+            <div class="col">
+                <h3>Future Work</h3>
+                <ul>
+                    <li><strong>Physical Deployment:</strong> Export learned masks to STL for 3D printing.</li>
+                    <li><strong>Energy Profiling:</strong> Quantify exact Joule savings of the passive front-end.</li>
+                    <li><strong>Complex Datasets:</strong> Scale simulation to CIFAR-10 or ImageNet.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer">Thank you! Questions?</div>
+        <div class="slide-number">12</div>
+    </div>
+
+</body>
+</html>
