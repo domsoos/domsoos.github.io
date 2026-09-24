@@ -1,5 +1,5 @@
 window.MERIT_CONFIG = {
-  API_BASE: "",
+  API_BASE: "https:" + "//merit-gateway.dsoos001.workers.dev",
   HEALTH_PATH: "/api/health",
   RUN_PATH: "/api/run",
   STATUS_PATH: "/api/status",
