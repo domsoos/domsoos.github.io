@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="MERIT: Multi-Agent Evidence-Grounded Research and Integrated Testing">
+  <title>MERIT — Scientific Discovery with AI Co-Scientists</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./config.js"></script>
+  <script src="./app.js" defer></script>
+</head>
+
+<body>
+  <div class="top-accent"></div>
+
+  <header class="site-header">
+    <div class="brand">
+      <div class="brand-mark">M</div>
+      <div>
+        <div class="brand-name">MERIT</div>
+        <div class="brand-subtitle">
+          Multi-Agent Evidence-Grounded Research and Integrated Testing
+        </div>
+      </div>
+    </div>
+
+    <div class="status-pill offline" id="backendStatus">
+      <span class="status-dot"></span>
+      <span id="backendStatusText">Checking backend</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow">AI Co-Scientists for Scientific Discovery</div>
+      <h1>Ask a scientific question.</h1>
+      <p class="hero-copy">
+        MERIT combines scientific agents, literature grounding, evidence review,
+        and provenance to generate research hypotheses that can be traced back
+        to the evidence used to construct them.
+      </p>
+    </section>
+
+    <section class="workspace">
+      <div class="question-panel">
+        <label for="question">Scientific research question</label>
+
+        <textarea
+          id="question"
+          rows="5"
+          placeholder="Ask any scientific research question..."
+        ></textarea>
+
+        <div class="example-row">
+          <span class="examples-label">Examples</span>
+          <button class="example-chip" data-question="Generate a hypothesis to lower the effective Li migration barrier in LiFePO4, reported per crystallographic direction.">
+            LiFePO₄ migration
+          </button>
+          <button class="example-chip" data-question="Propose a mechanistic hypothesis for improving ionic conductivity in solid-state battery electrolytes.">
+            Solid-state electrolytes
+          </button>
+          <button class="example-chip" data-question="Generate a falsifiable hypothesis for improving catalyst stability during electrochemical CO2 reduction.">
+            CO₂ catalysis
+          </button>
+        </div>
+
+        <div class="mode-grid">
+          <button class="mode-card selected" data-mode="fast">
+            <span class="mode-icon">⚡</span>
+            <span class="mode-title">Fast</span>
+            <span class="mode-description">
+              Direct scientific hypothesis generation
+            </span>
+          </button>
+
+          <button class="mode-card" data-mode="grounded">
+            <span class="mode-icon">◎</span>
+            <span class="mode-title">Literature-Grounded</span>
+            <span class="mode-description">
+              Retrieve, rerank, review, and reason over scientific papers
+            </span>
+          </button>
+
+          <button class="mode-card disabled" disabled>
+            <span class="mode-icon">◇</span>
+            <span class="mode-title">Community</span>
+            <span class="mode-description">
+              Multi-agent deliberation and blind review
+            </span>
+            <span class="coming-soon">Long-running demo mode</span>
+          </button>
+        </div>
+
+        <div class="action-row">
+          <div class="mode-note" id="modeNote">
+            Fast mode uses a direct scientific reasoning workflow.
+          </div>
+          <button id="runButton" class="run-button">
+            Run MERIT
+          </button>
+        </div>
+
+        <div id="errorBox" class="error-box hidden"></div>
+      </div>
+
+      <section id="runPanel" class="run-panel hidden">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">Live Workflow</div>
+            <h2>Scientific reasoning pipeline</h2>
+          </div>
+          <div class="run-id" id="runId"></div>
+        </div>
+
+        <div class="progress-track" id="progressTrack"></div>
+      </section>
+
+      <section id="resultPanel" class="results-grid hidden">
+        <div class="result-card evidence-panel" id="evidencePanel">
+          <div class="card-header">
+            <div>
+              <div class="eyebrow">Grounding</div>
+              <h2>Scientific Evidence</h2>
+            </div>
+            <span class="count-badge" id="evidenceCount">0 papers</span>
+          </div>
+
+          <div id="evidenceList" class="evidence-list">
+            <div class="empty-state">
+              Retrieved and reviewed papers will appear here.
+            </div>
+          </div>
+        </div>
+
+        <div class="result-card hypothesis-panel">
+          <div class="card-header">
+            <div>
+              <div class="eyebrow">MERIT Result</div>
+              <h2>Scientific Hypothesis</h2>
+            </div>
+          </div>
+
+          <div id="hypothesisContent" class="hypothesis-content">
+            <div class="empty-state">
+              Your generated hypothesis will appear here.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="provenancePanel" class="provenance-panel hidden">
+        <div class="eyebrow">Provenance</div>
+        <div class="provenance-grid">
+          <div>
+            <span class="meta-label">Run ID</span>
+            <span id="metaRunId">—</span>
+          </div>
+          <div>
+            <span class="meta-label">Mode</span>
+            <span id="metaMode">—</span>
+          </div>
+          <div>
+            <span class="meta-label">Evidence</span>
+            <span id="metaEvidence">—</span>
+          </div>
+          <div>
+            <span class="meta-label">Status</span>
+            <span id="metaStatus">—</span>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer>
+    <span>MERIT</span>
+    <span>Scientific AI Research Prototype</span>
+    <a href="../">Dominik Soós</a>
+  </footer>
+</body>
+</html>
