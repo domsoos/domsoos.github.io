@@ -139,14 +139,15 @@ function renderEvidence(evidence) {
   const items = Array.isArray(evidence) ? evidence : [];
 
   $("evidenceCount").textContent =
-    `${items.length} paper${items.length === 1 ? "" : "s"}`;
+    `${items.length} accepted paper${items.length === 1 ? "" : "s"}`;
 
-  $("metaEvidence").textContent = `${items.length} papers`;
+  $("metaEvidence").textContent =
+    `${items.length} accepted paper${items.length === 1 ? "" : "s"}`;
 
   if (!items.length) {
     $("evidenceList").innerHTML = `
       <div class="empty-state">
-        No reviewed evidence was returned.
+        No reviewed evidence was accepted.
       </div>
     `;
     return;
@@ -158,32 +159,111 @@ function renderEvidence(evidence) {
       ? `https://doi.org/${encodeURIComponent(doi)}`
       : "";
 
+    const review = paper.evidence || {};
+
+    const stance =
+      review.stance ||
+      paper.stance ||
+      "";
+
+    const role =
+      review.role ||
+      paper.role ||
+      "";
+
+    const confidence =
+      review.confidence ??
+      paper.confidence ??
+      null;
+
+    const evidenceLevel =
+      review.evidence_level ||
+      paper.evidence_level ||
+      "";
+
     const rationale =
+      review.rationale ||
       paper.review_rationale ||
       paper.rationale ||
       paper.retrieval_reason ||
       paper.why_retrieved ||
       "";
 
+    const abstract =
+      paper.abstract || "";
+
+    const limitations =
+      Array.isArray(review.limitations)
+        ? review.limitations
+        : [];
+
+    const title = String(
+      paper.title || "Untitled paper"
+    ).replace(/<[^>]*>/g, "");
+
+    const reviewSummary = [
+      stance ? stance.toUpperCase() : "",
+      role || "",
+      confidence !== null
+        ? `confidence ${Number(confidence).toFixed(2)}`
+        : "",
+      evidenceLevel
+        ? `${evidenceLevel}-level evidence`
+        : ""
+    ].filter(Boolean).join(" · ");
+
     return `
       <article class="evidence-item">
+
         <div class="evidence-title">
-          ${i + 1}. ${escapeHtml(paper.title || "Untitled paper")}
+          ${i + 1}. ${escapeHtml(title)}
         </div>
 
         <div class="evidence-meta">
-          ${escapeHtml(paper.year || paper.publication_year || "")}
+          ${escapeHtml(
+            paper.year ||
+            paper.publication_year ||
+            ""
+          )}
           ${doi ? " · " : ""}
           ${doi
-            ? `<a href="${href}" target="_blank" rel="noopener">${escapeHtml(doi)}</a>`
+            ? `<a href="${href}"
+                  target="_blank"
+                  rel="noopener">
+                 ${escapeHtml(doi)}
+               </a>`
             : ""}
         </div>
 
+        ${reviewSummary ? `
+          <div class="evidence-meta">
+            ${escapeHtml(reviewSummary)}
+          </div>
+        ` : ""}
+
+        ${abstract ? `
+          <div class="evidence-rationale">
+            <strong>Paper evidence</strong><br>
+            ${escapeHtml(abstract)}
+          </div>
+        ` : ""}
+
         ${rationale ? `
           <div class="evidence-rationale">
+            <strong>EvidenceReviewer assessment</strong><br>
             ${escapeHtml(rationale)}
           </div>
         ` : ""}
+
+        ${limitations.length ? `
+          <div class="evidence-rationale">
+            <strong>Limitations</strong><br>
+            ${limitations.map(
+              item => `• ${escapeHtml(item)}`
+            ).join("<br>")}
+          </div>
+        ` : ""}
+
       </article>
     `;
   }).join("");
