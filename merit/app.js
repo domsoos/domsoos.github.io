@@ -16,6 +16,13 @@ const stagesByMode = {
     "Semantic Reranking",
     "Evidence Review",
     "Agent Reasoning"
+  ],
+  community: [
+    "Recorded Run",
+    "Independent Proposals",
+    "Blind Review",
+    "Synthesis",
+    "Integrated Result"
   ]
 };
 
