@@ -110,7 +110,9 @@ function setMode(mode) {
   $("modeNote").textContent =
     mode === "fast"
       ? "Fast mode uses a direct scientific reasoning workflow."
-      : "Literature-Grounded mode retrieves and reviews scientific papers before agent reasoning.";
+      : mode === "grounded"
+        ? "Literature-Grounded mode retrieves and reviews scientific papers before agent reasoning."
+        : "Community replay shows a previously completed multi-agent run with blind review and synthesis.";
 
   renderStages(mode);
 }
@@ -277,6 +279,11 @@ function renderHypothesis(payload) {
     payload.output ||
     payload;
 
+  const community =
+    payload.community ||
+    payload.result?.community ||
+    null;
+
   if (typeof candidate === "string") {
     $("hypothesisContent").innerHTML = `
       <div class="hypothesis-section">
@@ -287,11 +294,17 @@ function renderHypothesis(payload) {
   }
 
   const fields = [
-    ["Hypothesis", candidate.hypothesis || candidate.claim],
+    [
+      community ? "Integrated Community Hypothesis" : "Hypothesis",
+      candidate.hypothesis || candidate.claim
+    ],
     ["Mechanism", candidate.mechanism],
-    ["Prediction", candidate.prediction],
+    ["Predicted Outcome", candidate.prediction],
     ["Test", candidate.test || candidate.experiment],
-    ["Falsification", candidate.falsification || candidate.falsifier]
+    [
+      "Falsification Test",
+      candidate.falsification || candidate.falsifier
+    ]
   ].filter(([, value]) => value);
 
   if (!fields.length) {
@@ -301,12 +314,480 @@ function renderHypothesis(payload) {
     return;
   }
 
-  $("hypothesisContent").innerHTML = fields.map(([label, value]) => `
+  let html = "";
+
+  if (community) {
+    const proposals =
+      community.proposal_count ?? 4;
+
+    const reviews =
+      community.review_calls ?? 4;
+
+    const synthesis =
+      community.synthesis_calls ?? 1;
+
+    html += `
+      <div class="hypothesis-section">
+        <div class="hypothesis-label">
+          MERIT Community
+        </div>
+
+        <div>
+          <strong>Recorded replay</strong>
+          · ${escapeHtml(String(proposals))} independent agents
+          · ${escapeHtml(String(reviews))} blind reviews
+          · ${escapeHtml(String(synthesis))} synthesis
+        </div>
+      </div>
+    `;
+  }
+
+  html += fields.map(([label, value]) => `
     <div class="hypothesis-section">
-      <div class="hypothesis-label">${escapeHtml(label)}</div>
-      <div>${escapeHtml(value).replaceAll("\n", "<br>")}</div>
+      <div class="hypothesis-label">
+        ${escapeHtml(label)}
+      </div>
+
+      <div>
+        ${escapeHtml(String(value)).replaceAll("\n", "<br>")}
+      </div>
     </div>
   `).join("");
+
+  if (community) {
+    const agreements =
+      Array.isArray(community.agreements)
+        ? community.agreements
+        : [];
+
+    const disagreements =
+      Array.isArray(community.disagreements)
+        ? community.disagreements
+        : [];
+
+    if (agreements.length) {
+      html += `
+        <div class="hypothesis-section">
+          <div class="hypothesis-label">
+            Consensus
+          </div>
+
+          <ul>
+            ${agreements.map(item => `
+              <li>
+                ${escapeHtml(String(item))}
+              </li>
+            `).join("")}
+          </ul>
+        </div>
+      `;
+    }
+
+    if (disagreements.length) {
+      html += `
+        <div class="hypothesis-section">
+          <div class="hypothesis-label">
+            Open Disagreements
+          </div>
+
+          <ul>
+            ${disagreements.map(item => `
+              <li>
+                ${escapeHtml(String(item))}
+              </li>
+            `).join("")}
+          </ul>
+        </div>
+      `;
+    }
+
+    const reviews =
+      Array.isArray(community.reviews)
+        ? community.reviews
+        : [];
+
+    if (reviews.length) {
+      html += `
+        <div class="hypothesis-section">
+          <details>
+            <summary>
+              Blind peer-review details (${reviews.length})
+            </summary>
+
+            <div style="margin-top:0.75rem;">
+              ${reviews.map(review => {
+                const alias =
+                  review.focus_alias ||
+                  review.alias ||
+                  "?";
+
+                const metrics = [
+                  [
+                    "Plausibility",
+                    review.physical_plausibility
+                  ],
+                  [
+                    "Mechanism",
+                    review.mechanism_quality
+                  ],
+                  [
+                    "Specificity",
+                    review.specificity
+                  ],
+                  [
+                    "Falsifiability",
+                    review.falsifiability
+                  ],
+                  [
+                    "Feasibility",
+                    review.experimental_feasibility
+                  ]
+                ].filter(([, value]) =>
+                  value !== undefined &&
+                  value !== null
+                );
+
+                return `
+                  <div style="margin-bottom:0.85rem;">
+                    <strong>
+                      Proposal ${escapeHtml(String(alias))}
+                    </strong>
+
+                    <div>
+                      ${metrics.map(([name, value]) =>
+                        `${escapeHtml(name)} ${escapeHtml(String(value))}/4`
+                      ).join(" · ")}
+                    </div>
+                  </div>
+                `;
+              }).join("")}
+            </div>
+          </details>
+        </div>
+      `;
+    }
+  }
+
+
+  if (community) {
+    const proposals =
+      Array.isArray(community.proposals)
+        ? community.proposals
+        : [];
+
+    if (proposals.length) {
+      html += `
+        <div class="hypothesis-section">
+          <details>
+            <summary>
+              Independent proposals reviewed by Community
+              (${proposals.length})
+            </summary>
+
+            <div style="margin-top:0.9rem;">
+              <div style="margin-bottom:0.9rem;">
+                These are the exact normalized agent proposals that
+                entered anonymous review. Quantitative statements here
+                are agent-generated predictions unless separately
+                supported by the literature evidence shown below.
+              </div>
+
+              ${proposals.map(item => {
+                const alias =
+                  item.proposal_alias || "?";
+
+                const candidate =
+                  item.candidate || {};
+
+                const source =
+                  item.source_system ||
+                  candidate.source_system ||
+                  "unknown";
+
+                const title =
+                  candidate.title || null;
+
+                const hypothesis =
+                  candidate.hypothesis || "";
+
+                const mechanism =
+                  candidate.mechanism || null;
+
+                const prediction =
+                  candidate.predicted_outcome || null;
+
+                const falsification =
+                  candidate.falsification_test || null;
+
+                const rationale =
+                  candidate.rationale || null;
+
+                return `
+                  <details style="margin-bottom:0.8rem;">
+                    <summary>
+                      Proposal ${escapeHtml(String(alias))}
+                      · ${escapeHtml(String(source))}
+                    </summary>
+
+                    <div style="margin-top:0.7rem;">
+                      ${
+                        title
+                          ? `
+                            <div class="hypothesis-label">
+                              Title
+                            </div>
+                            <div style="margin-bottom:0.7rem;">
+                              ${escapeHtml(String(title))}
+                            </div>
+                          `
+                          : ""
+                      }
+
+                      ${
+                        hypothesis
+                          ? `
+                            <div class="hypothesis-label">
+                              Hypothesis
+                            </div>
+                            <div style="margin-bottom:0.7rem;">
+                              ${escapeHtml(String(hypothesis))
+                                .replaceAll("\n", "<br>")}
+                            </div>
+                          `
+                          : ""
+                      }
+
+                      ${
+                        mechanism
+                          ? `
+                            <div class="hypothesis-label">
+                              Mechanism
+                            </div>
+                            <div style="margin-bottom:0.7rem;">
+                              ${escapeHtml(String(mechanism))
+                                .replaceAll("\n", "<br>")}
+                            </div>
+                          `
+                          : ""
+                      }
+
+                      ${
+                        prediction
+                          ? `
+                            <div class="hypothesis-label">
+                              Predicted Outcome
+                            </div>
+                            <div style="margin-bottom:0.7rem;">
+                              ${escapeHtml(String(prediction))
+                                .replaceAll("\n", "<br>")}
+                            </div>
+                          `
+                          : ""
+                      }
+
+                      ${
+                        falsification
+                          ? `
+                            <div class="hypothesis-label">
+                              Falsification Test
+                            </div>
+                            <div style="margin-bottom:0.7rem;">
+                              ${escapeHtml(String(falsification))
+                                .replaceAll("\n", "<br>")}
+                            </div>
+                          `
+                          : ""
+                      }
+
+                      ${
+                        rationale
+                          ? `
+                            <div class="hypothesis-label">
+                              Rationale
+                            </div>
+                            <div>
+                              ${escapeHtml(String(rationale))
+                                .replaceAll("\n", "<br>")}
+                            </div>
+                          `
+                          : ""
+                      }
+                    </div>
+                  </details>
+                `;
+              }).join("")}
+            </div>
+          </details>
+        </div>
+      `;
+    }
+
+    const adopted =
+      Array.isArray(community.adopted_elements)
+        ? community.adopted_elements
+        : [];
+
+    const rejected =
+      Array.isArray(community.rejected_elements)
+        ? community.rejected_elements
+        : [];
+
+    if (adopted.length || rejected.length) {
+      html += `
+        <div class="hypothesis-section">
+          <details>
+            <summary>
+              Synthesis decisions
+              (${adopted.length} adopted ·
+              ${rejected.length} rejected)
+            </summary>
+
+            <div style="margin-top:0.9rem;">
+              ${
+                adopted.length
+                  ? `
+                    <div class="hypothesis-label">
+                      Adopted Elements
+                    </div>
+
+                    <pre style="white-space:pre-wrap;">
+${escapeHtml(JSON.stringify(adopted, null, 2))}
+                    </pre>
+                  `
+                  : ""
+              }
+
+              ${
+                rejected.length
+                  ? `
+                    <div class="hypothesis-label">
+                      Rejected Elements
+                    </div>
+
+                    <pre style="white-space:pre-wrap;">
+${escapeHtml(JSON.stringify(rejected, null, 2))}
+                    </pre>
+                  `
+                  : ""
+              }
+            </div>
+          </details>
+        </div>
+      `;
+    }
+
+    const communityProv =
+      community.provenance || {};
+
+    const replayProv =
+      payload.provenance ||
+      payload.result?.provenance ||
+      {};
+
+    if (
+      Object.keys(communityProv).length ||
+      Object.keys(replayProv).length
+    ) {
+      const aliasMap =
+        communityProv.alias_to_system || {};
+
+      html += `
+        <div class="hypothesis-section">
+          <details>
+            <summary>
+              Run provenance
+            </summary>
+
+            <div style="margin-top:0.9rem;">
+              ${
+                communityProv.protocol
+                  ? `
+                    <div>
+                      <strong>Protocol:</strong>
+                      ${escapeHtml(String(communityProv.protocol))}
+                    </div>
+                  `
+                  : ""
+              }
+
+              <div>
+                <strong>Blind review:</strong>
+                ${communityProv.blind_review === true ? "yes" : "no"}
+              </div>
+
+              ${
+                Object.keys(aliasMap).length
+                  ? `
+                    <div>
+                      <strong>Reviewed aliases:</strong>
+                      ${Object.entries(aliasMap)
+                        .map(([alias, system]) =>
+                          `${escapeHtml(alias)} → ${escapeHtml(String(system))}`
+                        )
+                        .join(" · ")}
+                    </div>
+                  `
+                  : ""
+              }
+
+              ${
+                communityProv.external_retrieval
+                  ? `
+                    <div>
+                      <strong>Review-time external retrieval:</strong>
+                      ${escapeHtml(
+                        String(communityProv.external_retrieval)
+                      )}
+                    </div>
+                  `
+                  : ""
+              }
+
+              ${
+                community.elapsed_seconds !== undefined &&
+                community.elapsed_seconds !== null
+                  ? `
+                    <div>
+                      <strong>Community runtime:</strong>
+                      ${escapeHtml(
+                        Number(community.elapsed_seconds).toFixed(1)
+                      )} s
+                    </div>
+                  `
+                  : ""
+              }
+
+              ${
+                replayProv.source_run_id
+                  ? `
+                    <div>
+                      <strong>Source run:</strong>
+                      ${escapeHtml(
+                        String(replayProv.source_run_id)
+                      )}
+                    </div>
+                  `
+                  : ""
+              }
+
+              ${
+                replayProv.precomputed_replay === true
+                  ? `
+                    <div>
+                      <strong>Playback:</strong>
+                      recorded replay of completed run
+                    </div>
+                  `
+                  : ""
+              }
+            </div>
+          </details>
+        </div>
+      `;
+    }
+  }
+
+  $("hypothesisContent").innerHTML = html;
 }
 
 function renderResult(payload, requestId) {
@@ -326,7 +807,11 @@ function renderResult(payload, requestId) {
 
   $("metaRunId").textContent = requestId;
   $("metaMode").textContent =
-    selectedMode === "grounded" ? "Literature-Grounded" : "Fast";
+    selectedMode === "grounded"
+      ? "Literature-Grounded"
+      : selectedMode === "community"
+        ? "Community · Recorded Replay"
+        : "Fast";
   $("metaStatus").textContent = "Complete";
 
   if (selectedMode === "fast") {
@@ -377,6 +862,35 @@ async function pollRun(requestId) {
   }
 
   return response.json();
+}
+
+const COMMUNITY_REPLAY_PROMPT =
+  "Generate a hypothesis to lower the effective Li migration barrier in LiFePO4, reported per crystallographic direction.";
+
+async function playCommunityReplay() {
+  clearError();
+
+  $("question").value = COMMUNITY_REPLAY_PROMPT;
+
+  // Internal mode only. The normal Community card remains disabled.
+  setMode("community");
+
+  const replayButton = $("communityReplayButton");
+
+  if (replayButton) {
+    replayButton.disabled = true;
+    replayButton.textContent = "Loading Community Replay…";
+  }
+
+  try {
+    await runMerit();
+  } finally {
+    if (replayButton) {
+      replayButton.disabled = false;
+      replayButton.textContent =
+        "▶ Play Community Replay · Recorded LiFePO₄ Run";
+    }
+  }
 }
 
 async function runMerit() {
@@ -466,3 +980,12 @@ $("runButton").addEventListener("click", runMerit);
 setMode("fast");
 checkHealth();
 setInterval(checkHealth, 15000);
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const replayButton = $("communityReplayButton");
+
+  if (replayButton) {
+    replayButton.addEventListener("click", playCommunityReplay);
+  }
+});
