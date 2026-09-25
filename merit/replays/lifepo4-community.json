@@ -372,7 +372,7 @@
       "retrieval": {
         "semantic_score": 0.8364751935005188,
         "semantic_policy": "home_relevance",
-        "semantic_backend": "sentence_transformers:/lustre/orion/csc677/scratch/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "semantic_backend": "Qwen3-Embedding-4B",
         "exact_anchor_hits": [],
         "queries": []
       },
@@ -437,7 +437,7 @@
       "retrieval": {
         "semantic_score": 0.8364751935005188,
         "semantic_policy": "home_relevance",
-        "semantic_backend": "sentence_transformers:/lustre/orion/csc677/scratch/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "semantic_backend": "Qwen3-Embedding-4B",
         "exact_anchor_hits": [],
         "queries": []
       },
@@ -509,7 +509,7 @@
         "retrieval": {
           "semantic_score": 0.8364751935005188,
           "semantic_policy": "home_relevance",
-          "semantic_backend": "sentence_transformers:/lustre/orion/csc677/scratch/domsoos/mesh/models/Qwen3-Embedding-4B",
+          "semantic_backend": "Qwen3-Embedding-4B",
           "exact_anchor_hits": [],
           "queries": []
         },

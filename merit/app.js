@@ -955,7 +955,7 @@ async function playLiteratureReplay() {
   await playStaticReplay({
     mode: "grounded",
     prompt: LITERATURE_REPLAY_PROMPT,
-    url: "./replays/ysz-literature.json?v=20260925-static1",
+    url: "/merit/replays/ysz-literature.json?v=20260925-static2",
     buttonId: "literatureReplayButton",
     loadingText: "Loading Literature Replay…",
     readyText:
@@ -971,7 +971,7 @@ async function playCommunityReplay() {
   await playStaticReplay({
     mode: "community",
     prompt: COMMUNITY_REPLAY_PROMPT,
-    url: "./replays/lifepo4-community.json?v=20260925-static1",
+    url: "/merit/replays/lifepo4-community.json?v=20260925-static2",
     buttonId: "communityReplayButton",
     loadingText: "Loading Community Replay…",
     readyText:

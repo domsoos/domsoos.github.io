@@ -79,7 +79,7 @@
       "retrieval": {
         "semantic_score": 0.8638925552368164,
         "semantic_policy": "home_relevance",
-        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "semantic_backend": "Qwen3-Embedding-4B",
         "exact_anchor_hits": [],
         "queries": []
       },
@@ -149,7 +149,7 @@
       "retrieval": {
         "semantic_score": 0.8400102257728577,
         "semantic_policy": "home_relevance",
-        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "semantic_backend": "Qwen3-Embedding-4B",
         "exact_anchor_hits": [],
         "queries": []
       },
@@ -207,7 +207,7 @@
       "retrieval": {
         "semantic_score": 0.8340699076652527,
         "semantic_policy": "home_relevance",
-        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "semantic_backend": "Qwen3-Embedding-4B",
         "exact_anchor_hits": [],
         "queries": []
       },
@@ -272,7 +272,7 @@
       "retrieval": {
         "semantic_score": 0.8638925552368164,
         "semantic_policy": "home_relevance",
-        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "semantic_backend": "Qwen3-Embedding-4B",
         "exact_anchor_hits": [],
         "queries": []
       },
@@ -342,7 +342,7 @@
       "retrieval": {
         "semantic_score": 0.8400102257728577,
         "semantic_policy": "home_relevance",
-        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "semantic_backend": "Qwen3-Embedding-4B",
         "exact_anchor_hits": [],
         "queries": []
       },
@@ -400,7 +400,7 @@
       "retrieval": {
         "semantic_score": 0.8340699076652527,
         "semantic_policy": "home_relevance",
-        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "semantic_backend": "Qwen3-Embedding-4B",
         "exact_anchor_hits": [],
         "queries": []
       },
@@ -472,7 +472,7 @@
         "retrieval": {
           "semantic_score": 0.8638925552368164,
           "semantic_policy": "home_relevance",
-          "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+          "semantic_backend": "Qwen3-Embedding-4B",
           "exact_anchor_hits": [],
           "queries": []
         },
@@ -542,7 +542,7 @@
         "retrieval": {
           "semantic_score": 0.8400102257728577,
           "semantic_policy": "home_relevance",
-          "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+          "semantic_backend": "Qwen3-Embedding-4B",
           "exact_anchor_hits": [],
           "queries": []
         },
@@ -600,7 +600,7 @@
         "retrieval": {
           "semantic_score": 0.8340699076652527,
           "semantic_policy": "home_relevance",
-          "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+          "semantic_backend": "Qwen3-Embedding-4B",
           "exact_anchor_hits": [],
           "queries": []
         },
