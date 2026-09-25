@@ -815,7 +815,11 @@ function renderResult(payload, requestId) {
   $("metaRunId").textContent = requestId;
   $("metaMode").textContent =
     selectedMode === "grounded"
-      ? "Literature-Grounded"
+      ? (
+          payload?.provenance?.precomputed_replay
+            ? "Literature-Grounded · Recorded Replay"
+            : "Literature-Grounded"
+        )
       : selectedMode === "community"
         ? "Community · Recorded Replay"
         : "Fast";
@@ -871,6 +875,37 @@ async function pollRun(requestId) {
   return response.json();
 }
 
+const LITERATURE_REPLAY_PROMPT =
+  "Can tensile strain reduce oxygen-vacancy migration barriers in yttria-stabilized zirconia?";
+
+async function playLiteratureReplay() {
+  clearError();
+
+  $("question").value = LITERATURE_REPLAY_PROMPT;
+
+  // Display the normal Literature-Grounded workflow,
+  // but submit the explicit recorded-replay backend mode.
+  setMode("grounded");
+
+  const replayButton = $("literatureReplayButton");
+
+  if (replayButton) {
+    replayButton.disabled = true;
+    replayButton.textContent = "Loading Literature Replay…";
+  }
+
+  try {
+    await runMerit("grounded");
+  } finally {
+    if (replayButton) {
+      replayButton.disabled = false;
+      replayButton.textContent =
+        "▶ Play Literature Replay · Recorded YSZ Run";
+    }
+  }
+}
+
+
 const COMMUNITY_REPLAY_PROMPT =
   "Generate a hypothesis to lower the effective Li migration barrier in LiFePO4, reported per crystallographic direction.";
 
@@ -900,13 +935,13 @@ async function playCommunityReplay() {
   }
 }
 
-async function runMerit() {
+async function runMerit(modeOverride = null) {
   clearError();
 
   const query = $("question").value.trim();
 
   if (!query) {
-    showError("Enter a scientific research question first.");
+    showError("Enter a scientific hypothesis prompt first.");
     return;
   }
 
@@ -936,7 +971,7 @@ async function runMerit() {
       },
       body: JSON.stringify({
         query,
-        mode: selectedMode
+        mode: modeOverride || selectedMode
       })
     });
 
@@ -975,7 +1010,7 @@ document.querySelectorAll(".mode-card[data-mode]").forEach(card => {
   card.addEventListener("click", () => setMode(card.dataset.mode));
 });
 
-document.querySelectorAll(".example-chip").forEach(button => {
+document.querySelectorAll(".example-chip[data-question]").forEach(button => {
   button.addEventListener("click", () => {
     $("question").value = button.dataset.question;
     $("question").focus();
@@ -990,9 +1025,20 @@ setInterval(checkHealth, 15000);
 
 
 document.addEventListener("DOMContentLoaded", () => {
-  const replayButton = $("communityReplayButton");
+  const literatureReplayButton = $("literatureReplayButton");
+  const communityReplayButton = $("communityReplayButton");
 
-  if (replayButton) {
-    replayButton.addEventListener("click", playCommunityReplay);
+  if (literatureReplayButton) {
+    literatureReplayButton.addEventListener(
+      "click",
+      playLiteratureReplay
+    );
+  }
+
+  if (communityReplayButton) {
+    communityReplayButton.addEventListener(
+      "click",
+      playCommunityReplay
+    );
   }
 });

@@ -7,7 +7,7 @@
   <title>MERIT — Scientific Discovery with AI Co-Scientists</title>
   <link rel="stylesheet" href="./styles.css">
   <script src="./config.js"></script>
-  <script src="./app.js?v=community-stages-20260924" defer></script>
+  <script src="./app.js?v=literature-replay-20260925" defer></script>
 </head>
 
 <body>
@@ -33,7 +33,7 @@
   <main>
     <section class="hero">
       <div class="eyebrow">AI Co-Scientists for Scientific Discovery</div>
-      <h1>Ask a scientific question.</h1>
+      <h1>Generate a scientific hypothesis.</h1>
       <p class="hero-copy">
         MERIT combines scientific agents, literature grounding, evidence review,
         and provenance to generate research hypotheses that can be traced back
@@ -43,12 +43,12 @@
 
     <section class="workspace">
       <div class="question-panel">
-        <label for="question">Scientific research question</label>
+        <label for="question">Scientific hypothesis prompt</label>
 
         <textarea
           id="question"
           rows="5"
-          placeholder="Ask any scientific research question..."
+          placeholder="Describe a scientific problem or hypothesis-generation goal..."
         ></textarea>
 
         <div class="example-row">
@@ -101,6 +101,14 @@
         </div>
 
         <div style="margin-top: 14px; text-align: right;">
+          <button
+            id="literatureReplayButton"
+            class="example-chip"
+            type="button"
+          >
+            ▶ Play Literature Replay · Recorded YSZ Run
+          </button>
+
           <button
             id="communityReplayButton"
             class="example-chip"
