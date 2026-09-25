@@ -1,0 +1,647 @@
+{
+  "status": "completed",
+  "mode": "grounded",
+  "hypothesis": "Tensile strain reduces the oxygen-vacancy migration barrier in yttria-stabilized zirconia by lattice expansion along the migration path.\n\nHypothesis: Uniaxial tensile strain applied along <100> in cubic YSZ expands Zr–O bond lengths and lowers the electrostatic repulsion at the oxygen vacancy saddle point in the fluorite lattice. The expansion destabilizes the initial vacancy site relative to the transition state, decreasing the activation energy for a vacancy-mediated oxygen hop. The effect is larger when the cubic structure is less stabilized, e.g. lower yttria content and lower temperature, and is strongest for strain components projected onto <100>.\n\nPredicted observable outcome: In 4–8 mol% YSZ under 1–2% uniaxial tensile strain along <100>, the oxygen vacancy migration barrier calculated by nudged elastic band DFT or inferred from molecular dynamics diffusion, decreases relative to the unstrained cell, producing an increase in the oxygen diffusion coefficient in the tensile direction. The magnitude is on the order of the strain-enhanced transport previously reported, with up to ~40% improvement in migration rate in simulation and ~1.7× higher diffusion in a strained superlattice relative to unstrained YSZ, and tensile enhancement greater than compressive suppression.\n\nFalsification test: Compute the vacancy hop barrier for a 8 mol% YSZ supercell with systematically varied uniaxial tensile and compressive strain along <100>, [110] and [111] using DFT NEB, or measure anisotropic oxygen tracer diffusion / conductivity under controlled uniaxial stress. If the barrier does not decrease monotonically with increasing tensile strain magnitude along <100>, or if diffusion is not enhanced in the tensile direction and suppressed in compression, the hypothesis is falsified. No barrier reduction under tensile strain, or barrier reduction under compressive strain, would also falsify the proposed mechanism.",
+  "result": {
+    "system": "direct",
+    "status": "completed",
+    "architecture": "direct",
+    "backend": "openai_compatible",
+    "model": "muse-glimmer",
+    "base_url": "http://127.0.0.1:8000/v1",
+    "mode": "merit_grounded",
+    "goal": "Can tensile strain reduce oxygen-vacancy migration barriers in yttria-stabilized zirconia?",
+    "final_hypothesis": "Tensile strain reduces the oxygen-vacancy migration barrier in yttria-stabilized zirconia by lattice expansion along the migration path.\n\nHypothesis: Uniaxial tensile strain applied along <100> in cubic YSZ expands Zr–O bond lengths and lowers the electrostatic repulsion at the oxygen vacancy saddle point in the fluorite lattice. The expansion destabilizes the initial vacancy site relative to the transition state, decreasing the activation energy for a vacancy-mediated oxygen hop. The effect is larger when the cubic structure is less stabilized, e.g. lower yttria content and lower temperature, and is strongest for strain components projected onto <100>.\n\nPredicted observable outcome: In 4–8 mol% YSZ under 1–2% uniaxial tensile strain along <100>, the oxygen vacancy migration barrier calculated by nudged elastic band DFT or inferred from molecular dynamics diffusion, decreases relative to the unstrained cell, producing an increase in the oxygen diffusion coefficient in the tensile direction. The magnitude is on the order of the strain-enhanced transport previously reported, with up to ~40% improvement in migration rate in simulation and ~1.7× higher diffusion in a strained superlattice relative to unstrained YSZ, and tensile enhancement greater than compressive suppression.\n\nFalsification test: Compute the vacancy hop barrier for a 8 mol% YSZ supercell with systematically varied uniaxial tensile and compressive strain along <100>, [110] and [111] using DFT NEB, or measure anisotropic oxygen tracer diffusion / conductivity under controlled uniaxial stress. If the barrier does not decrease monotonically with increasing tensile strain magnitude along <100>, or if diffusion is not enhanced in the tensile direction and suppressed in compression, the hypothesis is falsified. No barrier reduction under tensile strain, or barrier reduction under compressive strain, would also falsify the proposed mechanism.",
+    "started_unix": 1790339408.0267508,
+    "ended_unix": 1790339474.2420511,
+    "elapsed_seconds": 66.21529370598728,
+    "generation": {
+      "temperature": 0.7,
+      "max_tokens": 4096,
+      "seed": 677
+    },
+    "usage": {
+      "prompt_tokens": 2746,
+      "completion_tokens": 993,
+      "total_tokens": 3739,
+      "llm_calls": 1
+    }
+  },
+  "papers": [
+    {
+      "work_id": 2326110149,
+      "doi": "10.1149/1.3570092",
+      "title": "Strain Effect on Oxygen Migration in Yttria-Stabilized Zirconia",
+      "abstract": "In the present study, the strain effect on the oxygen migration in the yttria-stabilized zirconia electrolyte has been investigated by means of the molecular dynamics simulation and the experiment. In both the simulation and the experiment, the oxygen migration is examined under uniaxial stress conditions. The result has indicated that the oxygen migration can be enhanced in the tensile direction whereas it can be decreased in the compressive direction. The strain works more effectively when it is applied in the &lt;100&gt; direction and also when the cubic structure is less stabilized, e.g., at lower temperature and with lower yttria concentration. The maximum improvement caused by the uniaxial tensile stress are about 40 % in the simulation, where the oxygen ions are largely displaced in the fluorite lattice structure.",
+      "publication_date": "2011-04-25",
+      "publication_year": 2011,
+      "work_type": "article",
+      "keywords": [
+        "Yttria-stabilized zirconia",
+        "Materials science",
+        "Oxygen",
+        "Cubic zirconia",
+        "Ultimate tensile strength",
+        "Fluorite",
+        "Electrolyte",
+        "Strain (injury)",
+        "Tensile strain",
+        "Composite material",
+        "Metallurgy",
+        "Chemistry",
+        "Physical chemistry",
+        "Ceramic"
+      ],
+      "matched_topics": [
+        {
+          "topic_id": 10311,
+          "topic_score": 0.9854999780654907,
+          "is_primary_topic": true
+        }
+      ],
+      "evidence": {
+        "role": "Significant",
+        "stance": "supports",
+        "confidence": 0.78,
+        "evidence_level": "abstract",
+        "supported_claim_aspects": [
+          "Tensile strain enhances oxygen migration in yttria-stabilized zirconia under uniaxial stress",
+          "Enhancement is directionally dependent with greater effect in tensile vs compressive direction",
+          "Effect is larger along <100> and under less stabilized cubic structure"
+        ],
+        "limitations": [
+          "Abstract reports enhanced oxygen migration and ~40% improvement in simulation, but does not explicitly quantify oxygen-vacancy migration barriers",
+          "Evidence is abstract-level only; full methods, barrier values, and experimental validation details not provided",
+          "Uniaxial stress conditions studied; generalizability to other strain states not established in supplied text"
+        ],
+        "rationale": "The abstract directly reports molecular dynamics simulation and experimental investigation of strain effect on oxygen migration in yttria-stabilized zirconia, finding oxygen migration can be enhanced in the tensile direction whereas decreased in compressive direction, with up to ~40% improvement under uniaxial tensile stress. This materially supports the claim that tensile strain facilitates oxygen transport, consistent with reduced migration barriers, though barrier values themselves are not explicitly stated in the abstract."
+      },
+      "retrieval": {
+        "semantic_score": 0.8638925552368164,
+        "semantic_policy": "home_relevance",
+        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "exact_anchor_hits": [],
+        "queries": []
+      },
+      "access": {
+        "is_oa": false,
+        "oa_status": "closed",
+        "has_fulltext": false,
+        "has_pdf_content": false,
+        "has_grobid_xml": false
+      }
+    },
+    {
+      "work_id": 1974666067,
+      "doi": "10.1063/1.122186",
+      "title": "Molecular dynamics simulation of enhanced oxygen ion diffusion in strained yttria-stabilized zirconia",
+      "abstract": "The application of strain to yttria-stabilized zirconia (YSZ), which can be realized by sandwiching a thin YSZ film epitaxially between layers of a material with larger lattice constants, is proposed as a means to enhance oxygen ion mobility. The possible mechanism of such an enhancement was investigated by molecular dynamics using a CeO2–YSZ superlattice. The calculated diffusion coefficient of oxygen ions in the superlattice is some 1.7 times higher than in YSZ alone due to a decreased activation barrier from the strain of the YSZ structure.",
+      "publication_date": "1998-09-14",
+      "publication_year": 1998,
+      "work_type": "article",
+      "keywords": [
+        "Yttria-stabilized zirconia",
+        "Materials science",
+        "Superlattice",
+        "Cubic zirconia",
+        "Diffusion",
+        "Oxygen",
+        "Molecular dynamics",
+        "Diffusion barrier",
+        "Lattice constant",
+        "Ion",
+        "Chemical physics",
+        "Thin film",
+        "Epitaxy",
+        "Nanotechnology",
+        "Ceramic",
+        "Composite material",
+        "Chemistry",
+        "Computational chemistry",
+        "Optoelectronics",
+        "Thermodynamics",
+        "Optics"
+      ],
+      "matched_topics": [
+        {
+          "topic_id": 10311,
+          "topic_score": 0.9994999766349792,
+          "is_primary_topic": true
+        }
+      ],
+      "evidence": {
+        "role": "Significant",
+        "stance": "supports",
+        "confidence": 0.78,
+        "evidence_level": "abstract",
+        "supported_claim_aspects": [
+          "Strain applied to YSZ can enhance oxygen ion mobility",
+          "Molecular dynamics of a strained YSZ structure shows increased diffusion coefficient ~1.7× relative to unstrained YSZ",
+          "Enhancement attributed to a decreased activation barrier from strain of the YSZ structure"
+        ],
+        "limitations": [
+          "Evidence is abstract-level only",
+          "Strain is realized via a CeO2–YSZ superlattice model; direct quantification of tensile strain magnitude and explicit oxygen-vacancy migration barrier values are not provided in the abstract",
+          "Mechanism inferred from diffusion coefficient increase rather than direct barrier calculation reported here"
+        ],
+        "rationale": "The abstract explicitly proposes strain-induced enhancement of oxygen ion mobility in YSZ and reports MD results showing higher diffusion in a strained superlattice due to a decreased activation barrier from strain. This directly addresses whether tensile-like strain can lower migration barriers in YSZ."
+      },
+      "retrieval": {
+        "semantic_score": 0.8400102257728577,
+        "semantic_policy": "home_relevance",
+        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "exact_anchor_hits": [],
+        "queries": []
+      },
+      "access": {
+        "is_oa": true,
+        "oa_status": "green",
+        "has_fulltext": false,
+        "has_pdf_content": false,
+        "has_grobid_xml": false
+      }
+    },
+    {
+      "work_id": 2090141727,
+      "doi": "10.4028/www.scientific.net/ddf.312-315.989",
+      "title": "Oxygen Diffusion in Yttria-Stabilized Zirconia Subjected to Mechanical Stress",
+      "abstract": "The oxygen diffusion in 4, 8, and 14 mol%-yttria-stabilized zirconia subjected to uniaxial stresses in the [100], [110], and [111] directions is investigated. In the case of uniaxial stress in the [100] direction, the oxygen diffusion in 4YSZ and 8YSZ is facilitated in the tensile direction and deteriorated in the compressive direction without changing the total diffusion property, which could be caused by the elastic recovery force. For 14YSZ, however, the oxygen diffusion remains unchanged regardless of the stress, probably due to high yttria concentration. In the case of tensile stress in the [110] and [111] directions, the oxygen diffusion is also increased in the tensile direction, which could be attributed to the improvement of the oxygen diffusion in the &lt;100&gt; direction caused by the stress component in the &lt;100&gt; direction.",
+      "publication_date": "2011-04-20",
+      "publication_year": 2011,
+      "work_type": "article",
+      "keywords": [
+        "Materials science",
+        "Diffusion",
+        "Oxygen",
+        "Ultimate tensile strength",
+        "Yttria-stabilized zirconia",
+        "Stress (linguistics)",
+        "Cubic zirconia",
+        "Composite material",
+        "Chemistry",
+        "Thermodynamics"
+      ],
+      "matched_topics": [
+        {
+          "topic_id": 10311,
+          "topic_score": 0.9995999932289124,
+          "is_primary_topic": false
+        }
+      ],
+      "evidence": {
+        "role": "Inferential",
+        "stance": "supports",
+        "confidence": 0.65,
+        "evidence_level": "abstract",
+        "supported_claim_aspects": [
+          "Tensile mechanical stress facilitates oxygen diffusion in yttria-stabilized zirconia.",
+          "Facilitation observed for 4 mol% and 8 mol% YSZ under uniaxial tensile stress in [100], [110], and [111] directions, with diffusion increased in the tensile direction."
+        ],
+        "limitations": [
+          "Abstract reports macroscopic oxygen diffusion changes under mechanical stress, not a direct measurement or calculation of oxygen-vacancy migration barriers.",
+          "Mechanism is described as possibly due to elastic recovery force and stress component in <100> direction; no explicit barrier energies are given.",
+          "Evidence is abstract-level only; full paper content not reviewed."
+        ],
+        "rationale": "The paper provides direct experimental evidence that tensile stress increases oxygen diffusion in YSZ, which is scientifically defensible as consistent with a reduction in oxygen-vacancy migration barriers, but the barrier itself is not measured or reported, so support is inferential rather than direct."
+      },
+      "retrieval": {
+        "semantic_score": 0.8340699076652527,
+        "semantic_policy": "home_relevance",
+        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "exact_anchor_hits": [],
+        "queries": []
+      },
+      "access": {
+        "is_oa": true,
+        "oa_status": "hybrid",
+        "has_fulltext": false,
+        "has_pdf_content": false,
+        "has_grobid_xml": false
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "work_id": 2326110149,
+      "doi": "10.1149/1.3570092",
+      "title": "Strain Effect on Oxygen Migration in Yttria-Stabilized Zirconia",
+      "abstract": "In the present study, the strain effect on the oxygen migration in the yttria-stabilized zirconia electrolyte has been investigated by means of the molecular dynamics simulation and the experiment. In both the simulation and the experiment, the oxygen migration is examined under uniaxial stress conditions. The result has indicated that the oxygen migration can be enhanced in the tensile direction whereas it can be decreased in the compressive direction. The strain works more effectively when it is applied in the &lt;100&gt; direction and also when the cubic structure is less stabilized, e.g., at lower temperature and with lower yttria concentration. The maximum improvement caused by the uniaxial tensile stress are about 40 % in the simulation, where the oxygen ions are largely displaced in the fluorite lattice structure.",
+      "publication_date": "2011-04-25",
+      "publication_year": 2011,
+      "work_type": "article",
+      "keywords": [
+        "Yttria-stabilized zirconia",
+        "Materials science",
+        "Oxygen",
+        "Cubic zirconia",
+        "Ultimate tensile strength",
+        "Fluorite",
+        "Electrolyte",
+        "Strain (injury)",
+        "Tensile strain",
+        "Composite material",
+        "Metallurgy",
+        "Chemistry",
+        "Physical chemistry",
+        "Ceramic"
+      ],
+      "matched_topics": [
+        {
+          "topic_id": 10311,
+          "topic_score": 0.9854999780654907,
+          "is_primary_topic": true
+        }
+      ],
+      "evidence": {
+        "role": "Significant",
+        "stance": "supports",
+        "confidence": 0.78,
+        "evidence_level": "abstract",
+        "supported_claim_aspects": [
+          "Tensile strain enhances oxygen migration in yttria-stabilized zirconia under uniaxial stress",
+          "Enhancement is directionally dependent with greater effect in tensile vs compressive direction",
+          "Effect is larger along <100> and under less stabilized cubic structure"
+        ],
+        "limitations": [
+          "Abstract reports enhanced oxygen migration and ~40% improvement in simulation, but does not explicitly quantify oxygen-vacancy migration barriers",
+          "Evidence is abstract-level only; full methods, barrier values, and experimental validation details not provided",
+          "Uniaxial stress conditions studied; generalizability to other strain states not established in supplied text"
+        ],
+        "rationale": "The abstract directly reports molecular dynamics simulation and experimental investigation of strain effect on oxygen migration in yttria-stabilized zirconia, finding oxygen migration can be enhanced in the tensile direction whereas decreased in compressive direction, with up to ~40% improvement under uniaxial tensile stress. This materially supports the claim that tensile strain facilitates oxygen transport, consistent with reduced migration barriers, though barrier values themselves are not explicitly stated in the abstract."
+      },
+      "retrieval": {
+        "semantic_score": 0.8638925552368164,
+        "semantic_policy": "home_relevance",
+        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "exact_anchor_hits": [],
+        "queries": []
+      },
+      "access": {
+        "is_oa": false,
+        "oa_status": "closed",
+        "has_fulltext": false,
+        "has_pdf_content": false,
+        "has_grobid_xml": false
+      }
+    },
+    {
+      "work_id": 1974666067,
+      "doi": "10.1063/1.122186",
+      "title": "Molecular dynamics simulation of enhanced oxygen ion diffusion in strained yttria-stabilized zirconia",
+      "abstract": "The application of strain to yttria-stabilized zirconia (YSZ), which can be realized by sandwiching a thin YSZ film epitaxially between layers of a material with larger lattice constants, is proposed as a means to enhance oxygen ion mobility. The possible mechanism of such an enhancement was investigated by molecular dynamics using a CeO2–YSZ superlattice. The calculated diffusion coefficient of oxygen ions in the superlattice is some 1.7 times higher than in YSZ alone due to a decreased activation barrier from the strain of the YSZ structure.",
+      "publication_date": "1998-09-14",
+      "publication_year": 1998,
+      "work_type": "article",
+      "keywords": [
+        "Yttria-stabilized zirconia",
+        "Materials science",
+        "Superlattice",
+        "Cubic zirconia",
+        "Diffusion",
+        "Oxygen",
+        "Molecular dynamics",
+        "Diffusion barrier",
+        "Lattice constant",
+        "Ion",
+        "Chemical physics",
+        "Thin film",
+        "Epitaxy",
+        "Nanotechnology",
+        "Ceramic",
+        "Composite material",
+        "Chemistry",
+        "Computational chemistry",
+        "Optoelectronics",
+        "Thermodynamics",
+        "Optics"
+      ],
+      "matched_topics": [
+        {
+          "topic_id": 10311,
+          "topic_score": 0.9994999766349792,
+          "is_primary_topic": true
+        }
+      ],
+      "evidence": {
+        "role": "Significant",
+        "stance": "supports",
+        "confidence": 0.78,
+        "evidence_level": "abstract",
+        "supported_claim_aspects": [
+          "Strain applied to YSZ can enhance oxygen ion mobility",
+          "Molecular dynamics of a strained YSZ structure shows increased diffusion coefficient ~1.7× relative to unstrained YSZ",
+          "Enhancement attributed to a decreased activation barrier from strain of the YSZ structure"
+        ],
+        "limitations": [
+          "Evidence is abstract-level only",
+          "Strain is realized via a CeO2–YSZ superlattice model; direct quantification of tensile strain magnitude and explicit oxygen-vacancy migration barrier values are not provided in the abstract",
+          "Mechanism inferred from diffusion coefficient increase rather than direct barrier calculation reported here"
+        ],
+        "rationale": "The abstract explicitly proposes strain-induced enhancement of oxygen ion mobility in YSZ and reports MD results showing higher diffusion in a strained superlattice due to a decreased activation barrier from strain. This directly addresses whether tensile-like strain can lower migration barriers in YSZ."
+      },
+      "retrieval": {
+        "semantic_score": 0.8400102257728577,
+        "semantic_policy": "home_relevance",
+        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "exact_anchor_hits": [],
+        "queries": []
+      },
+      "access": {
+        "is_oa": true,
+        "oa_status": "green",
+        "has_fulltext": false,
+        "has_pdf_content": false,
+        "has_grobid_xml": false
+      }
+    },
+    {
+      "work_id": 2090141727,
+      "doi": "10.4028/www.scientific.net/ddf.312-315.989",
+      "title": "Oxygen Diffusion in Yttria-Stabilized Zirconia Subjected to Mechanical Stress",
+      "abstract": "The oxygen diffusion in 4, 8, and 14 mol%-yttria-stabilized zirconia subjected to uniaxial stresses in the [100], [110], and [111] directions is investigated. In the case of uniaxial stress in the [100] direction, the oxygen diffusion in 4YSZ and 8YSZ is facilitated in the tensile direction and deteriorated in the compressive direction without changing the total diffusion property, which could be caused by the elastic recovery force. For 14YSZ, however, the oxygen diffusion remains unchanged regardless of the stress, probably due to high yttria concentration. In the case of tensile stress in the [110] and [111] directions, the oxygen diffusion is also increased in the tensile direction, which could be attributed to the improvement of the oxygen diffusion in the &lt;100&gt; direction caused by the stress component in the &lt;100&gt; direction.",
+      "publication_date": "2011-04-20",
+      "publication_year": 2011,
+      "work_type": "article",
+      "keywords": [
+        "Materials science",
+        "Diffusion",
+        "Oxygen",
+        "Ultimate tensile strength",
+        "Yttria-stabilized zirconia",
+        "Stress (linguistics)",
+        "Cubic zirconia",
+        "Composite material",
+        "Chemistry",
+        "Thermodynamics"
+      ],
+      "matched_topics": [
+        {
+          "topic_id": 10311,
+          "topic_score": 0.9995999932289124,
+          "is_primary_topic": false
+        }
+      ],
+      "evidence": {
+        "role": "Inferential",
+        "stance": "supports",
+        "confidence": 0.65,
+        "evidence_level": "abstract",
+        "supported_claim_aspects": [
+          "Tensile mechanical stress facilitates oxygen diffusion in yttria-stabilized zirconia.",
+          "Facilitation observed for 4 mol% and 8 mol% YSZ under uniaxial tensile stress in [100], [110], and [111] directions, with diffusion increased in the tensile direction."
+        ],
+        "limitations": [
+          "Abstract reports macroscopic oxygen diffusion changes under mechanical stress, not a direct measurement or calculation of oxygen-vacancy migration barriers.",
+          "Mechanism is described as possibly due to elastic recovery force and stress component in <100> direction; no explicit barrier energies are given.",
+          "Evidence is abstract-level only; full paper content not reviewed."
+        ],
+        "rationale": "The paper provides direct experimental evidence that tensile stress increases oxygen diffusion in YSZ, which is scientifically defensible as consistent with a reduction in oxygen-vacancy migration barriers, but the barrier itself is not measured or reported, so support is inferential rather than direct."
+      },
+      "retrieval": {
+        "semantic_score": 0.8340699076652527,
+        "semantic_policy": "home_relevance",
+        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "exact_anchor_hits": [],
+        "queries": []
+      },
+      "access": {
+        "is_oa": true,
+        "oa_status": "hybrid",
+        "has_fulltext": false,
+        "has_pdf_content": false,
+        "has_grobid_xml": false
+      }
+    }
+  ],
+  "evidence_pack": {
+    "schema": "mesh-evidence-pack-v1",
+    "claim": "Can tensile strain reduce oxygen-vacancy migration barriers in yttria-stabilized zirconia?",
+    "review_schema": "mesh-evidence-review-v1",
+    "min_confidence": 0.55,
+    "include_background": true,
+    "paper_count": 3,
+    "papers": [
+      {
+        "work_id": 2326110149,
+        "doi": "10.1149/1.3570092",
+        "title": "Strain Effect on Oxygen Migration in Yttria-Stabilized Zirconia",
+        "abstract": "In the present study, the strain effect on the oxygen migration in the yttria-stabilized zirconia electrolyte has been investigated by means of the molecular dynamics simulation and the experiment. In both the simulation and the experiment, the oxygen migration is examined under uniaxial stress conditions. The result has indicated that the oxygen migration can be enhanced in the tensile direction whereas it can be decreased in the compressive direction. The strain works more effectively when it is applied in the &lt;100&gt; direction and also when the cubic structure is less stabilized, e.g., at lower temperature and with lower yttria concentration. The maximum improvement caused by the uniaxial tensile stress are about 40 % in the simulation, where the oxygen ions are largely displaced in the fluorite lattice structure.",
+        "publication_date": "2011-04-25",
+        "publication_year": 2011,
+        "work_type": "article",
+        "keywords": [
+          "Yttria-stabilized zirconia",
+          "Materials science",
+          "Oxygen",
+          "Cubic zirconia",
+          "Ultimate tensile strength",
+          "Fluorite",
+          "Electrolyte",
+          "Strain (injury)",
+          "Tensile strain",
+          "Composite material",
+          "Metallurgy",
+          "Chemistry",
+          "Physical chemistry",
+          "Ceramic"
+        ],
+        "matched_topics": [
+          {
+            "topic_id": 10311,
+            "topic_score": 0.9854999780654907,
+            "is_primary_topic": true
+          }
+        ],
+        "evidence": {
+          "role": "Significant",
+          "stance": "supports",
+          "confidence": 0.78,
+          "evidence_level": "abstract",
+          "supported_claim_aspects": [
+            "Tensile strain enhances oxygen migration in yttria-stabilized zirconia under uniaxial stress",
+            "Enhancement is directionally dependent with greater effect in tensile vs compressive direction",
+            "Effect is larger along <100> and under less stabilized cubic structure"
+          ],
+          "limitations": [
+            "Abstract reports enhanced oxygen migration and ~40% improvement in simulation, but does not explicitly quantify oxygen-vacancy migration barriers",
+            "Evidence is abstract-level only; full methods, barrier values, and experimental validation details not provided",
+            "Uniaxial stress conditions studied; generalizability to other strain states not established in supplied text"
+          ],
+          "rationale": "The abstract directly reports molecular dynamics simulation and experimental investigation of strain effect on oxygen migration in yttria-stabilized zirconia, finding oxygen migration can be enhanced in the tensile direction whereas decreased in compressive direction, with up to ~40% improvement under uniaxial tensile stress. This materially supports the claim that tensile strain facilitates oxygen transport, consistent with reduced migration barriers, though barrier values themselves are not explicitly stated in the abstract."
+        },
+        "retrieval": {
+          "semantic_score": 0.8638925552368164,
+          "semantic_policy": "home_relevance",
+          "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+          "exact_anchor_hits": [],
+          "queries": []
+        },
+        "access": {
+          "is_oa": false,
+          "oa_status": "closed",
+          "has_fulltext": false,
+          "has_pdf_content": false,
+          "has_grobid_xml": false
+        }
+      },
+      {
+        "work_id": 1974666067,
+        "doi": "10.1063/1.122186",
+        "title": "Molecular dynamics simulation of enhanced oxygen ion diffusion in strained yttria-stabilized zirconia",
+        "abstract": "The application of strain to yttria-stabilized zirconia (YSZ), which can be realized by sandwiching a thin YSZ film epitaxially between layers of a material with larger lattice constants, is proposed as a means to enhance oxygen ion mobility. The possible mechanism of such an enhancement was investigated by molecular dynamics using a CeO2–YSZ superlattice. The calculated diffusion coefficient of oxygen ions in the superlattice is some 1.7 times higher than in YSZ alone due to a decreased activation barrier from the strain of the YSZ structure.",
+        "publication_date": "1998-09-14",
+        "publication_year": 1998,
+        "work_type": "article",
+        "keywords": [
+          "Yttria-stabilized zirconia",
+          "Materials science",
+          "Superlattice",
+          "Cubic zirconia",
+          "Diffusion",
+          "Oxygen",
+          "Molecular dynamics",
+          "Diffusion barrier",
+          "Lattice constant",
+          "Ion",
+          "Chemical physics",
+          "Thin film",
+          "Epitaxy",
+          "Nanotechnology",
+          "Ceramic",
+          "Composite material",
+          "Chemistry",
+          "Computational chemistry",
+          "Optoelectronics",
+          "Thermodynamics",
+          "Optics"
+        ],
+        "matched_topics": [
+          {
+            "topic_id": 10311,
+            "topic_score": 0.9994999766349792,
+            "is_primary_topic": true
+          }
+        ],
+        "evidence": {
+          "role": "Significant",
+          "stance": "supports",
+          "confidence": 0.78,
+          "evidence_level": "abstract",
+          "supported_claim_aspects": [
+            "Strain applied to YSZ can enhance oxygen ion mobility",
+            "Molecular dynamics of a strained YSZ structure shows increased diffusion coefficient ~1.7× relative to unstrained YSZ",
+            "Enhancement attributed to a decreased activation barrier from strain of the YSZ structure"
+          ],
+          "limitations": [
+            "Evidence is abstract-level only",
+            "Strain is realized via a CeO2–YSZ superlattice model; direct quantification of tensile strain magnitude and explicit oxygen-vacancy migration barrier values are not provided in the abstract",
+            "Mechanism inferred from diffusion coefficient increase rather than direct barrier calculation reported here"
+          ],
+          "rationale": "The abstract explicitly proposes strain-induced enhancement of oxygen ion mobility in YSZ and reports MD results showing higher diffusion in a strained superlattice due to a decreased activation barrier from strain. This directly addresses whether tensile-like strain can lower migration barriers in YSZ."
+        },
+        "retrieval": {
+          "semantic_score": 0.8400102257728577,
+          "semantic_policy": "home_relevance",
+          "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+          "exact_anchor_hits": [],
+          "queries": []
+        },
+        "access": {
+          "is_oa": true,
+          "oa_status": "green",
+          "has_fulltext": false,
+          "has_pdf_content": false,
+          "has_grobid_xml": false
+        }
+      },
+      {
+        "work_id": 2090141727,
+        "doi": "10.4028/www.scientific.net/ddf.312-315.989",
+        "title": "Oxygen Diffusion in Yttria-Stabilized Zirconia Subjected to Mechanical Stress",
+        "abstract": "The oxygen diffusion in 4, 8, and 14 mol%-yttria-stabilized zirconia subjected to uniaxial stresses in the [100], [110], and [111] directions is investigated. In the case of uniaxial stress in the [100] direction, the oxygen diffusion in 4YSZ and 8YSZ is facilitated in the tensile direction and deteriorated in the compressive direction without changing the total diffusion property, which could be caused by the elastic recovery force. For 14YSZ, however, the oxygen diffusion remains unchanged regardless of the stress, probably due to high yttria concentration. In the case of tensile stress in the [110] and [111] directions, the oxygen diffusion is also increased in the tensile direction, which could be attributed to the improvement of the oxygen diffusion in the &lt;100&gt; direction caused by the stress component in the &lt;100&gt; direction.",
+        "publication_date": "2011-04-20",
+        "publication_year": 2011,
+        "work_type": "article",
+        "keywords": [
+          "Materials science",
+          "Diffusion",
+          "Oxygen",
+          "Ultimate tensile strength",
+          "Yttria-stabilized zirconia",
+          "Stress (linguistics)",
+          "Cubic zirconia",
+          "Composite material",
+          "Chemistry",
+          "Thermodynamics"
+        ],
+        "matched_topics": [
+          {
+            "topic_id": 10311,
+            "topic_score": 0.9995999932289124,
+            "is_primary_topic": false
+          }
+        ],
+        "evidence": {
+          "role": "Inferential",
+          "stance": "supports",
+          "confidence": 0.65,
+          "evidence_level": "abstract",
+          "supported_claim_aspects": [
+            "Tensile mechanical stress facilitates oxygen diffusion in yttria-stabilized zirconia.",
+            "Facilitation observed for 4 mol% and 8 mol% YSZ under uniaxial tensile stress in [100], [110], and [111] directions, with diffusion increased in the tensile direction."
+          ],
+          "limitations": [
+            "Abstract reports macroscopic oxygen diffusion changes under mechanical stress, not a direct measurement or calculation of oxygen-vacancy migration barriers.",
+            "Mechanism is described as possibly due to elastic recovery force and stress component in <100> direction; no explicit barrier energies are given.",
+            "Evidence is abstract-level only; full paper content not reviewed."
+          ],
+          "rationale": "The paper provides direct experimental evidence that tensile stress increases oxygen diffusion in YSZ, which is scientifically defensible as consistent with a reduction in oxygen-vacancy migration barriers, but the barrier itself is not measured or reported, so support is inferential rather than direct."
+        },
+        "retrieval": {
+          "semantic_score": 0.8340699076652527,
+          "semantic_policy": "home_relevance",
+          "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+          "exact_anchor_hits": [],
+          "queries": []
+        },
+        "access": {
+          "is_oa": true,
+          "oa_status": "hybrid",
+          "has_fulltext": false,
+          "has_pdf_content": false,
+          "has_grobid_xml": false
+        }
+      }
+    ]
+  },
+  "grounding": {
+    "source": "MESH / OpenAlex recorded paper evidence",
+    "kind": "openalex_recorded_paper_evidence_pack",
+    "status": "complete",
+    "retrieved_paper_count": 300,
+    "semantic_candidate_count": 20,
+    "reviewed_paper_count": 10,
+    "accepted_paper_count": 3,
+    "minimum_evidence_confidence": 0.55,
+    "semantic_reranker": "Qwen3-Embedding-4B",
+    "evidence_reviewer": "Muse-Glimmer-30B",
+    "selected_topic_ids": [
+      10311,
+      12875
+    ],
+    "demo_scope": "Recorded Literature-Grounded replay"
+  },
+  "provenance": {
+    "precomputed_replay": true,
+    "replay_kind": "completed-merit-literature-grounded-run",
+    "replay_label": "Recorded Literature-Grounded Replay",
+    "source_grounding_job_id": "4eac52d8-7efb-4a0d-be43-68f5cd896407",
+    "source_direct_run_id": "merit-20260925T123007Z-41999a88",
+    "retrieved_paper_count": 300,
+    "reviewed_paper_count": 10,
+    "accepted_paper_count": 3,
+    "semantic_score_meaning": "relevance/ranking only",
+    "scientific_note": "Recorded replay of a completed literature grounding run and its subsequent Direct hypothesis generation.",
+    "public_static_replay": true
+  }
+}

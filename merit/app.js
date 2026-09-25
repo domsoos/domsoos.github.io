@@ -875,67 +875,109 @@ async function pollRun(requestId) {
   return response.json();
 }
 
-const LITERATURE_REPLAY_PROMPT =
-  "Can tensile strain reduce oxygen-vacancy migration barriers in yttria-stabilized zirconia?";
-
-async function playLiteratureReplay() {
+async function playStaticReplay({
+  mode,
+  prompt,
+  url,
+  buttonId,
+  loadingText,
+  readyText,
+  replayId
+}) {
   clearError();
 
-  $("question").value = LITERATURE_REPLAY_PROMPT;
+  $("question").value = prompt;
 
-  // Display the normal Literature-Grounded workflow,
-  // but submit the explicit recorded-replay backend mode.
-  setMode("grounded");
+  // Temporarily display the recorded workflow mode.
+  setMode(mode);
 
-  const replayButton = $("literatureReplayButton");
+  const replayButton = $(buttonId);
 
   if (replayButton) {
     replayButton.disabled = true;
-    replayButton.textContent = "Loading Literature Replay…";
+    replayButton.textContent = loadingText;
   }
 
+  $("runPanel").classList.remove("hidden");
+  $("resultPanel").classList.add("hidden");
+  $("provenancePanel").classList.add("hidden");
+
+  renderStages(mode);
+  updateStages(0, "running");
+
   try {
-    await runMerit("grounded");
+    const response = await fetch(url, {
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        `Recorded replay could not be loaded (${response.status})`
+      );
+    }
+
+    const result = await response.json();
+
+    // Replay the already-completed workflow visually.
+    // This is UI playback only — no computation is being rerun.
+    const stages = stagesByMode[mode] || [];
+
+    for (let i = 0; i < stages.length; i += 1) {
+      updateStages(i, "running");
+
+      await new Promise(resolve =>
+        setTimeout(resolve, 280)
+      );
+    }
+
+    renderResult(result, replayId);
+
+  } catch (error) {
+    showError(error.message || String(error));
+    $("metaStatus").textContent = "Failed";
+
   } finally {
     if (replayButton) {
       replayButton.disabled = false;
-      replayButton.textContent =
-        "▶ Play Literature Replay · Recorded YSZ Run";
+      replayButton.textContent = readyText;
     }
 
-    // Return demo UI to the only live mode.
+    // Fast remains the only live demo mode.
     setMode("fast");
   }
 }
 
 
+const LITERATURE_REPLAY_PROMPT =
+  "Can tensile strain reduce oxygen-vacancy migration barriers in yttria-stabilized zirconia?";
+
+async function playLiteratureReplay() {
+  await playStaticReplay({
+    mode: "grounded",
+    prompt: LITERATURE_REPLAY_PROMPT,
+    url: "./replays/ysz-literature.json?v=20260925-static1",
+    buttonId: "literatureReplayButton",
+    loadingText: "Loading Literature Replay…",
+    readyText:
+      "▶ Play Literature Replay · Recorded YSZ Run",
+    replayId: "recorded-ysz-literature"
+  });
+}
+
 const COMMUNITY_REPLAY_PROMPT =
   "Generate a hypothesis to lower the effective Li migration barrier in LiFePO4, reported per crystallographic direction.";
 
 async function playCommunityReplay() {
-  clearError();
-
-  $("question").value = COMMUNITY_REPLAY_PROMPT;
-
-  // Internal mode only. The normal Community card remains disabled.
-  setMode("community");
-
-  const replayButton = $("communityReplayButton");
-
-  if (replayButton) {
-    replayButton.disabled = true;
-    replayButton.textContent = "Loading Community Replay…";
-  }
-
-  try {
-    await runMerit();
-  } finally {
-    if (replayButton) {
-      replayButton.disabled = false;
-      replayButton.textContent =
-        "▶ Play Community Replay · Recorded LiFePO₄ Run";
-    }
-  }
+  await playStaticReplay({
+    mode: "community",
+    prompt: COMMUNITY_REPLAY_PROMPT,
+    url: "./replays/lifepo4-community.json?v=20260925-static1",
+    buttonId: "communityReplayButton",
+    loadingText: "Loading Community Replay…",
+    readyText:
+      "▶ Play Community Replay · Recorded LiFePO₄ Run",
+    replayId: "recorded-lifepo4-community"
+  });
 }
 
 async function runMerit(modeOverride = null) {

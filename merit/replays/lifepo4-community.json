@@ -1,0 +1,541 @@
+{
+  "status": "completed",
+  "mode": "community",
+  "hypothesis": {
+    "hypothesis": "Coherent a-c biaxial tensile strain perpendicular to the 1D [010] channel lowers the effective Li+ migration barrier along [010] in strained LiFePO4 layers or near-surface regions, with [100] and [001] barriers remaining higher and direction-specific.",
+    "mechanism": "A-c tensile expands the LiO6 bottleneck at the [010] saddle and reduces Li-O repulsion at the transition state. Orthorhombic Poisson coupling gives slight b contraction under a-c tensile, so barrier lowering tracks a-c strain and saddle Li-O distance rather than requiring tensile b.",
+    "prediction": "DFT NEB under 1-2% a-c biaxial tensile strain predicts ≥20-30% reduction in the [010] barrier versus bulk, with [100]/[001] barriers >0.8 eV and essentially unchanged within ~10 meV. GPA-TEM shows 1-2% a-c tensile decaying within 3-5 unit cells with b contraction, and surface-sensitive impedance/7Li NMR show faster near-surface diffusion projected along [010].",
+    "falsification": "No statistically significant reduction in near-surface [010] activation energy under a-c tensile, or barrier change correlates with b strain rather than a-c strain and saddle Li-O distance, or a-c strain is compressive or relaxes within one unit cell.",
+    "rationale": "MESH evidence supports biaxial tensile strain perpendicular to migration as most favorable for Li+ migration in olivine phosphates and b-axial strain having greatest per-unit effect, consistent with bottleneck-mediated barrier lowering under a-c tensile."
+  },
+  "community": {
+    "replay": true,
+    "replay_label": "Recorded Replay",
+    "proposal_count": 4,
+    "review_calls": 4,
+    "synthesis_calls": 1,
+    "proposals": [
+      {
+        "proposal_alias": "A",
+        "source_system": "cosci",
+        "candidate": {
+          "source_system": "cosci",
+          "hypothesis": "# Executive summary\nThe tournament converged on a strain-engineering strategy that exploits epitaxial superlattices to impose anisotropic biaxial tensile strain in LiFePO4. The leading hypothesis proposes that (LiFePO4)n(LiMnPO4)m superlattices imposing biaxial tensile strain in the a-c plane, i.e. perpendicular to the [010] Li+ migration channel, will selectively lower the effective Li+ migration barrier along [010] while leaving [100] and [001] barriers essentially unchanged. This matters because olivine LiFePO4 conduction is normally one-dimensional along [010], and a direction-specific barrier reduction would increase anisotropic ionic conductivity without disrupting the structural framework. The current proposal is mechanistically specific and testable, but remains qualitative and needs quantitative barrier predictions per crystallographic direction.\n\n# Main research directions\n\n### Superlattice-induced anisotropic biaxial tensile strain for [010]-selective barrier lowering\n- **The direction.** Epitaxial (LiFePO4)n(LiMnPO4)m superlattices impose biaxial tensile strain in the a-c plane perpendicular to [010] to lower the effective Li+ migration barrier along [010] while preserving barriers along [100] and [001].\n- **Why it's promising.** This is directly supported by the top-ranked hypothesis [H-hyp_f78ce951419bf15d]. The hypothesis aligns with supplied MESH grounding that in olivine phosphate cathode materials biaxial tensile strain perpendicular to the direction of Li+ ion migration is the most favorable for Li+ ion migration, and that b-axial strain has the greatest effect on the Li+ ion migration barrier. The superlattice architecture provides a built-in route to realize the required anisotropic strain state in LiFePO4-containing layers.\n- **Open questions.** What is the magnitude of barrier reduction along [010] for realistic strain magnitudes, e.g. 1-3% biaxial tensile strain in a-c? Does the strain remain localized in the LiFePO4 layers or relax via misfit dislocations? Will barriers along [100] and [001] truly remain unchanged or experience secondary changes due to Poisson coupling and lattice anisotropy? Is the effect general across n,m stoichiometries?\n- **First experiment.** Within one quarter, perform DFT-NEB calculations for bulk LiFePO4 under 0%, +1%, +2%, +3% biaxial tensile strain in the a-c plane with full relaxation of the b lattice parameter, computing migration barriers for [010], [100] and [001] hops. Parallel pulsed laser deposition growth of (LiFePO4)2/(LiMnPO4)1 on a lattice-mismatched substrate with in-situ XRD strain mapping to verify the target strain state.\n\n# Convergence and divergence\nThe tournament is essentially converged on a single mechanistic family: anisotropic strain engineering via LiFePO4/LiMnPO4 superlattices to target the [010] channel. No competing hypotheses for heterogeneous doping or surface modification were retained in the top-ranked set, so those intervention classes remain unexplored in the current tournament output. The direction is therefore narrowly focused on strain, with no genuine orthogonal alternatives presented in the available hypotheses.\n\n# Caveats and limitations\nThe system did not explore heterogeneous doping or surface modification interventions despite the research goal explicitly allowing them; no doping or surface hypotheses survived ranking. Literature support is thin in the retrieved set: no literature sources were recorded for this session. The supplied MESH evidence pack indicates strain effects on LiMPO4 including LiFePO4 and superlattices, but provides no quantitative barrier values or atomistic pathway details in the abstract, and refers to LiMPO4 with M = Mn, Fe, Co and to superlattices, not isolated bulk LiFePO4 only. The top hypothesis received a missing_piece verdict for lacking quantitative per-direction barrier predictions and empirical grounding. A domain expert would likely disagree with the claim that [100] and [001] barriers remain essentially unchanged without explicit Poisson and elastic coupling analysis, and would require DFT or conductivity measurements for validation.\n\n# Sources\nNo literature sources were recorded for this session. Literature claims above are therefore marked as requiring the scientist's verification.",
+          "verified_evidence": [],
+          "native_citations": [],
+          "agent_provenance": {}
+        }
+      },
+      {
+        "proposal_alias": "B",
+        "source_system": "robin",
+        "candidate": {
+          "source_system": "robin",
+          "title": "Coherent superlattice strain in LiFePO4/LiMnPO4",
+          "hypothesis": "In (LiFePO4)n(LiMnPO4)m superlattices, coherent lattice mismatch imposes biaxial tensile strain perpendicular to [010] on LiFePO4 layers, lowering the effective Li+ migration barrier along [010] b within the strained LiFePO4 layers relative to bulk LiFePO4, while the barrier along [100] a and [001] c remains higher and is layer-thickness dependent.",
+          "rationale": "The abstract explicitly studies (LiFePO4)n(LiMnPO4)m superlattices and strain engineering of Li+ migration in LiMPO4. Coherent superlattice strain provides a built-in, heterogeneous strain field that can be tuned by n,m to test direction-specific barrier changes without external substrates.",
+          "native_id": "2",
+          "verified_evidence": [],
+          "native_citations": [],
+          "agent_provenance": {}
+        }
+      },
+      {
+        "proposal_alias": "C",
+        "source_system": "direct",
+        "candidate": {
+          "source_system": "direct",
+          "hypothesis": "Hypothesis: In olivine LiFePO4 the effective Li+ migration barrier can be lowered along the 1D b-axis channel by epitaxial biaxial tensile strain applied in the a-c plane, i.e. tensile strain perpendicular to the direction of Li+ ion migration.\n\nMechanism: Biaxial tensile expansion of the a and c lattice parameters increases the a-c footprint of the LiO6 bottleneck that gates hopping between adjacent Li sites along b and modifies Li-O and Li-Fe electrostatic interactions in the migration path. Strain perpendicular to migration is most favorable for Li+ mobility and b-axial strain couples most strongly to the barrier in olivine phosphates, so a-c tensile strain will preferentially lower the activation energy for b-axis hops while leaving a- and c-axis hops essentially blocked.\n\nPredicted observable outcome: For LiFePO4 under 1-2% biaxial tensile strain in the a-c plane the Li+ migration barrier computed by nudged elastic band DFT, and the activation energy extracted from temperature-dependent anisotropic ionic conductivity of epitaxial films, will be significantly reduced along b relative to unstrained bulk LiFePO4, e.g. b-axis barrier < unstrained b-axis barrier by ≥20-30%, whereas a- and c-direction barriers remain >0.8 eV and are unchanged within computational/experimental uncertainty.\n\nFalsification test: NEB calculations and/or impedance measurements on strained vs unstrained LiFePO4 show no statistically significant reduction in the b-axis Li+ migration activation energy under a-c biaxial tensile strain, or show a larger reduction for a/c directions than for b, the hypothesis is falsified.",
+          "verified_evidence": [],
+          "native_citations": [],
+          "agent_provenance": {}
+        }
+      },
+      {
+        "proposal_alias": "D",
+        "source_system": "sakana",
+        "candidate": {
+          "source_system": "sakana",
+          "title": "LiMnPO4 (010) coating imposes a-c biaxial tensile strain that lowers near-surface [010] Li migration barrier via bottleneck expansion in LiFePO4",
+          "hypothesis": "Epitaxial (010)-oriented LiMnPO4 coating on LiFePO4 particles imposes coherent a-c biaxial tensile strain in the top 3-5 unit cells of LiFePO4, lowering the effective Li+ migration barrier along [010] in the near-surface region relative to bulk, with [100] and [001] barriers essentially unchanged; the magnitude of [010] barrier reduction tracks the in-plane a-c tensile strain and the saddle-point Li-O bottleneck expansion, not a Poisson-coupled tensile change in the b-axis.",
+          "mechanism": "LiMnPO4 has larger a and c lattice parameters than LiFePO4; coherent growth on (010) aligns a and c in-plane, transmitting a-c biaxial tensile strain across the phosphate-phosphate heterointerface with limited interdiffusion. A-c tensile expands the a-c bottleneck at the [010] 1D migration saddle and reduces Li-O repulsion at the transition state. In orthorhombic olivine a-c tensile tends to Poisson-contract b, so b-axial strain is compressive under this strain state. The barrier lowering is dominated by in-plane bottleneck geometry, consistent with biaxial tensile strain perpendicular to the migration direction being most favorable for olivine phosphates, while b-axial strain remains the most sensitive per unit strain but is not required to be tensile for a net barrier reduction under a-c tensile.",
+          "predicted_outcome": "DFT NEB slab models of a coherent LiMnPO4/LiFePO4 (010) interface show a reduced activation energy for Li+ hops along [010] in the first 2-3 LiFePO4 unit cells adjacent to the interface, with the reduction scaling with computed a-c in-plane strain and saddle-point Li-O distance; [100] and [001] barriers are unchanged within ~10 meV of bulk. GPA-TEM shows a-c tensile ~1-2% decaying within ~3-5 unit cells with a slight b-axis contraction. Surface-sensitive electrochemical impedance and 7Li NMR of coated particles show faster near-surface Li diffusion projected along [010] versus uncoated LiFePO4, with no significant change in apparent diffusivity for directions projected onto [100]/[001], reported per crystallographic direction.",
+          "falsification_test": "Coated particles show no statistically significant reduction in near-surface [010] activation energy versus uncoated LiFePO4, or GPA-TEM shows a-c strain is compressive or relaxes within one unit cell, or DFT slabs show barrier reduction correlates with b-axis strain rather than a-c strain and saddle Li-O distance, or barrier lowering is accompanied by b-axis tensile strain contrary to the predicted Poisson contraction under a-c tensile.",
+          "rationale": "The refinement preserves the parent’s surface coating, phosphate-phosphate heterointerface, near-surface depth and per-direction reporting while directly addressing the evaluator critique that a-c tensile Poisson-contracts b and that conflating b-axial greatest effect with a Poisson-mediated b change is unjustified. By making barrier reduction track a-c tensile bottleneck expansion rather than requiring Poisson-coupled b tensile, the hypothesis remains consistent with evidence that biaxial tensile strain perpendicular to migration is most favorable and that b-axial strain has the greatest effect per unit strain, without assuming an unsupported tensile b outcome from a-c tensile.",
+          "native_id": "n014",
+          "verified_evidence": [],
+          "native_citations": [],
+          "agent_provenance": {}
+        }
+      }
+    ],
+    "agreements": [
+      "Biaxial tensile strain perpendicular to Li migration is most favorable for barrier lowering in olivine phosphates.",
+      "B-axial strain has the greatest per-unit effect on the Li migration barrier.",
+      "Direction-specific reporting for [010], [100] and [001] is required.",
+      "Coherent superlattice or heterointerface can impose anisotropic a-c strain in LiFePO4-containing layers."
+    ],
+    "disagreements": [
+      "[100]/[001] barriers remain strictly unchanged versus secondary elastic changes under anisotropic strain.",
+      "Tensile b strain is required for barrier lowering versus a-c tensile alone.",
+      "Bulk superlattice versus near-surface coating depth as the operative geometry.",
+      "Quantitative magnitude of barrier reduction under realistic strain."
+    ],
+    "adopted_elements": [
+      {
+        "proposal_alias": "A",
+        "element": "Superlattice-induced anisotropic a-c biaxial tensile strain perpendicular to [010] with per-crystallographic-direction barrier reporting and DFT-NEB strain series plus XRD strain verification.",
+        "source_system": "cosci"
+      },
+      {
+        "proposal_alias": "C",
+        "element": "Quantitative 1-2% a-c strain target with ≥20-30% [010] barrier reduction prediction and explicit falsification based on NEB and anisotropic conductivity.",
+        "source_system": "direct"
+      },
+      {
+        "proposal_alias": "D",
+        "element": "Poisson contraction of b under a-c tensile and bottleneck expansion mechanism linking barrier change to a-c strain and saddle Li-O distance.",
+        "source_system": "sakana"
+      },
+      {
+        "proposal_alias": "D",
+        "element": "Near-surface depth limited to 3-5 unit cells with combined DFT slab, GPA-TEM strain mapping and surface electrochemical/NMR observables.",
+        "source_system": "sakana"
+      }
+    ],
+    "rejected_elements": [
+      {
+        "proposal_alias": "B",
+        "element": "Vague claim that [100]/[001] barriers remain higher and are layer-thickness dependent without mechanistic justification.",
+        "reason": "Lacks atomistic mechanism, quantitative strain/barrier targets and falsification criteria.",
+        "source_system": "robin"
+      },
+      {
+        "proposal_alias": "A",
+        "element": "Assumption that [100] and [001] barriers remain essentially unchanged without Poisson/elastic coupling analysis.",
+        "reason": "Unsupported leap; secondary strain effects need explicit evaluation.",
+        "source_system": "cosci"
+      },
+      {
+        "proposal_alias": "C",
+        "element": "Omission of Poisson coupling and expected b contraction under a-c tensile.",
+        "reason": "Conflates b-axial greatest per-unit sensitivity with requirement for tensile b.",
+        "source_system": "direct"
+      }
+    ],
+    "reviews": [
+      {
+        "focus_alias": "A",
+        "summary": "Proposal A proposes anisotropic biaxial tensile strain in the a-c plane perpendicular to [010] imposed by (LiFePO4)n(LiMnPO4)m superlattices to selectively lower the effective Li+ migration barrier along [010] while leaving [100] and [001] barriers essentially unchanged. It aligns the intervention with MESH evidence that biaxial tensile strain perpendicular to migration is most favorable for olivine phosphates and that b-axial strain has the greatest effect on the barrier, and it outlines DFT-NEB under 0-3% a-c strain plus pulsed laser deposition with in-situ XRD strain mapping as first tests. The proposal is direction-specific and testable but remains qualitative, lacks quantitative per-direction barrier predictions, and assumes unchanged [100]/[001] barriers without Poisson/elastic coupling analysis.",
+        "physical_plausibility": 4,
+        "mechanism_quality": 3,
+        "specificity": 3,
+        "falsifiability": 3,
+        "experimental_feasibility": 3,
+        "strengths": [
+          "Directly leverages MESH-supported strain engineering principle: biaxial tensile strain perpendicular to Li+ migration is most favorable in olivine phosphates.",
+          "Uses a built-in superlattice architecture to realize anisotropic a-c tensile strain in LiFePO4-containing layers without external substrates.",
+          "Explicitly targets the known 1D [010] conduction channel and calls for per-crystallographic-direction barrier reporting.",
+          "Proposes concrete computational and experimental first steps: DFT-NEB under defined strain states and PLD growth with in-situ XRD strain mapping."
+        ],
+        "weaknesses": [
+          "No quantitative barrier predictions per direction; barrier reduction magnitude, strain threshold and anisotropy are unspecified.",
+          "Assumes [100] and [001] barriers remain essentially unchanged without analysis of Poisson coupling, elastic anisotropy or secondary strain effects.",
+          "Mechanistic description is qualitative; no atomistic bottleneck, Li-O distance or saddle-point geometry detail is provided.",
+          "Literature grounding is thin in the proposal itself and the MESH abstract provides no quantitative values or isolated bulk LiFePO4 pathway details.",
+          "Tournament convergence claim is narrow: heterogeneous doping and surface modification interventions allowed by the goal are not explored."
+        ],
+        "recommended_elements_to_keep": [
+          "Strain perpendicular to migration as the design principle for barrier lowering in olivine LiFePO4.",
+          "Superlattice-induced anisotropic biaxial tensile strain in the a-c plane as a route to impose the required strain state.",
+          "Per-crystallographic-direction reporting of migration barriers for [010], [100] and [001].",
+          "Combined DFT-NEB strain series with experimental strain verification via XRD/GPA."
+        ],
+        "concerns": [
+          "Unsupported leap that [100] and [001] barriers are essentially unchanged; domain expert would require explicit Poisson and elastic coupling analysis.",
+          "Conflation of 'b-axial strain has greatest effect per unit strain' with a-c tensile strain efficacy without clarifying the different strain components.",
+          "Risk of strain relaxation via misfit dislocations in LiFePO4/LiMnPO4 superlattices, which is noted as open but not addressed quantitatively.",
+          "Missing quantitative falsification threshold for barrier reduction along [010] versus other directions."
+        ],
+        "comparative_notes": [
+          "Compared to the broader strain hypothesis in the set, Proposal A is more implementation-focused than Proposal B but less mechanistically explicit than Proposal C and Proposal D regarding bottleneck expansion and Poisson contraction.",
+          "Proposal A shares the superlattice strain core with Proposal B, but adds a first experiment plan and explicit claim of unchanged [100]/[001] barriers.",
+          "Unlike Proposal D, Proposal A does not address near-surface depth profiling or the expected Poisson contraction of b under a-c tensile strain."
+        ]
+      },
+      {
+        "focus_alias": "B",
+        "summary": "Proposal B hypothesizes that coherent lattice mismatch in (LiFePO4)n(LiMnPO4)m superlattices imposes biaxial tensile strain perpendicular to [010] on LiFePO4 layers, lowering the effective Li+ migration barrier along [010] b relative to bulk while barriers along [100] a and [001] c remain higher and are layer-thickness dependent. The rationale cites the MESH evidence that strain engineering modifies Li+ migration in LiMPO4 superlattices and that biaxial tensile strain perpendicular to migration is favorable.",
+        "physical_plausibility": 4,
+        "mechanism_quality": 3,
+        "specificity": 3,
+        "falsifiability": 3,
+        "experimental_feasibility": 3,
+        "strengths": [
+          "Directly aligns with MESH evidence that biaxial tensile strain perpendicular to Li+ migration is most favorable in olivine phosphates and that (LiFePO4)n(LiMnPO4)m superlattices are a relevant system.",
+          "Proposes a built-in heterogeneous strain field tunable by n,m without external substrates.",
+          "Explicitly frames the effect as direction-specific with per-crystallographic-direction reporting for [010], [100] and [001].",
+          "Leverages coherent superlattice strain as a plausible route to anisotropic strain in LiFePO4-containing layers."
+        ],
+        "weaknesses": [
+          "No quantitative strain magnitude or barrier reduction predicted, e.g., % strain or eV change per direction.",
+          "Mechanism is stated rather than explained; no atomistic description of bottleneck expansion, Li-O interactions or Poisson coupling.",
+          "Claim that [100] and [001] barriers remain higher and are layer-thickness dependent is vague and unsupported by the abstract.",
+          "No explicit falsification test, experimental protocol, or observable metrics provided.",
+          "Assumes coherent strain can be maintained for arbitrary n,m without discussing misfit dislocation relaxation or interdiffusion."
+        ],
+        "recommended_elements_to_keep": [
+          "Superlattice strain engineering using (LiFePO4)n(LiMnPO4)m as a platform for anisotropic strain.",
+          "Focus on biaxial tensile strain in the a-c plane perpendicular to the [010] 1D migration channel.",
+          "Direction-specific reporting of migration barriers for [010], [100] and [001].",
+          "Tuning via n,m layer thickness to probe strain and barrier dependence."
+        ],
+        "concerns": [
+          "Unsupported leap that a/c barriers are essentially unchanged and only layer-thickness dependent; olivine migration is 1D but secondary strain effects are not addressed.",
+          "No discussion of Poisson contraction of b under a-c tensile strain and its interplay with the stated greatest effect of b-axial strain.",
+          "Abstract provides no quantitative barrier values or atomistic pathway details, so the hypothesis remains qualitative.",
+          "Experimental feasibility of coherent LiFePO4/LiMnPO4 superlattices with controlled strain is non-trivial and not justified."
+        ],
+        "comparative_notes": [
+          "Less mechanistic and quantitative than Proposal C, which gives a 1-2% strain target, ≥20-30% barrier reduction along b, and an explicit falsification test.",
+          "Less detailed than Proposal A, which outlines DFT-NEB strain series and PLD growth with in-situ XRD strain mapping.",
+          "Less refined than Proposal D, which addresses Poisson coupling, near-surface depth, saddle-point Li-O bottleneck expansion, and correlates barrier reduction with a-c strain rather than assuming b tensile.",
+          "Shares the core strain-perpendicular-to-migration concept with A, C and D, but provides the sparsest mechanistic and experimental specification."
+        ]
+      },
+      {
+        "focus_alias": "C",
+        "summary": "Proposal C hypothesizes that epitaxial biaxial tensile strain in the a-c plane, perpendicular to the 1D [010] Li+ channel in olivine LiFePO4, lowers the effective Li+ migration barrier along b via expansion of the LiO6 bottleneck and modified Li-O/ Li-Fe interactions, while a- and c-axis barriers remain high and essentially unchanged. It predicts ≥20-30% reduction in the b-axis barrier under 1-2% a-c tensile strain from NEB DFT and anisotropic conductivity, and provides an explicit falsification test.",
+        "physical_plausibility": 4,
+        "mechanism_quality": 4,
+        "specificity": 4,
+        "falsifiability": 4,
+        "experimental_feasibility": 3,
+        "strengths": [
+          "Directly aligns with MESH evidence that biaxial tensile strain perpendicular to Li+ migration is most favorable in olivine phosphates and that b-axial strain has greatest effect on barrier.",
+          "Direction-specific hypothesis for the known 1D [010] channel with per-crystallographic-direction reporting as required.",
+          "Provides quantitative targets: 1-2% a-c biaxial tensile strain and ≥20-30% b-axis barrier reduction, with a/c barriers >0.8 eV unchanged.",
+          "Includes a clear falsification test based on NEB and impedance measurements comparing strained vs unstrained.",
+          "Mechanism links strain to bottleneck geometry and Li-O repulsion at the transition state."
+        ],
+        "weaknesses": [
+          "No discussion of Poisson coupling; a-c tensile in orthorhombic olivine tends to contract b, which is not addressed.",
+          "Assumes a- and c-axis hops remain essentially blocked and unchanged within uncertainty without justification of secondary elastic effects.",
+          "Quantitative 20-30% barrier reduction is asserted without literature or calculation support from the supplied evidence pack.",
+          "Lacks atomistic pathway details and quantitative barrier values per direction from the abstract evidence.",
+          "Experimental anisotropic ionic conductivity of epitaxial LiFePO4 films is technically demanding and not demonstrated in the supplied context."
+        ],
+        "recommended_elements_to_keep": [
+          "Per-crystallographic-direction barrier reporting for [010], [100], [001].",
+          "Strain perpendicular to migration as the design principle for barrier lowering.",
+          "Quantitative strain magnitude and predicted barrier change targets.",
+          "Explicit falsification criteria comparing b vs a/c response."
+        ],
+        "concerns": [
+          "Conflates the statement that b-axial strain has greatest effect per unit strain with the claim that a-c tensile alone will preferentially lower b barrier, without clarifying coupling.",
+          "Potential overstatement that a- and c-direction barriers remain unchanged within computational/experimental uncertainty under anisotropic strain.",
+          "Feasibility of measuring direction-resolved activation energies in thin films vs DFT predictions."
+        ],
+        "comparative_notes": [
+          "More quantitatively specific than Proposal A and B, which remain largely qualitative and lack predicted magnitude.",
+          "Less interface-specific than Proposal D; D explicitly addresses Poisson contraction and near-surface strain decay, which C omits.",
+          "Shares the core strain-engineering premise with A and B, but adds explicit falsification test and numeric prediction absent in B."
+        ]
+      },
+      {
+        "focus_alias": "D",
+        "summary": "Proposal D hypothesizes that an epitaxial (010)-oriented LiMnPO4 coating on LiFePO4 imposes coherent a-c biaxial tensile strain in the top 3-5 unit cells of LiFePO4, lowering the effective Li+ migration barrier along [010] via a-c bottleneck expansion at the saddle point while [100] and [001] barriers remain essentially unchanged. The mechanism explicitly links a-c tensile strain to Li-O bottleneck geometry and notes Poisson contraction of b under a-c tensile, avoiding an unsupported requirement for tensile b strain. Predicted outcomes include DFT NEB slab barrier reduction in the first 2-3 LiFePO4 unit cells scaling with a-c strain and saddle Li-O distance, GPA-TEM showing ~1-2% a-c tensile decaying within ~3-5 unit cells with slight b contraction, and surface-sensitive electrochemical impedance and 7Li NMR showing faster near-surface diffusion projected along [010] with no change for [100]/[001]. Falsification is defined by lack of near-surface [010] activation energy reduction, compressive or rapidly relaxed a-c strain, barrier correlation with b strain rather than a-c bottleneck, or b-axis tensile under a-c tensile.",
+        "physical_plausibility": 4,
+        "mechanism_quality": 4,
+        "specificity": 4,
+        "falsifiability": 4,
+        "experimental_feasibility": 4,
+        "strengths": [
+          "Per-crystallographic-direction reporting for [010], [100] and [001] as required by the goal.",
+          "Mechanistically ties barrier lowering to a-c bottleneck expansion and Li-O repulsion at the transition state, consistent with MESH evidence that biaxial tensile strain perpendicular to migration is most favorable.",
+          "Explicitly accounts for Poisson coupling and clarifies that b-axial strain is compressive under a-c tensile, avoiding conflation of b-axial greatest effect per unit strain with a requirement for tensile b.",
+          "Provides a concrete heterointerface implementation via LiMnPO4/LiFePO4 (010) coating with lattice mismatch rationale.",
+          "Includes depth-resolved prediction of near-surface effect limited to 3-5 unit cells and strain decay.",
+          "Clear falsification criteria covering strain sign, relaxation length, barrier correlation and Poisson behavior."
+        ],
+        "weaknesses": [
+          "Relies on coherent epitaxy on particles; curvature, faceting and interdiffusion at phosphate-phosphate heterointerface may limit ideal strain transfer.",
+          "No quantitative barrier values or percentage reduction predicted for LiFePO4, only qualitative scaling with strain and saddle Li-O distance.",
+          "Assumes [100] and [001] barriers remain unchanged within ~10 meV without explicit elastic coupling analysis; Poisson and anisotropy could induce secondary changes.",
+          "Experimental resolution of anisotropic ionic conductivity per crystallographic direction in coated powder particles via impedance and 7Li NMR is challenging.",
+          "MESH grounding provides only abstract-level support for strain effects in LiMPO4 superlattices, not isolated bulk LiFePO4 or coating geometry."
+        ],
+        "recommended_elements_to_keep": [
+          "Per-direction barrier reporting and near-surface depth profiling.",
+          "Bottleneck expansion mechanism linking a-c tensile strain to saddle-point Li-O distance.",
+          "Explicit treatment of Poisson contraction of b under a-c tensile and separation of b-axial sensitivity per unit strain from net strain state.",
+          "Falsification test that checks strain sign, relaxation length, and correlation of barrier change with a-c strain vs b strain.",
+          "Combination of DFT NEB slab modeling with GPA-TEM strain mapping and surface-sensitive electrochemical/NMR probes."
+        ],
+        "concerns": [
+          "Coherent strain maintenance over 3-5 unit cells on polycrystalline particles may be unrealistic; misfit dislocations and relaxation could dominate.",
+          "Potential intermixing of Fe/Mn at the interface altering chemistry rather than pure elastic strain effect.",
+          "Surface-sensitive techniques may not cleanly isolate [010] diffusion from tortuosity and particle size effects.",
+          "Abstract evidence refers to LiMPO4 with M = Mn, Fe, Co and superlattices, not isolated bulk LiFePO4 coating, limiting direct extrapolation."
+        ],
+        "comparative_notes": [
+          "Compared to Proposal A, D provides a concrete coating geometry, depth-resolved prediction and explicit Poisson correction, whereas A remains qualitative and claims [100]/[001] barriers unchanged without justification.",
+          "Compared to Proposal B, D adds mechanistic detail on bottleneck expansion, Poisson contraction, near-surface depth and falsification criteria, while B is a high-level statement about superlattice strain.",
+          "Compared to Proposal C, D refines the a-c tensile hypothesis by acknowledging Poisson-mediated b contraction and grounding the effect in a surface coating heterointerface rather than generic epitaxial film, and provides more detailed experimental observables."
+        ]
+      }
+    ],
+    "usage": {
+      "llm_calls": 5,
+      "review_calls": 4,
+      "synthesis_calls": 1,
+      "prompt_tokens": 20276,
+      "completion_tokens": 8808,
+      "total_tokens": 29084,
+      "token_counts_complete": true
+    },
+    "provenance": {
+      "protocol": "anonymous-equal-weight-v1",
+      "blind_review": true,
+      "proposal_count": 4,
+      "review_calls": 4,
+      "synthesis_calls": 1,
+      "alias_assignment": "sha256(run_id)-shuffle",
+      "alias_seed": 2502983696459702354,
+      "alias_to_system": {
+        "A": "cosci",
+        "B": "robin",
+        "C": "direct",
+        "D": "sakana"
+      },
+      "native_result_sha256": {
+        "direct": "901203eef5deaa445b29bc1acbc683a47606261d4bb418322b6a3a07ab5de003",
+        "cosci": "8ebc97b352897392581b3ce325b4798fc0d8db271b20af05cdd32efe5c4a5346",
+        "robin": "88e20479f06c53234dbd38ed0c3655f58712e1ec1faed83eb98310a31efb7e8f",
+        "sakana": "74c6a53a801ef5020c9d741cb9b8d751cb085d8cf3a34e9980865a340e6b465b"
+      },
+      "external_retrieval": "disabled"
+    },
+    "started_unix": 1790278976.3441978,
+    "ended_unix": 1790279615.1430962,
+    "elapsed_seconds": 638.7988984429976
+  },
+  "papers": [
+    {
+      "work_id": 4318243913,
+      "doi": "10.1039/d2cp05241e",
+      "title": "Strain engineering of Li<sup>+</sup>ion migration in olivine phosphate cathode materials LiMPO<sub>4</sub>(M = Mn, Fe, Co) and (LiFePO<sub>4</sub>)<sub><i>n</i></sub>(LiMnPO<sub>4</sub>)<sub><i>m</i></sub>superlattices",
+      "abstract": "In olivine phosphate cathode materials, the biaxial tensile strain perpendicular to the direction of Li + ion migration is the most favorable for Li + ion migration, and the b -axial strain has a greatest effect on the Li + ion migration barrier.",
+      "publication_date": "2023-01-01",
+      "publication_year": 2023,
+      "work_type": "article",
+      "keywords": [
+        "Ion",
+        "Materials science",
+        "Cathode",
+        "Olivine",
+        "Crystallography",
+        "Analytical Chemistry (journal)",
+        "Mineralogy",
+        "Chemistry",
+        "Physical chemistry"
+      ],
+      "matched_topics": [
+        {
+          "topic_id": 10018,
+          "topic_score": 1.0,
+          "is_primary_topic": true
+        },
+        {
+          "topic_id": 10281,
+          "topic_score": 0.9998999834060669,
+          "is_primary_topic": false
+        }
+      ],
+      "evidence": {
+        "role": "Significant",
+        "stance": "supports",
+        "confidence": 0.85,
+        "evidence_level": "abstract",
+        "supported_claim_aspects": [
+          "Strain engineering modifies Li+ ion migration in olivine phosphate cathode materials including LiFePO4.",
+          "Biaxial tensile strain perpendicular to the direction of Li+ ion migration is most favorable for Li+ ion migration.",
+          "B-axial strain has the greatest effect on the Li+ ion migration barrier."
+        ],
+        "limitations": [
+          "Abstract refers to LiMPO4 with M = Mn, Fe, Co and to (LiFePO4)n(LiMnPO4)m superlattices, not isolated bulk LiFePO4 only.",
+          "No quantitative barrier values or atomistic pathway details are provided in the abstract.",
+          "Directionality statement implies pathway sensitivity but does not detail atomistic migration pathway sensitivity per se."
+        ],
+        "rationale": "The abstract directly states that in olivine phosphate cathode materials strain engineering affects Li+ ion migration and that b-axial strain has the greatest effect on the Li+ ion migration barrier, with biaxial tensile strain perpendicular to the migration direction being most favorable. This materially supports the claim’s strain engineering component and the consequence for the effective Li migration barrier for LiFePO4-containing olivines."
+      },
+      "retrieval": {
+        "semantic_score": 0.8364751935005188,
+        "semantic_policy": "home_relevance",
+        "semantic_backend": "sentence_transformers:/lustre/orion/csc677/scratch/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "exact_anchor_hits": [],
+        "queries": []
+      },
+      "access": {
+        "is_oa": false,
+        "oa_status": "closed",
+        "has_fulltext": false,
+        "has_pdf_content": false,
+        "has_grobid_xml": false
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "work_id": 4318243913,
+      "doi": "10.1039/d2cp05241e",
+      "title": "Strain engineering of Li<sup>+</sup>ion migration in olivine phosphate cathode materials LiMPO<sub>4</sub>(M = Mn, Fe, Co) and (LiFePO<sub>4</sub>)<sub><i>n</i></sub>(LiMnPO<sub>4</sub>)<sub><i>m</i></sub>superlattices",
+      "abstract": "In olivine phosphate cathode materials, the biaxial tensile strain perpendicular to the direction of Li + ion migration is the most favorable for Li + ion migration, and the b -axial strain has a greatest effect on the Li + ion migration barrier.",
+      "publication_date": "2023-01-01",
+      "publication_year": 2023,
+      "work_type": "article",
+      "keywords": [
+        "Ion",
+        "Materials science",
+        "Cathode",
+        "Olivine",
+        "Crystallography",
+        "Analytical Chemistry (journal)",
+        "Mineralogy",
+        "Chemistry",
+        "Physical chemistry"
+      ],
+      "matched_topics": [
+        {
+          "topic_id": 10018,
+          "topic_score": 1.0,
+          "is_primary_topic": true
+        },
+        {
+          "topic_id": 10281,
+          "topic_score": 0.9998999834060669,
+          "is_primary_topic": false
+        }
+      ],
+      "evidence": {
+        "role": "Significant",
+        "stance": "supports",
+        "confidence": 0.85,
+        "evidence_level": "abstract",
+        "supported_claim_aspects": [
+          "Strain engineering modifies Li+ ion migration in olivine phosphate cathode materials including LiFePO4.",
+          "Biaxial tensile strain perpendicular to the direction of Li+ ion migration is most favorable for Li+ ion migration.",
+          "B-axial strain has the greatest effect on the Li+ ion migration barrier."
+        ],
+        "limitations": [
+          "Abstract refers to LiMPO4 with M = Mn, Fe, Co and to (LiFePO4)n(LiMnPO4)m superlattices, not isolated bulk LiFePO4 only.",
+          "No quantitative barrier values or atomistic pathway details are provided in the abstract.",
+          "Directionality statement implies pathway sensitivity but does not detail atomistic migration pathway sensitivity per se."
+        ],
+        "rationale": "The abstract directly states that in olivine phosphate cathode materials strain engineering affects Li+ ion migration and that b-axial strain has the greatest effect on the Li+ ion migration barrier, with biaxial tensile strain perpendicular to the migration direction being most favorable. This materially supports the claim’s strain engineering component and the consequence for the effective Li migration barrier for LiFePO4-containing olivines."
+      },
+      "retrieval": {
+        "semantic_score": 0.8364751935005188,
+        "semantic_policy": "home_relevance",
+        "semantic_backend": "sentence_transformers:/lustre/orion/csc677/scratch/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "exact_anchor_hits": [],
+        "queries": []
+      },
+      "access": {
+        "is_oa": false,
+        "oa_status": "closed",
+        "has_fulltext": false,
+        "has_pdf_content": false,
+        "has_grobid_xml": false
+      }
+    }
+  ],
+  "evidence_pack": {
+    "schema": "mesh-evidence-pack-v1",
+    "claim": "Lithium migration in olivine LiFePO4 is sensitive to its atomistic migration pathway and can be modified by interventions such as heterogeneous doping, surface modification, or strain engineering, with consequences for the effective Li migration barrier.",
+    "review_schema": "mesh-evidence-review-v1",
+    "min_confidence": 0.55,
+    "include_background": true,
+    "paper_count": 1,
+    "papers": [
+      {
+        "work_id": 4318243913,
+        "doi": "10.1039/d2cp05241e",
+        "title": "Strain engineering of Li<sup>+</sup>ion migration in olivine phosphate cathode materials LiMPO<sub>4</sub>(M = Mn, Fe, Co) and (LiFePO<sub>4</sub>)<sub><i>n</i></sub>(LiMnPO<sub>4</sub>)<sub><i>m</i></sub>superlattices",
+        "abstract": "In olivine phosphate cathode materials, the biaxial tensile strain perpendicular to the direction of Li + ion migration is the most favorable for Li + ion migration, and the b -axial strain has a greatest effect on the Li + ion migration barrier.",
+        "publication_date": "2023-01-01",
+        "publication_year": 2023,
+        "work_type": "article",
+        "keywords": [
+          "Ion",
+          "Materials science",
+          "Cathode",
+          "Olivine",
+          "Crystallography",
+          "Analytical Chemistry (journal)",
+          "Mineralogy",
+          "Chemistry",
+          "Physical chemistry"
+        ],
+        "matched_topics": [
+          {
+            "topic_id": 10018,
+            "topic_score": 1.0,
+            "is_primary_topic": true
+          },
+          {
+            "topic_id": 10281,
+            "topic_score": 0.9998999834060669,
+            "is_primary_topic": false
+          }
+        ],
+        "evidence": {
+          "role": "Significant",
+          "stance": "supports",
+          "confidence": 0.85,
+          "evidence_level": "abstract",
+          "supported_claim_aspects": [
+            "Strain engineering modifies Li+ ion migration in olivine phosphate cathode materials including LiFePO4.",
+            "Biaxial tensile strain perpendicular to the direction of Li+ ion migration is most favorable for Li+ ion migration.",
+            "B-axial strain has the greatest effect on the Li+ ion migration barrier."
+          ],
+          "limitations": [
+            "Abstract refers to LiMPO4 with M = Mn, Fe, Co and to (LiFePO4)n(LiMnPO4)m superlattices, not isolated bulk LiFePO4 only.",
+            "No quantitative barrier values or atomistic pathway details are provided in the abstract.",
+            "Directionality statement implies pathway sensitivity but does not detail atomistic migration pathway sensitivity per se."
+          ],
+          "rationale": "The abstract directly states that in olivine phosphate cathode materials strain engineering affects Li+ ion migration and that b-axial strain has the greatest effect on the Li+ ion migration barrier, with biaxial tensile strain perpendicular to the migration direction being most favorable. This materially supports the claim’s strain engineering component and the consequence for the effective Li migration barrier for LiFePO4-containing olivines."
+        },
+        "retrieval": {
+          "semantic_score": 0.8364751935005188,
+          "semantic_policy": "home_relevance",
+          "semantic_backend": "sentence_transformers:/lustre/orion/csc677/scratch/domsoos/mesh/models/Qwen3-Embedding-4B",
+          "exact_anchor_hits": [],
+          "queries": []
+        },
+        "access": {
+          "is_oa": false,
+          "oa_status": "closed",
+          "has_fulltext": false,
+          "has_pdf_content": false,
+          "has_grobid_xml": false
+        }
+      }
+    ]
+  },
+  "grounding": {
+    "retrieved_paper_count": 20,
+    "reviewed_paper_count": 3,
+    "accepted_paper_count": 1,
+    "min_confidence": 0.55,
+    "evidence_source": "exact-community-run-evidence-pack"
+  },
+  "provenance": {
+    "precomputed_replay": true,
+    "replay_kind": "completed-merit-community-run",
+    "source_run_id": "merit-20260924T164542Z-27aa1455",
+    "scientific_note": "Community replay reproduces the completed Community synthesis and the exact EvidencePack used by that run.",
+    "public_static_replay": true,
+    "replay_label": "Recorded Community Replay"
+  }
+}
