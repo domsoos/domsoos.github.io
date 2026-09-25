@@ -801,13 +801,21 @@ function renderResult(payload, requestId) {
   const root = payload.result || payload;
 
   const evidence =
+    payload.evidence ||
+    payload.papers ||
+    payload.evidence_pack?.papers ||
+    payload.evidence_pack?.evidence ||
     root.evidence ||
-    root.evidence_pack?.evidence ||
     root.papers ||
+    root.evidence_pack?.papers ||
+    root.evidence_pack?.evidence ||
     [];
 
   renderEvidence(evidence);
-  renderHypothesis(root);
+
+  // Browser-facing hypothesis/evidence live at the outer payload level.
+  // Nested `result` may contain the raw backend artifact.
+  renderHypothesis(payload);
 
   $("resultPanel").classList.remove("hidden");
   $("provenancePanel").classList.remove("hidden");
@@ -891,6 +899,13 @@ async function playStaticReplay({
   // Temporarily display the recorded workflow mode.
   setMode(mode);
 
+  const workflowLabel =
+    document.querySelector("#runPanel .eyebrow");
+
+  if (workflowLabel) {
+    workflowLabel.textContent = "Recorded Replay";
+  }
+
   const replayButton = $(buttonId);
 
   if (replayButton) {
@@ -942,8 +957,16 @@ async function playStaticReplay({
       replayButton.textContent = readyText;
     }
 
-    // Fast remains the only live demo mode.
-    setMode("fast");
+    // Fast remains the only live submission mode, but do not
+    // redraw the completed replay pipeline as the Fast pipeline.
+    selectedMode = "fast";
+
+    document.querySelectorAll(".mode-card[data-mode]").forEach(card => {
+      card.classList.toggle("selected", card.dataset.mode === "fast");
+    });
+
+    $("modeNote").textContent =
+      "Fast mode uses a direct scientific reasoning workflow.";
   }
 }
 
@@ -982,6 +1005,13 @@ async function playCommunityReplay() {
 
 async function runMerit(modeOverride = null) {
   clearError();
+
+  const workflowLabel =
+    document.querySelector("#runPanel .eyebrow");
+
+  if (workflowLabel) {
+    workflowLabel.textContent = "Live Workflow";
+  }
 
   const submitMode =
     typeof modeOverride === "string"
