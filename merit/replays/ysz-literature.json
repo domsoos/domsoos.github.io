@@ -2,31 +2,6 @@
   "status": "completed",
   "mode": "grounded",
   "hypothesis": "Tensile strain reduces the oxygen-vacancy migration barrier in yttria-stabilized zirconia by lattice expansion along the migration path.\n\nHypothesis: Uniaxial tensile strain applied along <100> in cubic YSZ expands Zr–O bond lengths and lowers the electrostatic repulsion at the oxygen vacancy saddle point in the fluorite lattice. The expansion destabilizes the initial vacancy site relative to the transition state, decreasing the activation energy for a vacancy-mediated oxygen hop. The effect is larger when the cubic structure is less stabilized, e.g. lower yttria content and lower temperature, and is strongest for strain components projected onto <100>.\n\nPredicted observable outcome: In 4–8 mol% YSZ under 1–2% uniaxial tensile strain along <100>, the oxygen vacancy migration barrier calculated by nudged elastic band DFT or inferred from molecular dynamics diffusion, decreases relative to the unstrained cell, producing an increase in the oxygen diffusion coefficient in the tensile direction. The magnitude is on the order of the strain-enhanced transport previously reported, with up to ~40% improvement in migration rate in simulation and ~1.7× higher diffusion in a strained superlattice relative to unstrained YSZ, and tensile enhancement greater than compressive suppression.\n\nFalsification test: Compute the vacancy hop barrier for a 8 mol% YSZ supercell with systematically varied uniaxial tensile and compressive strain along <100>, [110] and [111] using DFT NEB, or measure anisotropic oxygen tracer diffusion / conductivity under controlled uniaxial stress. If the barrier does not decrease monotonically with increasing tensile strain magnitude along <100>, or if diffusion is not enhanced in the tensile direction and suppressed in compression, the hypothesis is falsified. No barrier reduction under tensile strain, or barrier reduction under compressive strain, would also falsify the proposed mechanism.",
-  "result": {
-    "system": "direct",
-    "status": "completed",
-    "architecture": "direct",
-    "backend": "openai_compatible",
-    "model": "muse-glimmer",
-    "base_url": "http://127.0.0.1:8000/v1",
-    "mode": "merit_grounded",
-    "goal": "Can tensile strain reduce oxygen-vacancy migration barriers in yttria-stabilized zirconia?",
-    "final_hypothesis": "Tensile strain reduces the oxygen-vacancy migration barrier in yttria-stabilized zirconia by lattice expansion along the migration path.\n\nHypothesis: Uniaxial tensile strain applied along <100> in cubic YSZ expands Zr–O bond lengths and lowers the electrostatic repulsion at the oxygen vacancy saddle point in the fluorite lattice. The expansion destabilizes the initial vacancy site relative to the transition state, decreasing the activation energy for a vacancy-mediated oxygen hop. The effect is larger when the cubic structure is less stabilized, e.g. lower yttria content and lower temperature, and is strongest for strain components projected onto <100>.\n\nPredicted observable outcome: In 4–8 mol% YSZ under 1–2% uniaxial tensile strain along <100>, the oxygen vacancy migration barrier calculated by nudged elastic band DFT or inferred from molecular dynamics diffusion, decreases relative to the unstrained cell, producing an increase in the oxygen diffusion coefficient in the tensile direction. The magnitude is on the order of the strain-enhanced transport previously reported, with up to ~40% improvement in migration rate in simulation and ~1.7× higher diffusion in a strained superlattice relative to unstrained YSZ, and tensile enhancement greater than compressive suppression.\n\nFalsification test: Compute the vacancy hop barrier for a 8 mol% YSZ supercell with systematically varied uniaxial tensile and compressive strain along <100>, [110] and [111] using DFT NEB, or measure anisotropic oxygen tracer diffusion / conductivity under controlled uniaxial stress. If the barrier does not decrease monotonically with increasing tensile strain magnitude along <100>, or if diffusion is not enhanced in the tensile direction and suppressed in compression, the hypothesis is falsified. No barrier reduction under tensile strain, or barrier reduction under compressive strain, would also falsify the proposed mechanism.",
-    "started_unix": 1790339408.0267508,
-    "ended_unix": 1790339474.2420511,
-    "elapsed_seconds": 66.21529370598728,
-    "generation": {
-      "temperature": 0.7,
-      "max_tokens": 4096,
-      "seed": 677
-    },
-    "usage": {
-      "prompt_tokens": 2746,
-      "completion_tokens": 993,
-      "total_tokens": 3739,
-      "llm_calls": 1
-    }
-  },
   "papers": [
     {
       "work_id": 2326110149,

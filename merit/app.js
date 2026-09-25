@@ -59,7 +59,7 @@ async function checkHealth() {
 
     setBackendStatus(
       response.ok,
-      response.ok ? "Perlmutter online" : "Backend unavailable"
+      response.ok ? "Gateway online" : "Gateway unavailable"
     );
   } catch {
     setBackendStatus(false, "Backend unavailable");
@@ -281,7 +281,9 @@ function renderEvidence(evidence) {
 function renderHypothesis(payload) {
   const candidate =
     payload.hypothesis ||
+    payload.final_hypothesis ||
     payload.result?.hypothesis ||
+    payload.result?.final_hypothesis ||
     payload.result ||
     payload.output ||
     payload;
@@ -798,29 +800,22 @@ ${escapeHtml(JSON.stringify(rejected, null, 2))}
 }
 
 function renderResult(payload, requestId) {
-  const root = payload.result || payload;
-
   const evidence =
     payload.evidence ||
-    payload.papers ||
     payload.evidence_pack?.papers ||
     payload.evidence_pack?.evidence ||
-    root.evidence ||
-    root.papers ||
-    root.evidence_pack?.papers ||
-    root.evidence_pack?.evidence ||
+    payload.papers ||
+    payload.result?.evidence ||
+    payload.result?.papers ||
     [];
 
   renderEvidence(evidence);
-
-  // Browser-facing hypothesis/evidence live at the outer payload level.
-  // Nested `result` may contain the raw backend artifact.
   renderHypothesis(payload);
 
   $("resultPanel").classList.remove("hidden");
   $("provenancePanel").classList.remove("hidden");
-
   $("metaRunId").textContent = requestId;
+
   $("metaMode").textContent =
     selectedMode === "grounded"
       ? (
@@ -831,6 +826,7 @@ function renderResult(payload, requestId) {
       : selectedMode === "community"
         ? "Community · Recorded Replay"
         : "Fast";
+
   $("metaStatus").textContent = "Complete";
 
   if (selectedMode === "fast") {
@@ -898,6 +894,13 @@ async function playStaticReplay({
 
   // Temporarily display the recorded workflow mode.
   setMode(mode);
+
+  const workflowLabel =
+    document.querySelector("#runPanel .eyebrow");
+
+  if (workflowLabel) {
+    workflowLabel.textContent = "Recorded Replay";
+  }
 
   const workflowLabel =
     document.querySelector("#runPanel .eyebrow");
@@ -1005,6 +1008,13 @@ async function playCommunityReplay() {
 
 async function runMerit(modeOverride = null) {
   clearError();
+
+  const workflowLabel =
+    document.querySelector("#runPanel .eyebrow");
+
+  if (workflowLabel) {
+    workflowLabel.textContent = "Live Workflow";
+  }
 
   const workflowLabel =
     document.querySelector("#runPanel .eyebrow");
