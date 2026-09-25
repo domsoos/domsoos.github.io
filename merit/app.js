@@ -902,6 +902,9 @@ async function playLiteratureReplay() {
       replayButton.textContent =
         "▶ Play Literature Replay · Recorded YSZ Run";
     }
+
+    // Return demo UI to the only live mode.
+    setMode("fast");
   }
 }
 
