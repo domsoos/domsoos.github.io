@@ -938,6 +938,11 @@ async function playCommunityReplay() {
 async function runMerit(modeOverride = null) {
   clearError();
 
+  const submitMode =
+    typeof modeOverride === "string"
+      ? modeOverride
+      : selectedMode;
+
   const query = $("question").value.trim();
 
   if (!query) {
@@ -971,7 +976,7 @@ async function runMerit(modeOverride = null) {
       },
       body: JSON.stringify({
         query,
-        mode: modeOverride || selectedMode
+        mode: submitMode
       })
     });
 
@@ -1017,7 +1022,7 @@ document.querySelectorAll(".example-chip[data-question]").forEach(button => {
   });
 });
 
-$("runButton").addEventListener("click", runMerit);
+$("runButton").addEventListener("click", () => runMerit());
 
 setMode("fast");
 checkHealth();
