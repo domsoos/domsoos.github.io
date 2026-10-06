@@ -278,6 +278,125 @@ function renderEvidence(evidence) {
   }).join("");
 }
 
+
+function renderRetrievalSummary(payload) {
+  const summary = payload.retrieval_summary || {};
+  const counts = summary.counts || {};
+  const criteria = Array.isArray(summary.criteria)
+    ? summary.criteria
+    : [];
+
+  const countEntries = Object.entries(counts);
+
+  let html = `
+    <div class="hypothesis-section">
+      <div class="hypothesis-label">
+        Recorded Literature Retrieval
+      </div>
+
+      <div style="
+        display:grid;
+        grid-template-columns:repeat(4,minmax(0,1fr));
+        gap:0.6rem;
+        margin-top:0.7rem;
+      ">
+        ${countEntries.map(([label, value]) => `
+          <div style="
+            border:1px solid rgba(30,70,110,0.18);
+            border-radius:10px;
+            padding:0.8rem;
+            text-align:center;
+          ">
+            <div style="
+              font-size:1.45rem;
+              font-weight:700;
+            ">
+              ${escapeHtml(String(value))}
+            </div>
+
+            <div style="
+              font-size:0.78rem;
+              margin-top:0.2rem;
+              opacity:0.75;
+            ">
+              ${escapeHtml(label)}
+            </div>
+          </div>
+        `).join("")}
+      </div>
+
+      <div style="
+        text-align:center;
+        margin-top:0.55rem;
+        opacity:0.7;
+        font-size:0.82rem;
+      ">
+        OpenAlex → Qwen3-Embedding-4B → Muse-Glimmer EvidenceReviewer
+      </div>
+    </div>
+  `;
+
+  if (criteria.length) {
+    html += `
+      <div class="hypothesis-section">
+        <div class="hypothesis-label">
+          Constraint Coverage
+        </div>
+
+        <div style="margin-top:0.65rem;">
+          ${criteria.map(item => {
+            const status = String(item.status || "");
+            const icon =
+              status === "Supported"
+                ? "●"
+                : status === "Partial"
+                  ? "◐"
+                  : "○";
+
+            return `
+              <div style="
+                padding:0.65rem 0;
+                border-bottom:1px solid rgba(30,70,110,0.10);
+              ">
+                <div>
+                  <strong>
+                    ${escapeHtml(icon)}
+                    ${escapeHtml(item.criterion || "")}
+                  </strong>
+                  · ${escapeHtml(status)}
+                </div>
+
+                <div style="
+                  margin-top:0.2rem;
+                  font-size:0.88rem;
+                  opacity:0.78;
+                ">
+                  ${escapeHtml(item.detail || "")}
+                </div>
+              </div>
+            `;
+          }).join("")}
+        </div>
+      </div>
+    `;
+  }
+
+  if (summary.caveat) {
+    html += `
+      <div class="hypothesis-section">
+        <div class="hypothesis-label">
+          Interpretation
+        </div>
+        <div>
+          ${escapeHtml(summary.caveat)}
+        </div>
+      </div>
+    `;
+  }
+
+  $("hypothesisContent").innerHTML = html;
+}
+
 function renderHypothesis(payload) {
   const candidate =
     payload.hypothesis ||
@@ -810,7 +929,20 @@ function renderResult(payload, requestId) {
     [];
 
   renderEvidence(evidence);
-  renderHypothesis(payload);
+
+  const resultTitle = $("resultTitle");
+
+  if (payload.retrieval_summary) {
+    if (resultTitle) {
+      resultTitle.textContent = "Retrieval Summary";
+    }
+    renderRetrievalSummary(payload);
+  } else {
+    if (resultTitle) {
+      resultTitle.textContent = "Scientific Hypothesis";
+    }
+    renderHypothesis(payload);
+  }
 
   $("resultPanel").classList.remove("hidden");
   $("provenancePanel").classList.remove("hidden");
@@ -976,6 +1108,29 @@ async function playLiteratureReplay() {
   });
 }
 
+const TBC_REPLAY_PROMPT =
+  `Propose a candidate material (specifying composition and space group) for thermal barrier coating applications that satisfies the following criteria:
+
+1. Energy above hull below 0.1 eV/atom
+2. Coefficient of thermal expansion above 10 parts per million per Kelvin, sustained from room temperature to at least 1500 Kelvin
+3. Ratio of Young's modulus to lattice thermal conductivity above 180 GPa·m·K/W
+4. Ferroelastic behavior
+5. Fracture toughness above 3 MPa·m^1/2
+6. Lattice thermal conductivity below 1.5 W/(m·K)`;
+
+async function playTbcReplay() {
+  await playStaticReplay({
+    mode: "grounded",
+    prompt: TBC_REPLAY_PROMPT,
+    url: "/merit/replays/tbc-literature-20261006.json?v=1",
+    buttonId: "tbcReplayButton",
+    loadingText: "Loading TBC Retrieval…",
+    readyText:
+      "▶ Explore TBC Literature Retrieval · Recorded Run",
+    replayId: "recorded-tbc-literature-20261006"
+  });
+}
+
 const COMMUNITY_REPLAY_PROMPT =
   "Generate a hypothesis to lower the effective Li migration barrier in LiFePO4, reported per crystallographic direction.";
 
@@ -1088,12 +1243,20 @@ setInterval(checkHealth, 15000);
 
 document.addEventListener("DOMContentLoaded", () => {
   const literatureReplayButton = $("literatureReplayButton");
+  const tbcReplayButton = $("tbcReplayButton");
   const communityReplayButton = $("communityReplayButton");
 
   if (literatureReplayButton) {
     literatureReplayButton.addEventListener(
       "click",
       playLiteratureReplay
+    );
+  }
+
+  if (tbcReplayButton) {
+    tbcReplayButton.addEventListener(
+      "click",
+      playTbcReplay
     );
   }
 

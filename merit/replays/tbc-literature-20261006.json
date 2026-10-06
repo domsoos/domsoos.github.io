@@ -1,0 +1,1514 @@
+{
+  "schema": "merit-recorded-literature-replay-v1",
+  "status": "complete",
+  "claim": "Propose a candidate material (specifying composition and space group) for thermal barrier coating applications that satisfies the following criteria:\n\n1. Energy above hull below 0.1 eV/atom\n2. Coefficient of thermal expansion above 10 parts per million per Kelvin, sustained from room temperature to at least 1500 Kelvin\n3. Ratio of Young's modulus to lattice thermal conductivity above 180 GPa·m·K/W\n4. Ferroelastic behavior\n5. Fracture toughness above 3 MPa·m^1/2\n6. Lattice thermal conductivity below 1.5 W/(m·K)",
+  "prompt": "Propose a candidate material (specifying composition and space group) for thermal barrier coating applications that satisfies the following criteria:\n\n1. Energy above hull below 0.1 eV/atom\n2. Coefficient of thermal expansion above 10 parts per million per Kelvin, sustained from room temperature to at least 1500 Kelvin\n3. Ratio of Young's modulus to lattice thermal conductivity above 180 GPa·m·K/W\n4. Ferroelastic behavior\n5. Fracture toughness above 3 MPa·m^1/2\n6. Lattice thermal conductivity below 1.5 W/(m·K)",
+  "retrieved_paper_count": 300,
+  "semantic_candidate_count": 60,
+  "reviewed_paper_count": 30,
+  "accepted_paper_count": 10,
+  "evidence": [
+    {
+      "work_id": 3200710730,
+      "doi": "10.1557/s43578-021-00368-2",
+      "title": "Phase relations and thermomechanical properties of (Gd2Zr2O7)1−x(YbSZ)x based thermal barrier coatings (0 ≤ x ≤ 0.98)",
+      "abstract": "Abstract Doped Gd 2 Zr 2 O 7 materials have interesting properties as thermal barrier coatings (TBC) to replace the YSZ topcoats traditionally used. Here we investigate the thermomechanical properties and phase relations of Gd 2 Zr 2 O 7 (GZO) alloyed with 5 mol% Yb 2 O 3 stabilized ZrO 2 (YbSZ) in the composition range (Gd 2 Zr 2 O 7 ) 1− x (YbSZ) x , 0 ≤ x ≤ 0.98. With increasing YbSZ content, phase transformations from ordered to disordered pyrochlore to fluorite and tetragonal structures were observed. The thermal expansion coefficient (TEC) and Vickers hardness were correlated showing a maximum hardness (~ 11.5 GPa) and minimum TEC at x = 0.82. At 1000 °C, the TEC for the end members, x = 0 and 0.98, were 11.4 and 11.3 × 10 –6 K −1 , respectively. The fracture toughness, K IC , showed an average value around 1.5 MPa m 0.5 for x ≤ 0.93 and increased significantly at x = 0.98 reaching 5.4 MPa m 0.5 due to the presence of a ferroelastic phase. For TBC applications, compounds with x = 0.98 show promise due to high TEC and high K IC . Graphic abstract Fig. 5a summarize the most important results in the manuscript. Showing a significant increase in fracture toughness for compositions with x=0.98.",
+      "publication_date": "2021-08-28",
+      "publication_year": 2021,
+      "work_type": "article",
+      "source_name": null,
+      "keywords": [
+        "Materials science",
+        "Thermal barrier coating",
+        "Fracture toughness",
+        "Thermal expansion",
+        "Tetragonal crystal system",
+        "Phase (matter)",
+        "Vickers hardness test",
+        "TEC",
+        "Composite material",
+        "Pyrochlore",
+        "Analytical Chemistry (journal)",
+        "Microstructure",
+        "Ceramic"
+      ],
+      "matched_topics": [
+        {
+          "topic_id": 10626,
+          "topic_score": 0.9998000264167786,
+          "is_primary_topic": true
+        }
+      ],
+      "evidence": {
+        "work_id": 3200710730,
+        "doi": "10.1557/s43578-021-00368-2",
+        "title": "Phase relations and thermomechanical properties of (Gd2Zr2O7)1−x(YbSZ)x based thermal barrier coatings (0 ≤ x ≤ 0.98)",
+        "role": "Inferential",
+        "stance": "supports",
+        "confidence": 0.55,
+        "evidence_level": "abstract",
+        "supported_claim_aspects": [
+          "Coefficient of thermal expansion above 10 ppm/K at high temperature: TEC 11.4 ×10⁻⁶ K⁻¹ for x=0 and 11.3 ×10⁻⁶ K⁻¹ for x=0.98 at 1000 °C",
+          "Fracture toughness above 3 MPa·m^0.5: K_IC reaches 5.4 MPa·m^0.5 at x=0.98",
+          "Ferroelastic behavior: increase in fracture toughness at x=0.98 attributed to presence of a ferroelastic phase"
+        ],
+        "limitations": [
+          "Evidence is abstract-level only",
+          "No energy above hull reported",
+          "No Young's modulus or lattice thermal conductivity values, so Young's modulus / lattice thermal conductivity ratio cannot be assessed",
+          "No lattice thermal conductivity value reported",
+          "TEC reported only at 1000 °C for end members, not sustained from room temperature to at least 1500 K",
+          "No space group specified for the candidate composition",
+          "Composition is a solid solution series (Gd2Zr2O7)1−x(YbSZ)x; specific composition and crystal structure details beyond phase transformations are not given in abstract"
+        ],
+        "rationale": "The abstract directly reports TEC >10 ppm/K at 1000 °C and a fracture toughness of 5.4 MPa·m^0.5 at x=0.98 linked to a ferroelastic phase, providing direct abstract-level support for those three aspects. It does not provide energy above hull, Young's modulus, lattice thermal conductivity, the required E/κ ratio, sustained TEC to 1500 K, or space group, so the overall multi-criteria claim is not established."
+      },
+      "retrieval": {
+        "semantic_score": 0.8234697580337524,
+        "semantic_policy": "home_relevance",
+        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "rrf_score": null,
+        "exact_anchor_hits": [],
+        "queries": []
+      },
+      "access": {
+        "is_oa": true,
+        "oa_status": "hybrid",
+        "oa_landing_page_url": null,
+        "oa_pdf_url": null,
+        "has_fulltext": true,
+        "has_pdf_content": true,
+        "has_grobid_xml": true
+      }
+    },
+    {
+      "work_id": 1532245235,
+      "doi": "10.1002/9780470291238.ch2",
+      "title": "Mechanical and Thermal Properties of Advanced Oxide Materials for Higher-Temperature Coatings Applications",
+      "abstract": "Advanced oxide material systems are being developed for higher-temperature thermaiyenvironmental barrier coatings (T/EBCs) in advanced gas turbine engine applications. Four pyrochlore oxide (La2Zr2O7, Nd2Zr2O7, Gd2Zr2O7, and La2Hf2O7) and three magnetoplumbite oxide (LaMnAl11O19, LaMgAl11O19, and LaZnAl11O19) powders were hot pressed. Ambient-temperature mechanical properties of these oxides including flexure strength, fracture toughness, elastic modulus, and hardness were determined. Thermal properties such as thermal conductivity, coefficient of thermal expansion, and environmental durability were also determined. LaMgAl11O19 and LaZnAl11O19 exhibited higher strength (>300 MPa) and higher fracture toughness (> 3 MPa√m) than the other oxides that exhibited strength of 40-150 MPa and fracture toughness of 1-2 MPa√m. Despite their poor ambient-temperature mechanical properties, certain pyrochlore oxides showed promising results over other oxides as coating materials in view of low thermal conductivity, good creep resistance and good water vapor stability in combustion environments.",
+      "publication_date": "2008-03-26",
+      "publication_year": 2008,
+      "work_type": "book-chapter",
+      "source_name": null,
+      "keywords": [
+        "Materials science",
+        "Thermal barrier coating",
+        "Pyrochlore",
+        "Fracture toughness",
+        "Composite material",
+        "Oxide",
+        "Thermal expansion",
+        "Creep",
+        "Coating",
+        "Toughness",
+        "Thermal conductivity",
+        "Elastic modulus",
+        "Flexural strength",
+        "Thermal stability",
+        "Metallurgy",
+        "Chemical engineering"
+      ],
+      "matched_topics": [
+        {
+          "topic_id": 10626,
+          "topic_score": 0.9958999752998352,
+          "is_primary_topic": true
+        }
+      ],
+      "evidence": {
+        "work_id": 1532245235,
+        "doi": "10.1002/9780470291238.ch2",
+        "title": "Mechanical and Thermal Properties of Advanced Oxide Materials for Higher-Temperature Coatings Applications",
+        "role": "Background",
+        "stance": "background",
+        "confidence": 0.65,
+        "evidence_level": "abstract",
+        "supported_claim_aspects": [
+          "Fracture toughness above 3 MPa·m^1/2 is reported for LaMgAl11O19 and LaZnAl11O19 (>3 MPa√m)",
+          "Domain context for oxide thermal barrier / environmental barrier coatings and measurement of thermal conductivity, CTE, elastic modulus, fracture toughness"
+        ],
+        "limitations": [
+          "Abstract provides no composition-specific space group, no energy above hull, no quantitative CTE vs temperature to 1500 K, no Young's modulus values for the high-toughness phases, no lattice thermal conductivity numeric values, no ferroelastic behavior evidence",
+          "Pyrochlore oxides are noted for low thermal conductivity but no numeric lattice thermal conductivity or E/kappa ratio is given",
+          "Evidence level is abstract only"
+        ],
+        "rationale": "The chapter abstract reports ambient mechanical properties for several pyrochlore and magnetoplumbite oxides and notes LaMgAl11O19 and LaZnAl11O19 have fracture toughness >3 MPa√m, providing topical background for TBC oxides. It does not supply energy above hull, sustained CTE >10 ppm/K to 1500 K, Young's modulus/lattice thermal conductivity ratio, ferroelasticity, or lattice thermal conductivity <1.5 W/(m·K) for a specific candidate with space group. Therefore it is relevant domain background but does not materially establish the multi-criteria claim."
+      },
+      "retrieval": {
+        "semantic_score": 0.8218441605567932,
+        "semantic_policy": "home_relevance",
+        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "rrf_score": null,
+        "exact_anchor_hits": [],
+        "queries": []
+      },
+      "access": {
+        "is_oa": false,
+        "oa_status": "closed",
+        "oa_landing_page_url": null,
+        "oa_pdf_url": null,
+        "has_fulltext": false,
+        "has_pdf_content": false,
+        "has_grobid_xml": false
+      }
+    },
+    {
+      "work_id": 4280524511,
+      "doi": "10.1007/s40145-022-0589-z",
+      "title": "High-entropy rare-earth zirconate ceramics with low thermal conductivity for advanced thermal-barrier coatings",
+      "abstract": "Abstract The high-entropy rare-earth zirconate ((La 0.2 Nd 0.2 Sm 0.2 Gd 0.2 Yb 0.2 ) 2 Zr 2 O 7 , 5RE 2 Zr 2 O 7 HEREZs) ceramics were successfully prepared by a new high-speed positive grinding strategy combined with solid-state reaction method. The microstructure, crystal structure, phase composition, and thermophysical and mechanical properties of the samples were systematically investigated through various methods. Results indicate that the samples have a single-phase defect fluorite-type crystal structure with excellent high-temperature thermal stability. The as-prepared samples also demonstrate low thermal conductivity (0.9–1.72 W·m −1 ·K −1 at 273–1273 K) and high coefficient of thermal expansion (CTE, 10.9 × 10 −6 K −1 at 1273 K), as well as outstanding mechanical properties including large Young’s modulus ( E = 186–257 GPa) and high fracture toughness ( K IC ). Furthermore, the formation possibility of the as-prepared samples was verified through the first-principles calculations, which suggested the feasibility to form the 5RE 2 Zr 2 O 7 HE-REZs in the thermodynamic direction. Therefore, in view of the excellent multifunctional properties exhibited by the as-prepared 5RE 2 Zr 2 O 7 HE-REZs, they have great potential applications in next-generation thermal-barrier coatings (TBCs).",
+      "publication_date": "2022-05-11",
+      "publication_year": 2022,
+      "work_type": "article",
+      "source_name": null,
+      "keywords": [
+        "Thermal barrier coating",
+        "Materials science",
+        "Zirconate",
+        "Thermal expansion",
+        "Ceramic",
+        "Microstructure",
+        "Thermal conductivity",
+        "Fracture toughness",
+        "Composite material",
+        "Mineralogy",
+        "Chemistry"
+      ],
+      "matched_topics": [
+        {
+          "topic_id": 10626,
+          "topic_score": 0.9995999932289124,
+          "is_primary_topic": true
+        }
+      ],
+      "evidence": {
+        "work_id": 4280524511,
+        "doi": "10.1007/s40145-022-0589-z",
+        "title": "High-entropy rare-earth zirconate ceramics with low thermal conductivity for advanced thermal-barrier coatings",
+        "role": "Background",
+        "stance": "background",
+        "confidence": 0.6,
+        "evidence_level": "abstract",
+        "supported_claim_aspects": [
+          "Composition (La0.2 Nd0.2 Sm0.2 Gd0.2 Yb0.2)2Zr2O7, 5RE2Zr2O7 high-entropy rare-earth zirconate is described as a TBC candidate",
+          "Crystal structure reported as single-phase defect fluorite-type",
+          "Low thermal conductivity 0.9–1.72 W·m−1·K−1 at 273–1273 K",
+          "Coefficient of thermal expansion 10.9 ×10−6 K−1 at 1273 K",
+          "Young’s modulus E = 186–257 GPa",
+          "Fracture toughness described as high K_IC but no numeric value given",
+          "First-principles calculations suggest thermodynamic feasibility of formation"
+        ],
+        "limitations": [
+          "No energy above hull value <0.1 eV/atom is reported; only qualitative feasibility from first-principles",
+          "CTE >10 ppm/K is shown only at 1273 K, not sustained from room temperature to at least 1500 K",
+          "Lattice thermal conductivity range includes values >1.5 W/(m·K) at lower temperatures and no lattice vs total separation is given",
+          "No explicit Young's modulus to lattice thermal conductivity ratio >180 GPa·m·K/W is provided; ratio would be temperature dependent and not verified",
+          "No evidence of ferroelastic behavior",
+          "Fracture toughness is not quantified, so criterion >3 MPa·m^1/2 is not established",
+          "Space group is not specified beyond defect fluorite-type",
+          "Evidence level is abstract only"
+        ],
+        "rationale": "The abstract provides thermophysical and mechanical data for a high-entropy rare-earth zirconate TBC candidate and reports low thermal conductivity, CTE ~10.9 ppm/K at 1273 K, and Young's modulus 186–257 GPa. These are relevant properties for thermal barrier coatings but the abstract lacks energy above hull, sustained CTE to 1500 K, quantified fracture toughness, ferroelasticity, explicit lattice thermal conductivity <1.5 W/(m·K) across the required range, and a verified E/kappa ratio >180 GPa·m·K/W, and does not give a definitive space group. Hence the paper supplies useful background/context but does not materially support the full multi-criteria claim."
+      },
+      "retrieval": {
+        "semantic_score": 0.8209654092788696,
+        "semantic_policy": "home_relevance",
+        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "rrf_score": null,
+        "exact_anchor_hits": [],
+        "queries": []
+      },
+      "access": {
+        "is_oa": true,
+        "oa_status": "gold",
+        "oa_landing_page_url": null,
+        "oa_pdf_url": null,
+        "has_fulltext": true,
+        "has_pdf_content": true,
+        "has_grobid_xml": true
+      }
+    },
+    {
+      "work_id": 4387911540,
+      "doi": "10.1016/j.jeurceramsoc.2023.10.046",
+      "title": "Phase evolution, thermophysical and mechanical properties of high-entropy (Ce0.2Nd0.2Sm0.2Eu0.2Yb0.2)2Zr2O7 ceramic for advanced thermal barrier coatings",
+      "abstract": "Single-phase high-entropy rare-earth zirconate (Ce 0.2 Nd 0.2 Sm 0.2 Eu 0.2 Yb 0.2 ) 2 Zr 2 O 7 with large thermal expansion coefficient (11.69 ×10 −6 K −1 , 25–1500 °C), low thermal conductivity (1.07 W m −1 K −1 , 1500 °C), and high fracture toughness (1.84 ± 0.03 MPa m 1/2 , 25 °C) was successfully synthesized using reverse coprecipitation and high-temperature calcination. The underlying mechanism governing the observed results was analyzed by considering the ionic bond strength, crystal lattice energy, and bond length. X-ray diffraction and Raman spectroscopy results demonstrated that the pyrochlore structured sample has excellent high-temperature phase stability. Moreover, after being heated at 1600 °C for 10–30 h, the average grain size of this sample only increases from 0.95 µm to 1.47 µm, indicating a sluggish grain growth rate. The outstanding combination of thermophysical and mechanical properties of the (Ce 0.2 Nd 0.2 Sm 0.2 Eu 0.2 Yb 0.2 ) 2 Zr 2 O 7 emphasizes its enormous potential for next-generation thermal barrier coating applications.",
+      "publication_date": "2023-10-24",
+      "publication_year": 2023,
+      "work_type": "article",
+      "source_name": null,
+      "keywords": [
+        "Materials science",
+        "Thermal barrier coating",
+        "Thermal expansion",
+        "Ceramic",
+        "Raman spectroscopy",
+        "Pyrochlore",
+        "Grain size",
+        "Thermal stability",
+        "Zirconate",
+        "Composite material",
+        "Phase (matter)",
+        "Analytical Chemistry (journal)",
+        "Mineralogy",
+        "Chemical engineering",
+        "Optics"
+      ],
+      "matched_topics": [
+        {
+          "topic_id": 10626,
+          "topic_score": 0.9993000030517578,
+          "is_primary_topic": true
+        }
+      ],
+      "evidence": {
+        "work_id": 4387911540,
+        "doi": "10.1016/j.jeurceramsoc.2023.10.046",
+        "title": "Phase evolution, thermophysical and mechanical properties of high-entropy (Ce0.2Nd0.2Sm0.2Eu0.2Yb0.2)2Zr2O7 ceramic for advanced thermal barrier coatings",
+        "role": "Inferential",
+        "stance": "supports",
+        "confidence": 0.55,
+        "evidence_level": "abstract",
+        "supported_claim_aspects": [
+          "Coefficient of thermal expansion above 10 parts per million per Kelvin, sustained from room temperature to at least 1500 Kelvin",
+          "Lattice thermal conductivity below 1.5 W/(m·K)"
+        ],
+        "limitations": [
+          "Fracture toughness reported as 1.84 ± 0.03 MPa·m^1/2 at 25 °C, which is below the required >3 MPa·m^1/2.",
+          "No data provided on energy above hull, Young's modulus, Young's modulus to lattice thermal conductivity ratio >180 GPa·m·K/W, ferroelastic behavior, or explicit space group; pyrochlore structure is mentioned but not a space group symbol.",
+          "Thermal conductivity value 1.07 W·m−1·K−1 is reported at 1500 °C, not explicitly identified as lattice thermal conductivity, and CTE is given as 11.69×10−6 K−1 for 25–1500 °C.",
+          "Evidence is abstract-level only."
+        ],
+        "rationale": "The abstract reports single-phase high-entropy (Ce0.2Nd0.2Sm0.2Eu0.2Yb0.2)2Zr2O7 with CTE 11.69×10−6 K−1 over 25–1500 °C, satisfying the >10 ppm/K sustained requirement, and thermal conductivity 1.07 W·m−1·K−1 at 1500 °C, consistent with <1.5 W/(m·K). The material is described as pyrochlore structured with high-temperature phase stability. However the reported fracture toughness is 1.84 MPa·m^1/2, below the >3 MPa·m^1/2 criterion, and the abstract provides no information on energy above hull, Young's modulus/lattice thermal conductivity ratio, ferroelastic behavior, or a defined space group, so the claim as a whole is not established."
+      },
+      "retrieval": {
+        "semantic_score": 0.8190642595291138,
+        "semantic_policy": "home_relevance",
+        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "rrf_score": null,
+        "exact_anchor_hits": [],
+        "queries": []
+      },
+      "access": {
+        "is_oa": true,
+        "oa_status": "hybrid",
+        "oa_landing_page_url": null,
+        "oa_pdf_url": null,
+        "has_fulltext": false,
+        "has_pdf_content": false,
+        "has_grobid_xml": false
+      }
+    },
+    {
+      "work_id": 7148638574,
+      "doi": "10.1111/jace.70695",
+      "title": "Exploring the Mechanical and Thermophysical Potential of Novel Lanthanum Aluminate–Yttria‐Stabilized Zirconia Composites for Thermal Barrier Coatings",
+      "abstract": "ABSTRACT In this study, a novel composite strategy was developed by combining 8 wt.% yttria‐stabilized zirconia (8YSZ) with lanthanum aluminate (LaAlO 3 ) to form a ferroelastic‐ and transformation‐toughened dual‐phase composite, aiming to evaluate its feasibility as thermal barrier coatings (TBCs). The LaAlO 3 ‐8YSZ composites across a complete composition range were fabricated via solid‐state sintering and systematically characterized for their phase evolution, microstructure, mechanical properties, and thermophysical performance. The optimal composition demonstrates a remarkable fracture toughness of 6.6 MPa·m 1/2 , a high thermal expansion coefficient of 11.09 × 10 −6 K −1 , and a thermal conductivity of 2.5 W·m −1 ·K −1 at 1000°C, which is comparable to that of 8YSZ. Especially, synergistic toughening mechanisms were elucidated, including residual stress toughening from coefficient of thermal expansion mismatch, stress‐induced phase transformation, and crack deflection promoted by a refined and interlocking two‐phase microstructure. Furthermore, analysis using the Maxwell‑Garnett model elucidated the thermal transport mechanisms, providing guidance for further optimization. This work demonstrates that the LaAlO 3 ‐8YSZ composites offer a well‐balanced and high‐performance material candidate for next‐generation TBCs.",
+      "publication_date": "2026-04-01",
+      "publication_year": 2026,
+      "work_type": "article",
+      "source_name": null,
+      "keywords": [
+        "Thermal expansion",
+        "Thermal barrier coating",
+        "Sintering",
+        "Fracture toughness",
+        "Thermal conductivity",
+        "Cubic zirconia",
+        "Composite number",
+        "Atmospheric temperature range"
+      ],
+      "matched_topics": [
+        {
+          "topic_id": 10626,
+          "topic_score": 0.9660000205039978,
+          "is_primary_topic": true
+        },
+        {
+          "topic_id": 10132,
+          "topic_score": 0.016200000420212746,
+          "is_primary_topic": false
+        }
+      ],
+      "evidence": {
+        "work_id": 7148638574,
+        "doi": "10.1111/jace.70695",
+        "title": "Exploring the Mechanical and Thermophysical Potential of Novel Lanthanum Aluminate–Yttria‐Stabilized Zirconia Composites for Thermal Barrier Coatings",
+        "role": "Inferential",
+        "stance": "constrains",
+        "confidence": 0.62,
+        "evidence_level": "abstract",
+        "supported_claim_aspects": [
+          "Fracture toughness above 3 MPa·m^1/2: abstract reports 6.6 MPa·m^1/2 for optimal LaAlO3-8YSZ composite",
+          "Coefficient of thermal expansion above 10 ppm/K: abstract reports 11.09 × 10^-6 K^-1",
+          "Ferroelastic behavior: abstract describes composite as ferroelastic- and transformation-toughened dual-phase"
+        ],
+        "limitations": [
+          "No composition-specific space group provided and no energy above hull data",
+          "Thermal conductivity reported as 2.5 W·m^-1·K^-1 at 1000°C, which is above the required lattice thermal conductivity <1.5 W/(m·K)",
+          "No Young's modulus reported, so Young's modulus / lattice thermal conductivity ratio cannot be assessed",
+          "CTE sustainability from room temperature to at least 1500 K not demonstrated; only a single value reported",
+          "Lattice vs total thermal conductivity not distinguished; measurement temperature is 1000°C not full range",
+          "Evidence level is abstract only"
+        ],
+        "rationale": "The abstract provides quantitative values for fracture toughness, thermal expansion coefficient and explicitly mentions ferroelastic toughening for a LaAlO3-8YSZ composite, which partially matches criteria 2,4,5. It simultaneously reports a thermal conductivity of 2.5 W·m^-1·K^-1 at 1000°C, contradicting criterion 6, and provides no data on energy above hull, space group, Young's modulus, or sustained CTE to 1500 K. Therefore the paper can only inferentially support isolated aspects and constrains the claim for this system."
+      },
+      "retrieval": {
+        "semantic_score": 0.818243682384491,
+        "semantic_policy": "home_relevance",
+        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "rrf_score": null,
+        "exact_anchor_hits": [],
+        "queries": []
+      },
+      "access": {
+        "is_oa": false,
+        "oa_status": "closed",
+        "oa_landing_page_url": null,
+        "oa_pdf_url": null,
+        "has_fulltext": false,
+        "has_pdf_content": false,
+        "has_grobid_xml": false
+      }
+    },
+    {
+      "work_id": 4292263866,
+      "doi": "10.1007/s40145-022-0622-2",
+      "title": "In-situ synthesis of gadolinium niobate quasi-binary composites with balanced mechanical and thermal properties for thermal barrier coatings",
+      "abstract": "Abstract Yttria-stabilized zirconia (YSZ) has been used as a thermal barrier coating (TBC) material in gas turbines for several decades. Although continuous efforts have been made to develop novel TBC materials that can work at a higher temperature, no single material other than YSZ has all the desired attributes for the TBCs. In this paper, we report the in-situ synthesis of quasi-binary GdNbO 4 /Gd 3 NbO 7 composites based on the simple Gd 2 O 3 -Nb 2 O 5 binary phase diagram. The fracture toughness of these quasi-binary composites is remarkably enhanced compared with the value predicted by the rule of mixtures because the ferroelastic domain switching is more activated due to the residual stress in the quasi-binary composites, which triggers more crack defections due to the enlarged process zone. Additionally, the Gd 3 NbO 7 phase provides a low thermal conductivity due to the substantial chemical inhomogeneity, which diffuses phonons. Gd 3 NbO 7 /GdNbO 4 exhibits a balanced thermal conductivity of 1.6 W/(m·K) at 1073 K and a toughness value of 2.76 MPa·m 0.5 , and these values are among the best comprehensive properties that have been obtained for new TBC materials. The work demonstrates a feasible approach of designing a new TBC material with balanced properties and can be easily fabricated.",
+      "publication_date": "2022-08-17",
+      "publication_year": 2022,
+      "work_type": "article",
+      "source_name": null,
+      "keywords": [
+        "Materials science",
+        "Thermal barrier coating",
+        "Composite material",
+        "Fracture toughness",
+        "Thermal conductivity",
+        "Yttria-stabilized zirconia",
+        "Toughness",
+        "Hot pressing",
+        "Ceramic",
+        "Cubic zirconia"
+      ],
+      "matched_topics": [
+        {
+          "topic_id": 10626,
+          "topic_score": 0.9994999766349792,
+          "is_primary_topic": true
+        },
+        {
+          "topic_id": 10132,
+          "topic_score": 0.998199999332428,
+          "is_primary_topic": false
+        }
+      ],
+      "evidence": {
+        "work_id": 4292263866,
+        "doi": "10.1007/s40145-022-0622-2",
+        "title": "In-situ synthesis of gadolinium niobate quasi-binary composites with balanced mechanical and thermal properties for thermal barrier coatings",
+        "role": "Significant",
+        "stance": "contradicts",
+        "confidence": 0.78,
+        "evidence_level": "abstract",
+        "supported_claim_aspects": [
+          "Fracture toughness of Gd3NbO7/GdNbO4 quasi-binary composite",
+          "Thermal conductivity of Gd3NbO7/GdNbO4 quasi-binary composite at 1073 K",
+          "Ferroelastic domain switching activation in the composite"
+        ],
+        "limitations": [
+          "Abstract only; no composition-specific space group, energy above hull, coefficient of thermal expansion, Young's modulus, or Young's modulus to lattice thermal conductivity ratio reported",
+          "Reported toughness 2.76 MPa·m^0.5 is below the >3 MPa·m^1/2 requirement",
+          "Reported balanced thermal conductivity 1.6 W/(m·K) at 1073 K is above the <1.5 W/(m·K) requirement",
+          "No data on CTE sustained to 1500 K or on energy above hull"
+        ],
+        "rationale": "The abstract directly reports measured properties for the in-situ synthesized GdNbO4/Gd3NbO7 quasi-binary composite: thermal conductivity 1.6 W/(m·K) at 1073 K and toughness 2.76 MPa·m0.5, and notes ferroelastic domain switching is activated. These quantitative values materially constrain the claim because they fall short of the required >3 MPa·m^1/2 toughness and <1.5 W/(m·K) lattice thermal conductivity criteria. No energy above hull, CTE, Young's modulus, ratio, space group, or 1500 K sustained CTE data are provided."
+      },
+      "retrieval": {
+        "semantic_score": 0.815279483795166,
+        "semantic_policy": "home_relevance",
+        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "rrf_score": null,
+        "exact_anchor_hits": [],
+        "queries": []
+      },
+      "access": {
+        "is_oa": true,
+        "oa_status": "gold",
+        "oa_landing_page_url": null,
+        "oa_pdf_url": null,
+        "has_fulltext": true,
+        "has_pdf_content": true,
+        "has_grobid_xml": true
+      }
+    },
+    {
+      "work_id": 2912732608,
+      "doi": "10.1111/jace.16328",
+      "title": "Thermal expansion performance and intrinsic lattice thermal conductivity of ferroelastic RETaO <sub>4</sub> ceramics",
+      "abstract": "Abstract Ferroelastic RETaO 4 ceramics are promising thermal barrier coatings (TBCs) because of their attractive thermomechanical properties. The influence of crystal structure distortion degree on thermomechanical properties of RETaO 4 is estimated in this work. The relationship between Young's modulus and TECs is determined. The highest TECs (10.7 × 10 −6 K −1 , 1200°C) of RETaO 4 are detected in ErTaO 4 ceramics and are ascribed to its small Young's modulus and low Debye temperature. The intrinsic lattice thermal conductivity (3.94‐1.26 W m −1 K −1 , 100‐900°C) of RETaO 4 deceases with increasing of temperature due to an elimination in thermal radiation effects. The theoretical minimum thermal conductivity (1.00 W m −1 K −1 ) of RETaO 4 indicates that the experimental value is able to be reduced further. We have delved deeply into the thermomechanical properties of ferroelastic RETaO 4 ceramics and have emphasized their high‐temperature applications as TBCs.",
+      "publication_date": "2019-01-25",
+      "publication_year": 2019,
+      "work_type": "article",
+      "source_name": null,
+      "keywords": [
+        "Materials science",
+        "Ceramic",
+        "Thermal conductivity",
+        "Thermal expansion",
+        "Debye model",
+        "Modulus",
+        "Composite material",
+        "Thermal conduction",
+        "Thermal",
+        "Thermodynamics",
+        "Lattice (music)",
+        "Work (physics)",
+        "Condensed matter physics"
+      ],
+      "matched_topics": [
+        {
+          "topic_id": 10626,
+          "topic_score": 0.9998000264167786,
+          "is_primary_topic": true
+        }
+      ],
+      "evidence": {
+        "work_id": 2912732608,
+        "doi": "10.1111/jace.16328",
+        "title": "Thermal expansion performance and intrinsic lattice thermal conductivity of ferroelastic RETaO <sub>4</sub> ceramics",
+        "role": "Inferential",
+        "stance": "supports",
+        "confidence": 0.62,
+        "evidence_level": "abstract",
+        "supported_claim_aspects": [
+          "Ferroelastic behavior of RETaO4 ceramics",
+          "Coefficient of thermal expansion >10 ppm/K in ErTaO4 at high temperature",
+          "Intrinsic lattice thermal conductivity decreasing with temperature in RETaO4"
+        ],
+        "limitations": [
+          "Abstract only; no specific composition and space group identified for a single candidate, no energy above hull, no fracture toughness, no Young's modulus values, and no Young's modulus to lattice thermal conductivity ratio",
+          "Highest reported TEC is 10.7 ×10^-6 K^-1 at 1200°C for ErTaO4, but sustained room temperature to ≥1500 K is not demonstrated in the abstract",
+          "Intrinsic lattice thermal conductivity reported as 3.94–1.26 W m^-1 K^-1 from 100–900°C; the <1.5 W/(m·K) threshold is only approached at the high end of the range and not shown to be sustained to 1500 K",
+          "No fracture toughness >3 MPa·m^1/2 data"
+        ],
+        "rationale": "The abstract establishes ferroelastic RETaO4 ceramics as a TBC-relevant class and reports a highest TEC of 10.7×10^-6 K^-1 at 1200°C for ErTaO4, attributed to small Young's modulus and low Debye temperature, and reports intrinsic lattice thermal conductivity decreasing from 3.94 to 1.26 W m^-1 K^-1 between 100–900°C with a theoretical minimum of 1.00 W m^-1 K^-1. These results provide a scientifically defensible basis for inferring high-temperature CTE and ferroelastic character and a trend toward low thermal conductivity, but the abstract does not give energy above hull, a specific space group, fracture toughness, Young's modulus, the required E/κ ratio >180 GPa·m·K/W, or confirmation of CTE >10 ppm/K sustained from room temperature to at least 1500 K."
+      },
+      "retrieval": {
+        "semantic_score": 0.8146454393863678,
+        "semantic_policy": "home_relevance",
+        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "rrf_score": null,
+        "exact_anchor_hits": [],
+        "queries": []
+      },
+      "access": {
+        "is_oa": false,
+        "oa_status": "closed",
+        "oa_landing_page_url": null,
+        "oa_pdf_url": null,
+        "has_fulltext": false,
+        "has_pdf_content": false,
+        "has_grobid_xml": false
+      }
+    },
+    {
+      "work_id": 4283275139,
+      "doi": "10.1016/j.oceram.2022.100287",
+      "title": "Electron beam physical vapor deposited YbGYZ thermal barrier coatings: Phase stability, thermo-physical properties and thermal shock behavior",
+      "abstract": "The rare earth oxide ceramics designed as 5.5 wt% Yb2O3-4.5 wt% Gd2O3-12 wt% Y2O3-78 wt% ZrO2 (YbGYZ) is a candidate material for thermal barrier coating (TBC) which will be suitable for application at higher temperatures. YbGYZ ceramic powders and bulks are fabricated by solid-state synthesis at temperatures above 1673 K, whose powders still have no phase transformation and exhibit excellent thermal stability despite long-term heat treatment at two different temperatures. In the temperature range from room temperature to 1573 K, the averaged coefficient of thermal expansion of YbGYZ ceramic bulk is 11.12 × 10−6 K−1, which meets the demand of novel ceramic materials of TBCs. Meanwhile, the averaged thermal diffusivity and thermal conductivity of YbGYZ ceramics are approximately 2.3% and 7.6% lower than those of the conventional YSZ bulk material respectively. The YbGYZ ceramic coatings are directly manufactured on the surface of (Ni, Pt)Al bond coat by means of electron beam physical vapor deposition (EB-PVD), whose phase structure consists primarily of cubic phase with co-existing of excess Y2O3 and ZrO2. A large number of regularly distributed “mud-like” microcracks appear on the surface of YbGYZ ceramic coating when it has experienced long-term thermal shock at 1373 K. The transverse microcracks originating in the ceramic coating have elongated to the interface of ceramic coat and thermally grown oxide (TGO) film that further cause the degeneration and separation of the interface. The spalling position of the YbGYZ coating where mainly occurs at the upper and lower adjacent interfaces of TGO layer. The serious rumpling, undulation, cross-linking, stress accumulation and rapid relaxation within TGO layer are the critical factors to accelerate interfacial delamination and spallation failure of YbGYZ TBCs.",
+      "publication_date": "2022-06-22",
+      "publication_year": 2022,
+      "work_type": "article",
+      "source_name": null,
+      "keywords": [
+        "Materials science",
+        "Thermal barrier coating",
+        "Ceramic",
+        "Thermal shock",
+        "Composite material",
+        "Coating",
+        "Thermal expansion",
+        "Thermal diffusivity",
+        "Phase (matter)",
+        "Oxide",
+        "Electron beam physical vapor deposition",
+        "Chemical vapor deposition",
+        "Metallurgy",
+        "Nanotechnology",
+        "Thermodynamics"
+      ],
+      "matched_topics": [
+        {
+          "topic_id": 10626,
+          "topic_score": 0.9998999834060669,
+          "is_primary_topic": true
+        },
+        {
+          "topic_id": 10132,
+          "topic_score": 0.9887999892234802,
+          "is_primary_topic": false
+        }
+      ],
+      "evidence": {
+        "work_id": 4283275139,
+        "doi": "10.1016/j.oceram.2022.100287",
+        "title": "Electron beam physical vapor deposited YbGYZ thermal barrier coatings: Phase stability, thermo-physical properties and thermal shock behavior",
+        "role": "Significant",
+        "stance": "supports",
+        "confidence": 0.78,
+        "evidence_level": "abstract",
+        "supported_claim_aspects": [
+          "Coefficient of thermal expansion above 10 ppm/K sustained from room temperature to at least 1500 K for YbGYZ ceramic bulk",
+          "Candidate TBC composition identified: 5.5 wt% Yb2O3-4.5 wt% Gd2O3-12 wt% Y2O3-78 wt% ZrO2, with reported phase stability to 1573 K"
+        ],
+        "limitations": [
+          "No energy above hull value reported",
+          "No space group specified",
+          "No Young's modulus or lattice thermal conductivity values reported, so E/k_lat ratio cannot be assessed; only relative thermal diffusivity and thermal conductivity vs YSZ given",
+          "No lattice thermal conductivity absolute value below 1.5 W/(m·K) confirmed",
+          "No evidence of ferroelastic behavior",
+          "No fracture toughness value reported",
+          "Evidence is abstract-level only"
+        ],
+        "rationale": "Abstract reports averaged coefficient of thermal expansion of YbGYZ ceramic bulk is 11.12 ×10−6 K−1 in temperature range from room temperature to 1573 K, satisfying criterion 2 for this material. It also identifies composition and thermal stability. No data are provided in the supplied abstract for energy above hull, space group, Young's modulus/lattice thermal conductivity ratio, ferroelasticity, fracture toughness >3 MPa·m^1/2, or absolute lattice thermal conductivity <1.5 W/(m·K)."
+      },
+      "retrieval": {
+        "semantic_score": 0.8144083023071289,
+        "semantic_policy": "home_relevance",
+        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "rrf_score": null,
+        "exact_anchor_hits": [],
+        "queries": []
+      },
+      "access": {
+        "is_oa": true,
+        "oa_status": "gold",
+        "oa_landing_page_url": null,
+        "oa_pdf_url": null,
+        "has_fulltext": false,
+        "has_pdf_content": false,
+        "has_grobid_xml": false
+      }
+    },
+    {
+      "work_id": 3162961209,
+      "doi": "10.3390/coatings11050583",
+      "title": "Research on Thermal Stability and Properties of Ca3ZrSi2O9 as Potential T/EBC Materials",
+      "abstract": "In this study, a new coating material for thermal barrier coating (TBC) or environment barrier coating (EBC) application, Ca3ZrSi2O9 (CZSO), was synthesized and prepared by atmospheric plasma spray (APS) technology. The evolution of the phases and microstructures of the coatings with different thermal-aged were characterized by XRD, XRF, EDS and SEM, respectively. The thermal stability was measured by TG-DTA and DSC. The mechanical and thermal properties, including Vickers hardness (HV), fracture toughness (KIC), thermal conductivity (κ) and coefficient of thermal expansion (CTE) were focused on. It was found that the as-sprayed CZSO coating contained amorphous phase. Crystalline transformation happened at 900–960 °C and no mass changes took place from room temperature (RT) to 1300 °C. The phenomena of microcrack self-healing and composition uniformity were observed during thermal aging. The κ of coating was very low at about 0.57–0.80 W·m−1·K−1 in 200–1200 °C. The combined properties indicated that the CZSO coating might be a potential T/EBC material.",
+      "publication_date": "2021-05-17",
+      "publication_year": 2021,
+      "work_type": "article",
+      "source_name": null,
+      "keywords": [
+        "Materials science",
+        "Coating",
+        "Thermal barrier coating",
+        "Thermal stability",
+        "Thermal expansion",
+        "Composite material",
+        "Microstructure",
+        "Thermal spraying",
+        "Thermal conductivity",
+        "Amorphous solid",
+        "Vickers hardness test",
+        "Phase (matter)",
+        "Fracture toughness",
+        "Chemical engineering",
+        "Chemistry",
+        "Crystallography"
+      ],
+      "matched_topics": [
+        {
+          "topic_id": 10626,
+          "topic_score": 0.9997000098228455,
+          "is_primary_topic": true
+        },
+        {
+          "topic_id": 10132,
+          "topic_score": 0.9945999979972839,
+          "is_primary_topic": false
+        }
+      ],
+      "evidence": {
+        "work_id": 3162961209,
+        "doi": "10.3390/coatings11050583",
+        "title": "Research on Thermal Stability and Properties of Ca3ZrSi2O9 as Potential T/EBC Materials",
+        "role": "Background",
+        "stance": "background",
+        "confidence": 0.65,
+        "evidence_level": "abstract",
+        "supported_claim_aspects": [
+          "Lattice thermal conductivity below 1.5 W/(m·K) is suggested by abstract reporting κ ≈ 0.57–0.80 W·m−1·K−1 in 200–1200 °C for Ca3ZrSi2O9 coating",
+          "Material is discussed as a potential T/EBC material"
+        ],
+        "limitations": [
+          "Abstract provides no composition space group, energy above hull, Young's modulus, CTE numeric value or temperature range to 1500 K, ferroelastic behavior, or fracture toughness value",
+          "Thermal conductivity reported for APS coating, not lattice thermal conductivity of bulk crystal, and only to 1200 °C",
+          "No evidence for criteria 1, 2, 3, 4, 5"
+        ],
+        "rationale": "The abstract reports low coating thermal conductivity and thermal stability to 1300 °C for Ca3ZrSi2O9, which is topically relevant to thermal barrier coatings. It does not provide quantitative CTE, Young's modulus, energy above hull, ferroelasticity, fracture toughness, space group, or lattice thermal conductivity, so it cannot materially establish the multi-criterion claim."
+      },
+      "retrieval": {
+        "semantic_score": 0.8092061579227448,
+        "semantic_policy": "home_relevance",
+        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "rrf_score": null,
+        "exact_anchor_hits": [],
+        "queries": []
+      },
+      "access": {
+        "is_oa": true,
+        "oa_status": "gold",
+        "oa_landing_page_url": null,
+        "oa_pdf_url": null,
+        "has_fulltext": true,
+        "has_pdf_content": true,
+        "has_grobid_xml": true
+      }
+    },
+    {
+      "work_id": 3164969604,
+      "doi": "10.31399/asm.hb.v05.a0001299",
+      "title": "Testing of Stability and Thermal Properties of Thermal Barrier Coatings",
+      "abstract": "Abstract This article discusses the various tests applied to a thermal barrier coating system and to the zirconia layer to establish thermomechanical, environmental stability, and thermal design properties such as coefficient of thermal expansion, specific heat, and thermal transport properties. Thermal fatigue testing and the test for evaluating oxidation resistance of the bond coat is also discussed.",
+      "publication_date": "1994-01-01",
+      "publication_year": 1994,
+      "work_type": "book-chapter",
+      "source_name": null,
+      "keywords": [
+        "Thermal barrier coating",
+        "Materials science",
+        "Thermal stability",
+        "Thermal",
+        "Composite material",
+        "Chemical engineering",
+        "Thermodynamics",
+        "Coating",
+        "Engineering",
+        "Physics"
+      ],
+      "matched_topics": [
+        {
+          "topic_id": 10626,
+          "topic_score": 0.9952999949455261,
+          "is_primary_topic": true
+        }
+      ],
+      "evidence": {
+        "work_id": 3164969604,
+        "doi": "10.31399/asm.hb.v05.a0001299",
+        "title": "Testing of Stability and Thermal Properties of Thermal Barrier Coatings",
+        "role": "Background",
+        "stance": "background",
+        "confidence": 0.9,
+        "evidence_level": "abstract",
+        "supported_claim_aspects": [],
+        "limitations": [
+          "Abstract only describes general testing approaches for thermal barrier coating systems and zirconia layers, mentioning coefficient of thermal expansion, specific heat and thermal transport properties in principle.",
+          "No candidate material composition or space group is proposed.",
+          "No quantitative values are given for energy above hull, CTE sustained to 1500 K, Young's modulus to lattice thermal conductivity ratio, ferroelastic behavior, fracture toughness, or lattice thermal conductivity.",
+          "No direct support, contradiction or constraint of the specific criteria."
+        ],
+        "rationale": "The abstract provides domain background on thermomechanical and thermal property testing for TBCs and zirconia, which is contextually relevant but does not establish any of the six required material properties or identify a specific candidate material. Therefore it is background only."
+      },
+      "retrieval": {
+        "semantic_score": 0.8047497868537903,
+        "semantic_policy": "home_relevance",
+        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "rrf_score": null,
+        "exact_anchor_hits": [],
+        "queries": []
+      },
+      "access": {
+        "is_oa": false,
+        "oa_status": "closed",
+        "oa_landing_page_url": null,
+        "oa_pdf_url": null,
+        "has_fulltext": false,
+        "has_pdf_content": false,
+        "has_grobid_xml": false
+      }
+    }
+  ],
+  "papers": [
+    {
+      "work_id": 3200710730,
+      "doi": "10.1557/s43578-021-00368-2",
+      "title": "Phase relations and thermomechanical properties of (Gd2Zr2O7)1−x(YbSZ)x based thermal barrier coatings (0 ≤ x ≤ 0.98)",
+      "abstract": "Abstract Doped Gd 2 Zr 2 O 7 materials have interesting properties as thermal barrier coatings (TBC) to replace the YSZ topcoats traditionally used. Here we investigate the thermomechanical properties and phase relations of Gd 2 Zr 2 O 7 (GZO) alloyed with 5 mol% Yb 2 O 3 stabilized ZrO 2 (YbSZ) in the composition range (Gd 2 Zr 2 O 7 ) 1− x (YbSZ) x , 0 ≤ x ≤ 0.98. With increasing YbSZ content, phase transformations from ordered to disordered pyrochlore to fluorite and tetragonal structures were observed. The thermal expansion coefficient (TEC) and Vickers hardness were correlated showing a maximum hardness (~ 11.5 GPa) and minimum TEC at x = 0.82. At 1000 °C, the TEC for the end members, x = 0 and 0.98, were 11.4 and 11.3 × 10 –6 K −1 , respectively. The fracture toughness, K IC , showed an average value around 1.5 MPa m 0.5 for x ≤ 0.93 and increased significantly at x = 0.98 reaching 5.4 MPa m 0.5 due to the presence of a ferroelastic phase. For TBC applications, compounds with x = 0.98 show promise due to high TEC and high K IC . Graphic abstract Fig. 5a summarize the most important results in the manuscript. Showing a significant increase in fracture toughness for compositions with x=0.98.",
+      "publication_date": "2021-08-28",
+      "publication_year": 2021,
+      "work_type": "article",
+      "source_name": null,
+      "keywords": [
+        "Materials science",
+        "Thermal barrier coating",
+        "Fracture toughness",
+        "Thermal expansion",
+        "Tetragonal crystal system",
+        "Phase (matter)",
+        "Vickers hardness test",
+        "TEC",
+        "Composite material",
+        "Pyrochlore",
+        "Analytical Chemistry (journal)",
+        "Microstructure",
+        "Ceramic"
+      ],
+      "matched_topics": [
+        {
+          "topic_id": 10626,
+          "topic_score": 0.9998000264167786,
+          "is_primary_topic": true
+        }
+      ],
+      "evidence": {
+        "work_id": 3200710730,
+        "doi": "10.1557/s43578-021-00368-2",
+        "title": "Phase relations and thermomechanical properties of (Gd2Zr2O7)1−x(YbSZ)x based thermal barrier coatings (0 ≤ x ≤ 0.98)",
+        "role": "Inferential",
+        "stance": "supports",
+        "confidence": 0.55,
+        "evidence_level": "abstract",
+        "supported_claim_aspects": [
+          "Coefficient of thermal expansion above 10 ppm/K at high temperature: TEC 11.4 ×10⁻⁶ K⁻¹ for x=0 and 11.3 ×10⁻⁶ K⁻¹ for x=0.98 at 1000 °C",
+          "Fracture toughness above 3 MPa·m^0.5: K_IC reaches 5.4 MPa·m^0.5 at x=0.98",
+          "Ferroelastic behavior: increase in fracture toughness at x=0.98 attributed to presence of a ferroelastic phase"
+        ],
+        "limitations": [
+          "Evidence is abstract-level only",
+          "No energy above hull reported",
+          "No Young's modulus or lattice thermal conductivity values, so Young's modulus / lattice thermal conductivity ratio cannot be assessed",
+          "No lattice thermal conductivity value reported",
+          "TEC reported only at 1000 °C for end members, not sustained from room temperature to at least 1500 K",
+          "No space group specified for the candidate composition",
+          "Composition is a solid solution series (Gd2Zr2O7)1−x(YbSZ)x; specific composition and crystal structure details beyond phase transformations are not given in abstract"
+        ],
+        "rationale": "The abstract directly reports TEC >10 ppm/K at 1000 °C and a fracture toughness of 5.4 MPa·m^0.5 at x=0.98 linked to a ferroelastic phase, providing direct abstract-level support for those three aspects. It does not provide energy above hull, Young's modulus, lattice thermal conductivity, the required E/κ ratio, sustained TEC to 1500 K, or space group, so the overall multi-criteria claim is not established."
+      },
+      "retrieval": {
+        "semantic_score": 0.8234697580337524,
+        "semantic_policy": "home_relevance",
+        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "rrf_score": null,
+        "exact_anchor_hits": [],
+        "queries": []
+      },
+      "access": {
+        "is_oa": true,
+        "oa_status": "hybrid",
+        "oa_landing_page_url": null,
+        "oa_pdf_url": null,
+        "has_fulltext": true,
+        "has_pdf_content": true,
+        "has_grobid_xml": true
+      }
+    },
+    {
+      "work_id": 1532245235,
+      "doi": "10.1002/9780470291238.ch2",
+      "title": "Mechanical and Thermal Properties of Advanced Oxide Materials for Higher-Temperature Coatings Applications",
+      "abstract": "Advanced oxide material systems are being developed for higher-temperature thermaiyenvironmental barrier coatings (T/EBCs) in advanced gas turbine engine applications. Four pyrochlore oxide (La2Zr2O7, Nd2Zr2O7, Gd2Zr2O7, and La2Hf2O7) and three magnetoplumbite oxide (LaMnAl11O19, LaMgAl11O19, and LaZnAl11O19) powders were hot pressed. Ambient-temperature mechanical properties of these oxides including flexure strength, fracture toughness, elastic modulus, and hardness were determined. Thermal properties such as thermal conductivity, coefficient of thermal expansion, and environmental durability were also determined. LaMgAl11O19 and LaZnAl11O19 exhibited higher strength (>300 MPa) and higher fracture toughness (> 3 MPa√m) than the other oxides that exhibited strength of 40-150 MPa and fracture toughness of 1-2 MPa√m. Despite their poor ambient-temperature mechanical properties, certain pyrochlore oxides showed promising results over other oxides as coating materials in view of low thermal conductivity, good creep resistance and good water vapor stability in combustion environments.",
+      "publication_date": "2008-03-26",
+      "publication_year": 2008,
+      "work_type": "book-chapter",
+      "source_name": null,
+      "keywords": [
+        "Materials science",
+        "Thermal barrier coating",
+        "Pyrochlore",
+        "Fracture toughness",
+        "Composite material",
+        "Oxide",
+        "Thermal expansion",
+        "Creep",
+        "Coating",
+        "Toughness",
+        "Thermal conductivity",
+        "Elastic modulus",
+        "Flexural strength",
+        "Thermal stability",
+        "Metallurgy",
+        "Chemical engineering"
+      ],
+      "matched_topics": [
+        {
+          "topic_id": 10626,
+          "topic_score": 0.9958999752998352,
+          "is_primary_topic": true
+        }
+      ],
+      "evidence": {
+        "work_id": 1532245235,
+        "doi": "10.1002/9780470291238.ch2",
+        "title": "Mechanical and Thermal Properties of Advanced Oxide Materials for Higher-Temperature Coatings Applications",
+        "role": "Background",
+        "stance": "background",
+        "confidence": 0.65,
+        "evidence_level": "abstract",
+        "supported_claim_aspects": [
+          "Fracture toughness above 3 MPa·m^1/2 is reported for LaMgAl11O19 and LaZnAl11O19 (>3 MPa√m)",
+          "Domain context for oxide thermal barrier / environmental barrier coatings and measurement of thermal conductivity, CTE, elastic modulus, fracture toughness"
+        ],
+        "limitations": [
+          "Abstract provides no composition-specific space group, no energy above hull, no quantitative CTE vs temperature to 1500 K, no Young's modulus values for the high-toughness phases, no lattice thermal conductivity numeric values, no ferroelastic behavior evidence",
+          "Pyrochlore oxides are noted for low thermal conductivity but no numeric lattice thermal conductivity or E/kappa ratio is given",
+          "Evidence level is abstract only"
+        ],
+        "rationale": "The chapter abstract reports ambient mechanical properties for several pyrochlore and magnetoplumbite oxides and notes LaMgAl11O19 and LaZnAl11O19 have fracture toughness >3 MPa√m, providing topical background for TBC oxides. It does not supply energy above hull, sustained CTE >10 ppm/K to 1500 K, Young's modulus/lattice thermal conductivity ratio, ferroelasticity, or lattice thermal conductivity <1.5 W/(m·K) for a specific candidate with space group. Therefore it is relevant domain background but does not materially establish the multi-criteria claim."
+      },
+      "retrieval": {
+        "semantic_score": 0.8218441605567932,
+        "semantic_policy": "home_relevance",
+        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "rrf_score": null,
+        "exact_anchor_hits": [],
+        "queries": []
+      },
+      "access": {
+        "is_oa": false,
+        "oa_status": "closed",
+        "oa_landing_page_url": null,
+        "oa_pdf_url": null,
+        "has_fulltext": false,
+        "has_pdf_content": false,
+        "has_grobid_xml": false
+      }
+    },
+    {
+      "work_id": 4280524511,
+      "doi": "10.1007/s40145-022-0589-z",
+      "title": "High-entropy rare-earth zirconate ceramics with low thermal conductivity for advanced thermal-barrier coatings",
+      "abstract": "Abstract The high-entropy rare-earth zirconate ((La 0.2 Nd 0.2 Sm 0.2 Gd 0.2 Yb 0.2 ) 2 Zr 2 O 7 , 5RE 2 Zr 2 O 7 HEREZs) ceramics were successfully prepared by a new high-speed positive grinding strategy combined with solid-state reaction method. The microstructure, crystal structure, phase composition, and thermophysical and mechanical properties of the samples were systematically investigated through various methods. Results indicate that the samples have a single-phase defect fluorite-type crystal structure with excellent high-temperature thermal stability. The as-prepared samples also demonstrate low thermal conductivity (0.9–1.72 W·m −1 ·K −1 at 273–1273 K) and high coefficient of thermal expansion (CTE, 10.9 × 10 −6 K −1 at 1273 K), as well as outstanding mechanical properties including large Young’s modulus ( E = 186–257 GPa) and high fracture toughness ( K IC ). Furthermore, the formation possibility of the as-prepared samples was verified through the first-principles calculations, which suggested the feasibility to form the 5RE 2 Zr 2 O 7 HE-REZs in the thermodynamic direction. Therefore, in view of the excellent multifunctional properties exhibited by the as-prepared 5RE 2 Zr 2 O 7 HE-REZs, they have great potential applications in next-generation thermal-barrier coatings (TBCs).",
+      "publication_date": "2022-05-11",
+      "publication_year": 2022,
+      "work_type": "article",
+      "source_name": null,
+      "keywords": [
+        "Thermal barrier coating",
+        "Materials science",
+        "Zirconate",
+        "Thermal expansion",
+        "Ceramic",
+        "Microstructure",
+        "Thermal conductivity",
+        "Fracture toughness",
+        "Composite material",
+        "Mineralogy",
+        "Chemistry"
+      ],
+      "matched_topics": [
+        {
+          "topic_id": 10626,
+          "topic_score": 0.9995999932289124,
+          "is_primary_topic": true
+        }
+      ],
+      "evidence": {
+        "work_id": 4280524511,
+        "doi": "10.1007/s40145-022-0589-z",
+        "title": "High-entropy rare-earth zirconate ceramics with low thermal conductivity for advanced thermal-barrier coatings",
+        "role": "Background",
+        "stance": "background",
+        "confidence": 0.6,
+        "evidence_level": "abstract",
+        "supported_claim_aspects": [
+          "Composition (La0.2 Nd0.2 Sm0.2 Gd0.2 Yb0.2)2Zr2O7, 5RE2Zr2O7 high-entropy rare-earth zirconate is described as a TBC candidate",
+          "Crystal structure reported as single-phase defect fluorite-type",
+          "Low thermal conductivity 0.9–1.72 W·m−1·K−1 at 273–1273 K",
+          "Coefficient of thermal expansion 10.9 ×10−6 K−1 at 1273 K",
+          "Young’s modulus E = 186–257 GPa",
+          "Fracture toughness described as high K_IC but no numeric value given",
+          "First-principles calculations suggest thermodynamic feasibility of formation"
+        ],
+        "limitations": [
+          "No energy above hull value <0.1 eV/atom is reported; only qualitative feasibility from first-principles",
+          "CTE >10 ppm/K is shown only at 1273 K, not sustained from room temperature to at least 1500 K",
+          "Lattice thermal conductivity range includes values >1.5 W/(m·K) at lower temperatures and no lattice vs total separation is given",
+          "No explicit Young's modulus to lattice thermal conductivity ratio >180 GPa·m·K/W is provided; ratio would be temperature dependent and not verified",
+          "No evidence of ferroelastic behavior",
+          "Fracture toughness is not quantified, so criterion >3 MPa·m^1/2 is not established",
+          "Space group is not specified beyond defect fluorite-type",
+          "Evidence level is abstract only"
+        ],
+        "rationale": "The abstract provides thermophysical and mechanical data for a high-entropy rare-earth zirconate TBC candidate and reports low thermal conductivity, CTE ~10.9 ppm/K at 1273 K, and Young's modulus 186–257 GPa. These are relevant properties for thermal barrier coatings but the abstract lacks energy above hull, sustained CTE to 1500 K, quantified fracture toughness, ferroelasticity, explicit lattice thermal conductivity <1.5 W/(m·K) across the required range, and a verified E/kappa ratio >180 GPa·m·K/W, and does not give a definitive space group. Hence the paper supplies useful background/context but does not materially support the full multi-criteria claim."
+      },
+      "retrieval": {
+        "semantic_score": 0.8209654092788696,
+        "semantic_policy": "home_relevance",
+        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "rrf_score": null,
+        "exact_anchor_hits": [],
+        "queries": []
+      },
+      "access": {
+        "is_oa": true,
+        "oa_status": "gold",
+        "oa_landing_page_url": null,
+        "oa_pdf_url": null,
+        "has_fulltext": true,
+        "has_pdf_content": true,
+        "has_grobid_xml": true
+      }
+    },
+    {
+      "work_id": 4387911540,
+      "doi": "10.1016/j.jeurceramsoc.2023.10.046",
+      "title": "Phase evolution, thermophysical and mechanical properties of high-entropy (Ce0.2Nd0.2Sm0.2Eu0.2Yb0.2)2Zr2O7 ceramic for advanced thermal barrier coatings",
+      "abstract": "Single-phase high-entropy rare-earth zirconate (Ce 0.2 Nd 0.2 Sm 0.2 Eu 0.2 Yb 0.2 ) 2 Zr 2 O 7 with large thermal expansion coefficient (11.69 ×10 −6 K −1 , 25–1500 °C), low thermal conductivity (1.07 W m −1 K −1 , 1500 °C), and high fracture toughness (1.84 ± 0.03 MPa m 1/2 , 25 °C) was successfully synthesized using reverse coprecipitation and high-temperature calcination. The underlying mechanism governing the observed results was analyzed by considering the ionic bond strength, crystal lattice energy, and bond length. X-ray diffraction and Raman spectroscopy results demonstrated that the pyrochlore structured sample has excellent high-temperature phase stability. Moreover, after being heated at 1600 °C for 10–30 h, the average grain size of this sample only increases from 0.95 µm to 1.47 µm, indicating a sluggish grain growth rate. The outstanding combination of thermophysical and mechanical properties of the (Ce 0.2 Nd 0.2 Sm 0.2 Eu 0.2 Yb 0.2 ) 2 Zr 2 O 7 emphasizes its enormous potential for next-generation thermal barrier coating applications.",
+      "publication_date": "2023-10-24",
+      "publication_year": 2023,
+      "work_type": "article",
+      "source_name": null,
+      "keywords": [
+        "Materials science",
+        "Thermal barrier coating",
+        "Thermal expansion",
+        "Ceramic",
+        "Raman spectroscopy",
+        "Pyrochlore",
+        "Grain size",
+        "Thermal stability",
+        "Zirconate",
+        "Composite material",
+        "Phase (matter)",
+        "Analytical Chemistry (journal)",
+        "Mineralogy",
+        "Chemical engineering",
+        "Optics"
+      ],
+      "matched_topics": [
+        {
+          "topic_id": 10626,
+          "topic_score": 0.9993000030517578,
+          "is_primary_topic": true
+        }
+      ],
+      "evidence": {
+        "work_id": 4387911540,
+        "doi": "10.1016/j.jeurceramsoc.2023.10.046",
+        "title": "Phase evolution, thermophysical and mechanical properties of high-entropy (Ce0.2Nd0.2Sm0.2Eu0.2Yb0.2)2Zr2O7 ceramic for advanced thermal barrier coatings",
+        "role": "Inferential",
+        "stance": "supports",
+        "confidence": 0.55,
+        "evidence_level": "abstract",
+        "supported_claim_aspects": [
+          "Coefficient of thermal expansion above 10 parts per million per Kelvin, sustained from room temperature to at least 1500 Kelvin",
+          "Lattice thermal conductivity below 1.5 W/(m·K)"
+        ],
+        "limitations": [
+          "Fracture toughness reported as 1.84 ± 0.03 MPa·m^1/2 at 25 °C, which is below the required >3 MPa·m^1/2.",
+          "No data provided on energy above hull, Young's modulus, Young's modulus to lattice thermal conductivity ratio >180 GPa·m·K/W, ferroelastic behavior, or explicit space group; pyrochlore structure is mentioned but not a space group symbol.",
+          "Thermal conductivity value 1.07 W·m−1·K−1 is reported at 1500 °C, not explicitly identified as lattice thermal conductivity, and CTE is given as 11.69×10−6 K−1 for 25–1500 °C.",
+          "Evidence is abstract-level only."
+        ],
+        "rationale": "The abstract reports single-phase high-entropy (Ce0.2Nd0.2Sm0.2Eu0.2Yb0.2)2Zr2O7 with CTE 11.69×10−6 K−1 over 25–1500 °C, satisfying the >10 ppm/K sustained requirement, and thermal conductivity 1.07 W·m−1·K−1 at 1500 °C, consistent with <1.5 W/(m·K). The material is described as pyrochlore structured with high-temperature phase stability. However the reported fracture toughness is 1.84 MPa·m^1/2, below the >3 MPa·m^1/2 criterion, and the abstract provides no information on energy above hull, Young's modulus/lattice thermal conductivity ratio, ferroelastic behavior, or a defined space group, so the claim as a whole is not established."
+      },
+      "retrieval": {
+        "semantic_score": 0.8190642595291138,
+        "semantic_policy": "home_relevance",
+        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "rrf_score": null,
+        "exact_anchor_hits": [],
+        "queries": []
+      },
+      "access": {
+        "is_oa": true,
+        "oa_status": "hybrid",
+        "oa_landing_page_url": null,
+        "oa_pdf_url": null,
+        "has_fulltext": false,
+        "has_pdf_content": false,
+        "has_grobid_xml": false
+      }
+    },
+    {
+      "work_id": 7148638574,
+      "doi": "10.1111/jace.70695",
+      "title": "Exploring the Mechanical and Thermophysical Potential of Novel Lanthanum Aluminate–Yttria‐Stabilized Zirconia Composites for Thermal Barrier Coatings",
+      "abstract": "ABSTRACT In this study, a novel composite strategy was developed by combining 8 wt.% yttria‐stabilized zirconia (8YSZ) with lanthanum aluminate (LaAlO 3 ) to form a ferroelastic‐ and transformation‐toughened dual‐phase composite, aiming to evaluate its feasibility as thermal barrier coatings (TBCs). The LaAlO 3 ‐8YSZ composites across a complete composition range were fabricated via solid‐state sintering and systematically characterized for their phase evolution, microstructure, mechanical properties, and thermophysical performance. The optimal composition demonstrates a remarkable fracture toughness of 6.6 MPa·m 1/2 , a high thermal expansion coefficient of 11.09 × 10 −6 K −1 , and a thermal conductivity of 2.5 W·m −1 ·K −1 at 1000°C, which is comparable to that of 8YSZ. Especially, synergistic toughening mechanisms were elucidated, including residual stress toughening from coefficient of thermal expansion mismatch, stress‐induced phase transformation, and crack deflection promoted by a refined and interlocking two‐phase microstructure. Furthermore, analysis using the Maxwell‑Garnett model elucidated the thermal transport mechanisms, providing guidance for further optimization. This work demonstrates that the LaAlO 3 ‐8YSZ composites offer a well‐balanced and high‐performance material candidate for next‐generation TBCs.",
+      "publication_date": "2026-04-01",
+      "publication_year": 2026,
+      "work_type": "article",
+      "source_name": null,
+      "keywords": [
+        "Thermal expansion",
+        "Thermal barrier coating",
+        "Sintering",
+        "Fracture toughness",
+        "Thermal conductivity",
+        "Cubic zirconia",
+        "Composite number",
+        "Atmospheric temperature range"
+      ],
+      "matched_topics": [
+        {
+          "topic_id": 10626,
+          "topic_score": 0.9660000205039978,
+          "is_primary_topic": true
+        },
+        {
+          "topic_id": 10132,
+          "topic_score": 0.016200000420212746,
+          "is_primary_topic": false
+        }
+      ],
+      "evidence": {
+        "work_id": 7148638574,
+        "doi": "10.1111/jace.70695",
+        "title": "Exploring the Mechanical and Thermophysical Potential of Novel Lanthanum Aluminate–Yttria‐Stabilized Zirconia Composites for Thermal Barrier Coatings",
+        "role": "Inferential",
+        "stance": "constrains",
+        "confidence": 0.62,
+        "evidence_level": "abstract",
+        "supported_claim_aspects": [
+          "Fracture toughness above 3 MPa·m^1/2: abstract reports 6.6 MPa·m^1/2 for optimal LaAlO3-8YSZ composite",
+          "Coefficient of thermal expansion above 10 ppm/K: abstract reports 11.09 × 10^-6 K^-1",
+          "Ferroelastic behavior: abstract describes composite as ferroelastic- and transformation-toughened dual-phase"
+        ],
+        "limitations": [
+          "No composition-specific space group provided and no energy above hull data",
+          "Thermal conductivity reported as 2.5 W·m^-1·K^-1 at 1000°C, which is above the required lattice thermal conductivity <1.5 W/(m·K)",
+          "No Young's modulus reported, so Young's modulus / lattice thermal conductivity ratio cannot be assessed",
+          "CTE sustainability from room temperature to at least 1500 K not demonstrated; only a single value reported",
+          "Lattice vs total thermal conductivity not distinguished; measurement temperature is 1000°C not full range",
+          "Evidence level is abstract only"
+        ],
+        "rationale": "The abstract provides quantitative values for fracture toughness, thermal expansion coefficient and explicitly mentions ferroelastic toughening for a LaAlO3-8YSZ composite, which partially matches criteria 2,4,5. It simultaneously reports a thermal conductivity of 2.5 W·m^-1·K^-1 at 1000°C, contradicting criterion 6, and provides no data on energy above hull, space group, Young's modulus, or sustained CTE to 1500 K. Therefore the paper can only inferentially support isolated aspects and constrains the claim for this system."
+      },
+      "retrieval": {
+        "semantic_score": 0.818243682384491,
+        "semantic_policy": "home_relevance",
+        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "rrf_score": null,
+        "exact_anchor_hits": [],
+        "queries": []
+      },
+      "access": {
+        "is_oa": false,
+        "oa_status": "closed",
+        "oa_landing_page_url": null,
+        "oa_pdf_url": null,
+        "has_fulltext": false,
+        "has_pdf_content": false,
+        "has_grobid_xml": false
+      }
+    },
+    {
+      "work_id": 4292263866,
+      "doi": "10.1007/s40145-022-0622-2",
+      "title": "In-situ synthesis of gadolinium niobate quasi-binary composites with balanced mechanical and thermal properties for thermal barrier coatings",
+      "abstract": "Abstract Yttria-stabilized zirconia (YSZ) has been used as a thermal barrier coating (TBC) material in gas turbines for several decades. Although continuous efforts have been made to develop novel TBC materials that can work at a higher temperature, no single material other than YSZ has all the desired attributes for the TBCs. In this paper, we report the in-situ synthesis of quasi-binary GdNbO 4 /Gd 3 NbO 7 composites based on the simple Gd 2 O 3 -Nb 2 O 5 binary phase diagram. The fracture toughness of these quasi-binary composites is remarkably enhanced compared with the value predicted by the rule of mixtures because the ferroelastic domain switching is more activated due to the residual stress in the quasi-binary composites, which triggers more crack defections due to the enlarged process zone. Additionally, the Gd 3 NbO 7 phase provides a low thermal conductivity due to the substantial chemical inhomogeneity, which diffuses phonons. Gd 3 NbO 7 /GdNbO 4 exhibits a balanced thermal conductivity of 1.6 W/(m·K) at 1073 K and a toughness value of 2.76 MPa·m 0.5 , and these values are among the best comprehensive properties that have been obtained for new TBC materials. The work demonstrates a feasible approach of designing a new TBC material with balanced properties and can be easily fabricated.",
+      "publication_date": "2022-08-17",
+      "publication_year": 2022,
+      "work_type": "article",
+      "source_name": null,
+      "keywords": [
+        "Materials science",
+        "Thermal barrier coating",
+        "Composite material",
+        "Fracture toughness",
+        "Thermal conductivity",
+        "Yttria-stabilized zirconia",
+        "Toughness",
+        "Hot pressing",
+        "Ceramic",
+        "Cubic zirconia"
+      ],
+      "matched_topics": [
+        {
+          "topic_id": 10626,
+          "topic_score": 0.9994999766349792,
+          "is_primary_topic": true
+        },
+        {
+          "topic_id": 10132,
+          "topic_score": 0.998199999332428,
+          "is_primary_topic": false
+        }
+      ],
+      "evidence": {
+        "work_id": 4292263866,
+        "doi": "10.1007/s40145-022-0622-2",
+        "title": "In-situ synthesis of gadolinium niobate quasi-binary composites with balanced mechanical and thermal properties for thermal barrier coatings",
+        "role": "Significant",
+        "stance": "contradicts",
+        "confidence": 0.78,
+        "evidence_level": "abstract",
+        "supported_claim_aspects": [
+          "Fracture toughness of Gd3NbO7/GdNbO4 quasi-binary composite",
+          "Thermal conductivity of Gd3NbO7/GdNbO4 quasi-binary composite at 1073 K",
+          "Ferroelastic domain switching activation in the composite"
+        ],
+        "limitations": [
+          "Abstract only; no composition-specific space group, energy above hull, coefficient of thermal expansion, Young's modulus, or Young's modulus to lattice thermal conductivity ratio reported",
+          "Reported toughness 2.76 MPa·m^0.5 is below the >3 MPa·m^1/2 requirement",
+          "Reported balanced thermal conductivity 1.6 W/(m·K) at 1073 K is above the <1.5 W/(m·K) requirement",
+          "No data on CTE sustained to 1500 K or on energy above hull"
+        ],
+        "rationale": "The abstract directly reports measured properties for the in-situ synthesized GdNbO4/Gd3NbO7 quasi-binary composite: thermal conductivity 1.6 W/(m·K) at 1073 K and toughness 2.76 MPa·m0.5, and notes ferroelastic domain switching is activated. These quantitative values materially constrain the claim because they fall short of the required >3 MPa·m^1/2 toughness and <1.5 W/(m·K) lattice thermal conductivity criteria. No energy above hull, CTE, Young's modulus, ratio, space group, or 1500 K sustained CTE data are provided."
+      },
+      "retrieval": {
+        "semantic_score": 0.815279483795166,
+        "semantic_policy": "home_relevance",
+        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "rrf_score": null,
+        "exact_anchor_hits": [],
+        "queries": []
+      },
+      "access": {
+        "is_oa": true,
+        "oa_status": "gold",
+        "oa_landing_page_url": null,
+        "oa_pdf_url": null,
+        "has_fulltext": true,
+        "has_pdf_content": true,
+        "has_grobid_xml": true
+      }
+    },
+    {
+      "work_id": 2912732608,
+      "doi": "10.1111/jace.16328",
+      "title": "Thermal expansion performance and intrinsic lattice thermal conductivity of ferroelastic RETaO <sub>4</sub> ceramics",
+      "abstract": "Abstract Ferroelastic RETaO 4 ceramics are promising thermal barrier coatings (TBCs) because of their attractive thermomechanical properties. The influence of crystal structure distortion degree on thermomechanical properties of RETaO 4 is estimated in this work. The relationship between Young's modulus and TECs is determined. The highest TECs (10.7 × 10 −6 K −1 , 1200°C) of RETaO 4 are detected in ErTaO 4 ceramics and are ascribed to its small Young's modulus and low Debye temperature. The intrinsic lattice thermal conductivity (3.94‐1.26 W m −1 K −1 , 100‐900°C) of RETaO 4 deceases with increasing of temperature due to an elimination in thermal radiation effects. The theoretical minimum thermal conductivity (1.00 W m −1 K −1 ) of RETaO 4 indicates that the experimental value is able to be reduced further. We have delved deeply into the thermomechanical properties of ferroelastic RETaO 4 ceramics and have emphasized their high‐temperature applications as TBCs.",
+      "publication_date": "2019-01-25",
+      "publication_year": 2019,
+      "work_type": "article",
+      "source_name": null,
+      "keywords": [
+        "Materials science",
+        "Ceramic",
+        "Thermal conductivity",
+        "Thermal expansion",
+        "Debye model",
+        "Modulus",
+        "Composite material",
+        "Thermal conduction",
+        "Thermal",
+        "Thermodynamics",
+        "Lattice (music)",
+        "Work (physics)",
+        "Condensed matter physics"
+      ],
+      "matched_topics": [
+        {
+          "topic_id": 10626,
+          "topic_score": 0.9998000264167786,
+          "is_primary_topic": true
+        }
+      ],
+      "evidence": {
+        "work_id": 2912732608,
+        "doi": "10.1111/jace.16328",
+        "title": "Thermal expansion performance and intrinsic lattice thermal conductivity of ferroelastic RETaO <sub>4</sub> ceramics",
+        "role": "Inferential",
+        "stance": "supports",
+        "confidence": 0.62,
+        "evidence_level": "abstract",
+        "supported_claim_aspects": [
+          "Ferroelastic behavior of RETaO4 ceramics",
+          "Coefficient of thermal expansion >10 ppm/K in ErTaO4 at high temperature",
+          "Intrinsic lattice thermal conductivity decreasing with temperature in RETaO4"
+        ],
+        "limitations": [
+          "Abstract only; no specific composition and space group identified for a single candidate, no energy above hull, no fracture toughness, no Young's modulus values, and no Young's modulus to lattice thermal conductivity ratio",
+          "Highest reported TEC is 10.7 ×10^-6 K^-1 at 1200°C for ErTaO4, but sustained room temperature to ≥1500 K is not demonstrated in the abstract",
+          "Intrinsic lattice thermal conductivity reported as 3.94–1.26 W m^-1 K^-1 from 100–900°C; the <1.5 W/(m·K) threshold is only approached at the high end of the range and not shown to be sustained to 1500 K",
+          "No fracture toughness >3 MPa·m^1/2 data"
+        ],
+        "rationale": "The abstract establishes ferroelastic RETaO4 ceramics as a TBC-relevant class and reports a highest TEC of 10.7×10^-6 K^-1 at 1200°C for ErTaO4, attributed to small Young's modulus and low Debye temperature, and reports intrinsic lattice thermal conductivity decreasing from 3.94 to 1.26 W m^-1 K^-1 between 100–900°C with a theoretical minimum of 1.00 W m^-1 K^-1. These results provide a scientifically defensible basis for inferring high-temperature CTE and ferroelastic character and a trend toward low thermal conductivity, but the abstract does not give energy above hull, a specific space group, fracture toughness, Young's modulus, the required E/κ ratio >180 GPa·m·K/W, or confirmation of CTE >10 ppm/K sustained from room temperature to at least 1500 K."
+      },
+      "retrieval": {
+        "semantic_score": 0.8146454393863678,
+        "semantic_policy": "home_relevance",
+        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "rrf_score": null,
+        "exact_anchor_hits": [],
+        "queries": []
+      },
+      "access": {
+        "is_oa": false,
+        "oa_status": "closed",
+        "oa_landing_page_url": null,
+        "oa_pdf_url": null,
+        "has_fulltext": false,
+        "has_pdf_content": false,
+        "has_grobid_xml": false
+      }
+    },
+    {
+      "work_id": 4283275139,
+      "doi": "10.1016/j.oceram.2022.100287",
+      "title": "Electron beam physical vapor deposited YbGYZ thermal barrier coatings: Phase stability, thermo-physical properties and thermal shock behavior",
+      "abstract": "The rare earth oxide ceramics designed as 5.5 wt% Yb2O3-4.5 wt% Gd2O3-12 wt% Y2O3-78 wt% ZrO2 (YbGYZ) is a candidate material for thermal barrier coating (TBC) which will be suitable for application at higher temperatures. YbGYZ ceramic powders and bulks are fabricated by solid-state synthesis at temperatures above 1673 K, whose powders still have no phase transformation and exhibit excellent thermal stability despite long-term heat treatment at two different temperatures. In the temperature range from room temperature to 1573 K, the averaged coefficient of thermal expansion of YbGYZ ceramic bulk is 11.12 × 10−6 K−1, which meets the demand of novel ceramic materials of TBCs. Meanwhile, the averaged thermal diffusivity and thermal conductivity of YbGYZ ceramics are approximately 2.3% and 7.6% lower than those of the conventional YSZ bulk material respectively. The YbGYZ ceramic coatings are directly manufactured on the surface of (Ni, Pt)Al bond coat by means of electron beam physical vapor deposition (EB-PVD), whose phase structure consists primarily of cubic phase with co-existing of excess Y2O3 and ZrO2. A large number of regularly distributed “mud-like” microcracks appear on the surface of YbGYZ ceramic coating when it has experienced long-term thermal shock at 1373 K. The transverse microcracks originating in the ceramic coating have elongated to the interface of ceramic coat and thermally grown oxide (TGO) film that further cause the degeneration and separation of the interface. The spalling position of the YbGYZ coating where mainly occurs at the upper and lower adjacent interfaces of TGO layer. The serious rumpling, undulation, cross-linking, stress accumulation and rapid relaxation within TGO layer are the critical factors to accelerate interfacial delamination and spallation failure of YbGYZ TBCs.",
+      "publication_date": "2022-06-22",
+      "publication_year": 2022,
+      "work_type": "article",
+      "source_name": null,
+      "keywords": [
+        "Materials science",
+        "Thermal barrier coating",
+        "Ceramic",
+        "Thermal shock",
+        "Composite material",
+        "Coating",
+        "Thermal expansion",
+        "Thermal diffusivity",
+        "Phase (matter)",
+        "Oxide",
+        "Electron beam physical vapor deposition",
+        "Chemical vapor deposition",
+        "Metallurgy",
+        "Nanotechnology",
+        "Thermodynamics"
+      ],
+      "matched_topics": [
+        {
+          "topic_id": 10626,
+          "topic_score": 0.9998999834060669,
+          "is_primary_topic": true
+        },
+        {
+          "topic_id": 10132,
+          "topic_score": 0.9887999892234802,
+          "is_primary_topic": false
+        }
+      ],
+      "evidence": {
+        "work_id": 4283275139,
+        "doi": "10.1016/j.oceram.2022.100287",
+        "title": "Electron beam physical vapor deposited YbGYZ thermal barrier coatings: Phase stability, thermo-physical properties and thermal shock behavior",
+        "role": "Significant",
+        "stance": "supports",
+        "confidence": 0.78,
+        "evidence_level": "abstract",
+        "supported_claim_aspects": [
+          "Coefficient of thermal expansion above 10 ppm/K sustained from room temperature to at least 1500 K for YbGYZ ceramic bulk",
+          "Candidate TBC composition identified: 5.5 wt% Yb2O3-4.5 wt% Gd2O3-12 wt% Y2O3-78 wt% ZrO2, with reported phase stability to 1573 K"
+        ],
+        "limitations": [
+          "No energy above hull value reported",
+          "No space group specified",
+          "No Young's modulus or lattice thermal conductivity values reported, so E/k_lat ratio cannot be assessed; only relative thermal diffusivity and thermal conductivity vs YSZ given",
+          "No lattice thermal conductivity absolute value below 1.5 W/(m·K) confirmed",
+          "No evidence of ferroelastic behavior",
+          "No fracture toughness value reported",
+          "Evidence is abstract-level only"
+        ],
+        "rationale": "Abstract reports averaged coefficient of thermal expansion of YbGYZ ceramic bulk is 11.12 ×10−6 K−1 in temperature range from room temperature to 1573 K, satisfying criterion 2 for this material. It also identifies composition and thermal stability. No data are provided in the supplied abstract for energy above hull, space group, Young's modulus/lattice thermal conductivity ratio, ferroelasticity, fracture toughness >3 MPa·m^1/2, or absolute lattice thermal conductivity <1.5 W/(m·K)."
+      },
+      "retrieval": {
+        "semantic_score": 0.8144083023071289,
+        "semantic_policy": "home_relevance",
+        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "rrf_score": null,
+        "exact_anchor_hits": [],
+        "queries": []
+      },
+      "access": {
+        "is_oa": true,
+        "oa_status": "gold",
+        "oa_landing_page_url": null,
+        "oa_pdf_url": null,
+        "has_fulltext": false,
+        "has_pdf_content": false,
+        "has_grobid_xml": false
+      }
+    },
+    {
+      "work_id": 3162961209,
+      "doi": "10.3390/coatings11050583",
+      "title": "Research on Thermal Stability and Properties of Ca3ZrSi2O9 as Potential T/EBC Materials",
+      "abstract": "In this study, a new coating material for thermal barrier coating (TBC) or environment barrier coating (EBC) application, Ca3ZrSi2O9 (CZSO), was synthesized and prepared by atmospheric plasma spray (APS) technology. The evolution of the phases and microstructures of the coatings with different thermal-aged were characterized by XRD, XRF, EDS and SEM, respectively. The thermal stability was measured by TG-DTA and DSC. The mechanical and thermal properties, including Vickers hardness (HV), fracture toughness (KIC), thermal conductivity (κ) and coefficient of thermal expansion (CTE) were focused on. It was found that the as-sprayed CZSO coating contained amorphous phase. Crystalline transformation happened at 900–960 °C and no mass changes took place from room temperature (RT) to 1300 °C. The phenomena of microcrack self-healing and composition uniformity were observed during thermal aging. The κ of coating was very low at about 0.57–0.80 W·m−1·K−1 in 200–1200 °C. The combined properties indicated that the CZSO coating might be a potential T/EBC material.",
+      "publication_date": "2021-05-17",
+      "publication_year": 2021,
+      "work_type": "article",
+      "source_name": null,
+      "keywords": [
+        "Materials science",
+        "Coating",
+        "Thermal barrier coating",
+        "Thermal stability",
+        "Thermal expansion",
+        "Composite material",
+        "Microstructure",
+        "Thermal spraying",
+        "Thermal conductivity",
+        "Amorphous solid",
+        "Vickers hardness test",
+        "Phase (matter)",
+        "Fracture toughness",
+        "Chemical engineering",
+        "Chemistry",
+        "Crystallography"
+      ],
+      "matched_topics": [
+        {
+          "topic_id": 10626,
+          "topic_score": 0.9997000098228455,
+          "is_primary_topic": true
+        },
+        {
+          "topic_id": 10132,
+          "topic_score": 0.9945999979972839,
+          "is_primary_topic": false
+        }
+      ],
+      "evidence": {
+        "work_id": 3162961209,
+        "doi": "10.3390/coatings11050583",
+        "title": "Research on Thermal Stability and Properties of Ca3ZrSi2O9 as Potential T/EBC Materials",
+        "role": "Background",
+        "stance": "background",
+        "confidence": 0.65,
+        "evidence_level": "abstract",
+        "supported_claim_aspects": [
+          "Lattice thermal conductivity below 1.5 W/(m·K) is suggested by abstract reporting κ ≈ 0.57–0.80 W·m−1·K−1 in 200–1200 °C for Ca3ZrSi2O9 coating",
+          "Material is discussed as a potential T/EBC material"
+        ],
+        "limitations": [
+          "Abstract provides no composition space group, energy above hull, Young's modulus, CTE numeric value or temperature range to 1500 K, ferroelastic behavior, or fracture toughness value",
+          "Thermal conductivity reported for APS coating, not lattice thermal conductivity of bulk crystal, and only to 1200 °C",
+          "No evidence for criteria 1, 2, 3, 4, 5"
+        ],
+        "rationale": "The abstract reports low coating thermal conductivity and thermal stability to 1300 °C for Ca3ZrSi2O9, which is topically relevant to thermal barrier coatings. It does not provide quantitative CTE, Young's modulus, energy above hull, ferroelasticity, fracture toughness, space group, or lattice thermal conductivity, so it cannot materially establish the multi-criterion claim."
+      },
+      "retrieval": {
+        "semantic_score": 0.8092061579227448,
+        "semantic_policy": "home_relevance",
+        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "rrf_score": null,
+        "exact_anchor_hits": [],
+        "queries": []
+      },
+      "access": {
+        "is_oa": true,
+        "oa_status": "gold",
+        "oa_landing_page_url": null,
+        "oa_pdf_url": null,
+        "has_fulltext": true,
+        "has_pdf_content": true,
+        "has_grobid_xml": true
+      }
+    },
+    {
+      "work_id": 3164969604,
+      "doi": "10.31399/asm.hb.v05.a0001299",
+      "title": "Testing of Stability and Thermal Properties of Thermal Barrier Coatings",
+      "abstract": "Abstract This article discusses the various tests applied to a thermal barrier coating system and to the zirconia layer to establish thermomechanical, environmental stability, and thermal design properties such as coefficient of thermal expansion, specific heat, and thermal transport properties. Thermal fatigue testing and the test for evaluating oxidation resistance of the bond coat is also discussed.",
+      "publication_date": "1994-01-01",
+      "publication_year": 1994,
+      "work_type": "book-chapter",
+      "source_name": null,
+      "keywords": [
+        "Thermal barrier coating",
+        "Materials science",
+        "Thermal stability",
+        "Thermal",
+        "Composite material",
+        "Chemical engineering",
+        "Thermodynamics",
+        "Coating",
+        "Engineering",
+        "Physics"
+      ],
+      "matched_topics": [
+        {
+          "topic_id": 10626,
+          "topic_score": 0.9952999949455261,
+          "is_primary_topic": true
+        }
+      ],
+      "evidence": {
+        "work_id": 3164969604,
+        "doi": "10.31399/asm.hb.v05.a0001299",
+        "title": "Testing of Stability and Thermal Properties of Thermal Barrier Coatings",
+        "role": "Background",
+        "stance": "background",
+        "confidence": 0.9,
+        "evidence_level": "abstract",
+        "supported_claim_aspects": [],
+        "limitations": [
+          "Abstract only describes general testing approaches for thermal barrier coating systems and zirconia layers, mentioning coefficient of thermal expansion, specific heat and thermal transport properties in principle.",
+          "No candidate material composition or space group is proposed.",
+          "No quantitative values are given for energy above hull, CTE sustained to 1500 K, Young's modulus to lattice thermal conductivity ratio, ferroelastic behavior, fracture toughness, or lattice thermal conductivity.",
+          "No direct support, contradiction or constraint of the specific criteria."
+        ],
+        "rationale": "The abstract provides domain background on thermomechanical and thermal property testing for TBCs and zirconia, which is contextually relevant but does not establish any of the six required material properties or identify a specific candidate material. Therefore it is background only."
+      },
+      "retrieval": {
+        "semantic_score": 0.8047497868537903,
+        "semantic_policy": "home_relevance",
+        "semantic_backend": "sentence_transformers:/pscratch/sd/d/domsoos/mesh/models/Qwen3-Embedding-4B",
+        "rrf_score": null,
+        "exact_anchor_hits": [],
+        "queries": []
+      },
+      "access": {
+        "is_oa": false,
+        "oa_status": "closed",
+        "oa_landing_page_url": null,
+        "oa_pdf_url": null,
+        "has_fulltext": false,
+        "has_pdf_content": false,
+        "has_grobid_xml": false
+      }
+    }
+  ],
+  "retrieval_summary": {
+    "title": "Thermal Barrier Coating Literature Retrieval",
+    "counts": {
+      "OpenAlex candidates": 300,
+      "Qwen reranked": 60,
+      "Evidence reviewed": 30,
+      "Accepted evidence": 10
+    },
+    "criteria": [
+      {
+        "criterion": "Energy above hull < 0.1 eV/atom",
+        "status": "Unresolved",
+        "detail": "No accepted abstract directly reports the required hull-energy value; requires Materials Project/OQMD/JARVIS or DFT validation."
+      },
+      {
+        "criterion": "CTE > 10 ppm/K through at least 1500 K",
+        "status": "Supported",
+        "detail": "Accepted literature includes high-entropy zirconate and YbGYZ results with CTE >10 ppm/K over high-temperature ranges."
+      },
+      {
+        "criterion": "Young's modulus / lattice k > 180 GPa·m·K/W",
+        "status": "Unresolved",
+        "detail": "Elastic modulus and thermal-conductivity evidence exists, but the requested ratio is not directly verified for a single candidate."
+      },
+      {
+        "criterion": "Ferroelastic behavior",
+        "status": "Supported",
+        "detail": "Multiple accepted papers report ferroelastic phases or domain-switching behavior."
+      },
+      {
+        "criterion": "Fracture toughness > 3 MPa·m^1/2",
+        "status": "Supported",
+        "detail": "Accepted candidates include reported toughness values of 5.4 and 6.6 MPa·m^1/2."
+      },
+      {
+        "criterion": "Lattice thermal conductivity < 1.5 W/(m·K)",
+        "status": "Partial",
+        "detail": "RETaO4 literature reports intrinsic lattice conductivity down to ~1.26 W/(m·K); other papers often report total or coating conductivity instead."
+      }
+    ],
+    "caveat": "Criterion coverage is distributed across complementary papers. This replay does not claim that one material has been proven to satisfy all six constraints."
+  },
+  "provenance": {
+    "precomputed_replay": true,
+    "source_run_id": "literature-retrieval-multquery-59428035/tbc",
+    "retrieval_source": "OpenAlex-derived local topic-paper catalog",
+    "semantic_reranker": "Qwen3-Embedding-4B",
+    "evidence_reviewer": "Muse-Glimmer-30B",
+    "selected_topic_ids": [
+      10626,
+      10132
+    ],
+    "recorded_date": "2026-10-06"
+  }
+}
